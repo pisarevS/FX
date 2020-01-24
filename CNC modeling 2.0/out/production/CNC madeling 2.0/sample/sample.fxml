@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -69,22 +67,12 @@
                     <tabs>
                       <Tab text="Program">
                         <content>
-                          <AnchorPane minHeight="0.0" minWidth="200.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                <ScrollPane prefHeight="-1.0" prefWidth="-1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                    <TextArea fx:id="textAreaProgram" maxWidth="300.0" minWidth="200.0" onDragDropped="#handleDragProgram" onDragOver="#handleDragOverProgram" onMouseClicked="#onMouseClickedProgram" prefHeight="551.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                 </children>
-                              </AnchorPane>
+                          <AnchorPane fx:id="anchorPaneProgram" minHeight="0.0" minWidth="200.0" onDragDropped="#handleDragProgram" onDragOver="#handleDragOverProgram" prefHeight="180.0" prefWidth="200.0" />
                         </content>
                       </Tab>
                       <Tab text="Parameter">
                         <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                    <TextArea fx:id="textAreaParameter" onDragDropped="#handleDragParameter" onDragOver="#handleDragOverParameter" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                 </children>
-                              </AnchorPane>
+                          <AnchorPane fx:id="anchorPaneParameter" minHeight="0.0" minWidth="0.0" onDragDropped="#handleDragParameter" onDragOver="#handleDragOverParameter" prefHeight="180.0" prefWidth="200.0" />
                         </content>
                       </Tab>
                     </tabs>
@@ -96,8 +84,15 @@
                   <SplitPane dividerPositions="0.7431693989071039" orientation="VERTICAL" prefHeight="551.0" prefWidth="693.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <cursor>
+                              <Cursor fx:constant="CROSSHAIR" />
+                           </cursor>
                            <children>
-                              <Canvas height="413.0" width="691.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <Pane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <cursor>
+                                    <Cursor fx:constant="CROSSHAIR" />
+                                 </cursor>
+                              </Pane>
                            </children>
                         </AnchorPane>
                       <AnchorPane maxHeight="150.0" minHeight="150.0" minWidth="0.0" prefHeight="150.0" prefWidth="160.0">
