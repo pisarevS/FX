@@ -6,10 +6,15 @@ import com.sergey.pisarev.presenter.Presenter;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
@@ -21,6 +26,12 @@ public class Controller implements IController {
     private CodeArea codeAreaProgram=new CodeArea();
     private CodeArea codeAreaParameter=new CodeArea();
     private PresenterImpl presenter;
+    private GraphicsContext gc;
+    private ResizableCanvas canvas;
+
+
+    @FXML
+    Pane pane=new Pane();
 
     @FXML
     AnchorPane anchorPaneProgram=new AnchorPane();
@@ -48,6 +59,20 @@ public class Controller implements IController {
         AnchorPane.setLeftAnchor(stackPaneParameter,0.0);
         AnchorPane.setRightAnchor(stackPaneParameter,0.0);
         anchorPaneParameter.getChildren().add(stackPaneParameter);
+
+        canvas=new ResizableCanvas();
+        pane.getChildren().add(canvas);
+
+        canvas.widthProperty().bind(pane.widthProperty());
+        canvas.heightProperty().bind(pane.heightProperty());
+
+
+        gc=canvas.getGraphicsContext2D();
+        gc.setFill(Color.BLUE);
+        gc.fillOval(50,50,50,50);
+
+
+
     }
 
     @FXML
