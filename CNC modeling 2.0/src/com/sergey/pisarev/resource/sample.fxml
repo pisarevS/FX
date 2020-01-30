@@ -18,7 +18,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<VBox prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sergey.pisarev.controller.Controller">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -67,7 +67,7 @@
                     <tabs>
                       <Tab text="Program">
                         <content>
-                          <AnchorPane fx:id="anchorPaneProgram" minHeight="0.0" minWidth="200.0" onDragDropped="#handleDragProgram" onDragOver="#handleDragOverProgram" prefHeight="180.0" prefWidth="200.0" />
+                          <AnchorPane fx:id="anchorPaneProgram" minHeight="0.0" minWidth="200.0" onDragDropped="#handleDragProgram" onDragOver="#handleDragOverProgram" onMouseClicked="#onMouseClickedProgram" prefHeight="180.0" prefWidth="200.0" />
                         </content>
                       </Tab>
                       <Tab text="Parameter">
@@ -97,10 +97,22 @@
                         </AnchorPane>
                       <AnchorPane maxHeight="150.0" minHeight="150.0" minWidth="0.0" prefHeight="150.0" prefWidth="160.0">
                            <children>
-                              <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Button" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
-                              <Button layoutX="14.0" layoutY="91.0" mnemonicParsing="false" text="Button" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="91.0" />
-                              <Button layoutX="80.0" layoutY="14.0" mnemonicParsing="false" text="Button" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="14.0" />
-                              <Button layoutX="14.0" layoutY="53.0" mnemonicParsing="false" text="Button" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="53.0" />
+                              <Button fx:id="buttonCycleStart" layoutX="6.0" layoutY="6.0" mnemonicParsing="false" onAction="#onCycleStart" prefHeight="41.0" prefWidth="64.0" text="CYCLE START" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="6.0">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font></Button>
+                              <Button fx:id="buttonReset" layoutX="6.0" layoutY="102.0" mnemonicParsing="false" onAction="#onReset" prefHeight="24.0" prefWidth="64.0" text="RESET" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="102.0">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font></Button>
+                              <Button fx:id="buttonStart" layoutX="78.0" layoutY="6.0" mnemonicParsing="false" onAction="#onStart" prefHeight="41.0" prefWidth="64.0" text="START" AnchorPane.leftAnchor="78.0" AnchorPane.topAnchor="6.0">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font></Button>
+                              <Button fx:id="buttonSingleBlock" layoutX="6.0" layoutY="52.0" mnemonicParsing="false" onAction="#onSingleBlock" prefHeight="41.0" prefWidth="64.0" text="SINGLE BLOCK" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="52.0">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font></Button>
                            </children>
                         </AnchorPane>
                     </items>

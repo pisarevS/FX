@@ -1,0 +1,53 @@
+.styled-text-area {
+    -fx-font-size: 16px;
+    -fx-background-color: #404040;
+}
+.styled-text-area .selection {
+    -fx-fill: #004C99 !important;
+}
+
+.keyword {
+    -fx-fill: #00FFFF !important;
+}
+.semicolon {
+    -fx-fill: yellow !important;
+}
+.paren {
+    -fx-fill: #DF5624 !important;
+}
+.bracket {
+    -fx-fill: darkgreen !important;
+}
+.brace {
+    -fx-fill: teal !important;
+}
+.string {
+    -fx-fill: #00994C !important;
+}
+
+.comment {
+	-fx-fill: grey !important;
+}
+
+.axis {
+    -fx-fill: #FF6666 !important;
+    -fx-font-weight: bold;
+}
+
+.paragraph-text .text{
+    -fx-fill: #E0E0E0;
+}
+
+.paragraph-box:has-caret {
+    -fx-background-color: #323232 !important;
+     -fx-fill: black !important;
+     -fx-font-weight: bold;
+}
+
+.paragraph-box:text {
+     -fx-fill: black !important;
+     -fx-font-weight: bold;
+}
+
+
+

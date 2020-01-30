@@ -1,4 +1,4 @@
-package sample;
+package com.sergey.pisarev.model;
 
 import javafx.scene.input.DragEvent;
 
