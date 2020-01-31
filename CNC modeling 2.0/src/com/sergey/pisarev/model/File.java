@@ -27,4 +27,23 @@ public class File {
         }
         return sb.toString();
     }
+
+    public static String getFileContent( String path ) {
+        StringBuilder sb = new StringBuilder();
+        try {
+            java.io.File file=new java.io.File(path);
+            FileInputStream program=new FileInputStream(file);
+            BufferedReader br = new BufferedReader( new InputStreamReader(program, UTF_8.name()));
+
+            String line;
+            while(( line = br.readLine()) != null ) {
+                sb.append( line );
+                sb.append( '\n' );
+            }
+
+        }catch ( IOException e){
+            System.out.println(e.getMessage());
+        }
+        return sb.toString();
+    }
 }
