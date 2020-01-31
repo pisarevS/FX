@@ -3,19 +3,32 @@ package com.sergey.pisarev.presenter;
 import com.sergey.pisarev.interfaces.IController;
 import com.sergey.pisarev.interfaces.PresenterImpl;
 import com.sergey.pisarev.model.File;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.DragEvent;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 
 public class Presenter implements PresenterImpl {
 
     private IController controller;
+    private GraphicsContext gc;
+    private StackPane paneCanvas;
 
     public Presenter(IController controller) {
         this.controller = controller;
     }
 
+    public Presenter(IController controller, GraphicsContext gc, StackPane paneCanvas) {
+        this.controller = controller;
+        this.gc = gc;
+        this.paneCanvas = paneCanvas;
+    }
+
     @Override
     public void onStart() {
-
+        gc.setStroke(Color.BLUE);
+        gc.strokeLine(0, 100, 200, 200);
+        gc.strokeLine(0, paneCanvas.getHeight()/2, paneCanvas.getWidth(), paneCanvas.getHeight()/2);
     }
 
     @Override
