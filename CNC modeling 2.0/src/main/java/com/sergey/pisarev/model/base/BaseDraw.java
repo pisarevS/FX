@@ -1,7 +1,7 @@
-package com.sergey.pisarev.model.base;
+package java.com.sergey.pisarev.model.base;
 
-import com.sergey.pisarev.model.Frame;
-import com.sergey.pisarev.model.Point;
+import java.com.sergey.pisarev.model.Frame;
+import java.com.sergey.pisarev.model.Point;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;

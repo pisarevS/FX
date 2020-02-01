@@ -9,6 +9,7 @@ import org.reactfx.Subscription;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,7 +17,7 @@ public class StyleTextField {
 
 
     public void setStyle(CodeArea codeArea){
-        codeArea.getStylesheets().add(Controller.class.getResource("../resource/java-keywords.css").toExternalForm());
+        codeArea.getStylesheets().add(Objects.requireNonNull(Controller.class.getClassLoader().getResource("java-keywords.css")).toExternalForm());
         Subscription cleanupWhenNoLongerNeedIt = codeArea
                 // plain changes = ignore style changes that are emitted when syntax highlighting is reapplied
                 // multi plain changes = save computation by not rerunning the code multiple times
