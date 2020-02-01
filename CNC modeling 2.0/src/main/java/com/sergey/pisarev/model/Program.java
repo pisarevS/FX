@@ -1,6 +1,8 @@
 package com.sergey.pisarev.model;
 
 import com.sergey.pisarev.model.base.BaseProgram;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,6 +18,7 @@ public class Program extends BaseProgram implements Runnable {
     private ArrayList<StringBuffer> parameterList;
     private String[] defs = {"DEF REAL", "DEF INT"};
     private String offn = "OFFN=";
+    private MyData data=new MyData();
 
     public Program(String program,String parameter) {
         super( program ,parameter);
@@ -25,8 +28,8 @@ public class Program extends BaseProgram implements Runnable {
 
     @Override
     public void run() {
-
         programList.addAll( getList( program ) );
+        data.setProgramList(programList);
         removeIgnore( programList );
         removeLockedFrame( programList );
         gotoF( programList );
@@ -39,9 +42,13 @@ public class Program extends BaseProgram implements Runnable {
         replaceParameterVariables( variablesList );
         replaceProgramVariables( programList );
         addFrameList();
-        for (int i = 0; i < frameList.size(); i++) {
+       /* for (int i = 0; i < frameList.size(); i++) {
             System.out.println(  frameList.get( i ).toString() );
+        }*/
+        for (int i = 0; i < data.getFrameList().size(); i++) {
+            System.out.println(  data.getFrameList().get( i ).toString() );
         }
+
     }
 
     @Override
@@ -160,10 +167,11 @@ public class Program extends BaseProgram implements Runnable {
                 isOffn = false;
             }
         }
-
+        data.setErrorListMap( errorListMap );
         Set<Frame> s = new LinkedHashSet<>( frameList );
         frameList.clear();
         frameList.addAll( s );
+        data.setFrameList( frameList );
     }
 
     @Override
