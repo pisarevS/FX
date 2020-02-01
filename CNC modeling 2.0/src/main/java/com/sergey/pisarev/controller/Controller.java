@@ -88,7 +88,7 @@ public class Controller implements IController {
 
     @FXML
     public void onStart(ActionEvent actionEvent) {
-        presenter.onStart();
+        presenter.onStart(codeAreaProgram.getText(),codeAreaParameter.getText());
 
     }
 

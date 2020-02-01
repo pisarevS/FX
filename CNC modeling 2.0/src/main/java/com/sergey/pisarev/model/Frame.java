@@ -1,4 +1,4 @@
-package java.com.sergey.pisarev.model;
+package com.sergey.pisarev.model;
 
 import java.util.ArrayList;
 

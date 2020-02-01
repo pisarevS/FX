@@ -3,7 +3,7 @@ package com.sergey.pisarev.interfaces;
 import javafx.scene.input.DragEvent;
 
 public interface PresenterImpl {
-    void onStart();
+    void onStart(String program,String parameter);
     void onCycleStart();
     void onSingleBlock();
     void onReset();
