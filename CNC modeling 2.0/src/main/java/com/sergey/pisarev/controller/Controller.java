@@ -8,6 +8,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -36,9 +37,8 @@ public class Controller implements IController {
     public void initialize(){
         ResizableCanvas visualizerCanvas = new ResizableCanvas();
         paneCanvas.getChildren().add(visualizerCanvas);
-        GraphicsContext gc=visualizerCanvas.getGraphicsContext2D();
 
-        presenter=new Presenter(this,gc,paneCanvas);
+        presenter=new Presenter(this,visualizerCanvas,paneCanvas);
         StyleTextField styleTextField =new StyleTextField();
         styleTextField.setStyle(codeAreaProgram);
         codeAreaProgram.setParagraphGraphicFactory(LineNumberFactory.get(codeAreaProgram));
@@ -84,6 +84,26 @@ public class Controller implements IController {
     @FXML
     public void onMouseClickedProgram(Event event){
         presenter.onMouseClickedProgram(codeAreaProgram.offsetToPosition(codeAreaProgram.getCaretPosition(), TwoDimensional.Bias.Forward).getMajor());
+    }
+
+    @FXML
+    public void onMouseMove(MouseEvent mouseEvent) {
+        presenter.onMouseMove(mouseEvent);
+    }
+
+    @FXML
+    public void onMouseDown(MouseEvent mouseEvent) {
+        presenter.onMouseDown(mouseEvent);
+    }
+
+    @FXML
+    public void onMouseDraggedPane(MouseEvent mouseEvent) {
+        presenter.onMouseDraggedPane(mouseEvent);
+    }
+
+    @FXML
+    public void onMouseUp(MouseEvent mouseEvent) {
+        presenter.onMouseUp(mouseEvent);
     }
 
     @FXML

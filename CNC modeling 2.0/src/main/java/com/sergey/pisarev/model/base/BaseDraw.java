@@ -1,6 +1,7 @@
 package com.sergey.pisarev.model.base;
 
 import com.sergey.pisarev.model.Frame;
+import com.sergey.pisarev.model.MyData;
 import com.sergey.pisarev.model.Point;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public abstract class BaseDraw {
 
-   /* private Paint paintFullLine;
+    /*private Paint paintFullLine;
     private Paint paintDottedLine;
     protected boolean clockwise;
     protected Paint line;

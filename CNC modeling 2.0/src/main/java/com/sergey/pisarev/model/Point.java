@@ -3,32 +3,32 @@ package com.sergey.pisarev.model;
 public class Point {
 
 
-    private float x;
+    private double x;
 
-    private float z;
+    private double z;
 
     public Point() {
 
     }
 
-    public Point(float x, float z) {
+    public Point(double x, double z) {
         this.x = x;
         this.z = z;
     }
 
-    public float getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(float x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public float getZ() {
+    public double getZ() {
         return z;
     }
 
-    public void setZ(float z) {
+    public void setZ(double z) {
         this.z = z;
     }
 }
