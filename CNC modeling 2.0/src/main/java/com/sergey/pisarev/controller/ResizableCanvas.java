@@ -31,19 +31,6 @@ public class ResizableCanvas extends Canvas {
 
     }
 
-    /**
-     * Redraw the Canvas
-     */
-    public void draw() {
-        gc.clearRect(0, 0, canvasWidth, canvasHeight);
-
-        gc.setStroke(Color.BLACK);
-        gc.setLineDashes(5,5);
-        
-        gc.strokeLine(canvasWidth/2, 0, canvasWidth/2, canvasHeight);
-        gc.strokeLine(0, canvasHeight/2, canvasWidth, canvasHeight/2);
-    }
-
     @Override
     public double minHeight(double width) {
         return 1;
@@ -78,7 +65,6 @@ public class ResizableCanvas extends Canvas {
     public void resize(double width, double height) {
         super.setWidth(width);
         super.setHeight(height);
-        draw();
     }
 
 }
