@@ -2,16 +2,17 @@ package com.sergey.pisarev.presenter;
 
 import com.sergey.pisarev.controller.ResizableCanvas;
 import com.sergey.pisarev.interfaces.IController;
+import com.sergey.pisarev.interfaces.IDraw;
 import com.sergey.pisarev.interfaces.PresenterImpl;
+import com.sergey.pisarev.model.DrawHorizontalTurning;
 import com.sergey.pisarev.model.File;
 import com.sergey.pisarev.model.Point;
-import com.sergey.pisarev.model.Program;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-public class Presenter implements PresenterImpl {
+public class Presenter implements PresenterImpl, IDraw {
 
     private IController controller;
     private double canvasWidth, canvasHeight,moveX,moveZ;
@@ -36,6 +37,8 @@ public class Presenter implements PresenterImpl {
         gc.clearRect(0, 0, canvasWidth, canvasHeight);
         gc.setStroke(Color.BLACK);
         gc.setLineDashes(5, 5);
+        gc.setGlobalAlpha(1);
+        gc.setLineWidth(0.5);
         gc.strokeLine(pointSystemCoordinate.getX(), 0, pointSystemCoordinate.getX(), canvasHeight);
         gc.strokeLine(0, pointSystemCoordinate.getZ(), canvasWidth, pointSystemCoordinate.getZ());
     }
@@ -58,14 +61,18 @@ public class Presenter implements PresenterImpl {
         gc.clearRect(0, 0, canvasWidth, canvasHeight);
         gc.setStroke(Color.BLACK);
         gc.setLineDashes(5, 5);
+        gc.setGlobalAlpha(1);
+        gc.setLineWidth(0.5);
         gc.strokeLine(pointSystemCoordinate.getX(), 0, pointSystemCoordinate.getX(), canvasHeight);
         gc.strokeLine(0, pointSystemCoordinate.getZ(), canvasWidth, pointSystemCoordinate.getZ());
     }
 
     @Override
     public void onStart(String program, String parameter) {
-        Thread thread = new Thread(new Program(program, parameter));
-        thread.start();
+        //Thread thread = new Thread(new Program(program, parameter));
+        //thread.start();
+        Point pointStart=new Point(0,0);
+        Point pointEnd=new Point(100,100);
     }
 
     @Override
@@ -83,6 +90,11 @@ public class Presenter implements PresenterImpl {
 
     }
 
+    private void manager(){
+        DrawHorizontalTurning drawHorizontalTurning = new DrawHorizontalTurning(this);
+        //drawHorizontalTurning.drawContour();
+    }
+
     @Override
     public void onMouseClickedProgram(int numberLine) {
         controller.onDraw(numberLine);
@@ -96,5 +108,10 @@ public class Presenter implements PresenterImpl {
     @Override
     public void openDragParameter(DragEvent event) {
         controller.showParameter(File.getFileContent(event));
+    }
+
+    @Override
+    public void showError(String error) {
+
     }
 }
