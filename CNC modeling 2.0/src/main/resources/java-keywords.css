@@ -34,6 +34,14 @@
     -fx-font-weight: bold;
 }
 
+.g_code {
+    -fx-fill: #99DA8C !important;
+}
+
+.figures {
+    -fx-fill: #FFCC33 !important;
+}
+
 .paragraph-text .text{
     -fx-fill: #E0E0E0;
 }

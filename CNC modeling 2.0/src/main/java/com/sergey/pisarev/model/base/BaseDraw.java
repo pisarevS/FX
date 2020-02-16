@@ -1,30 +1,24 @@
 package com.sergey.pisarev.model.base;
 
 import com.sergey.pisarev.interfaces.IDraw;
-import com.sergey.pisarev.model.Frame;
 import com.sergey.pisarev.model.MyData;
 import com.sergey.pisarev.model.Point;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class BaseDraw {
 
     protected boolean clockwise;
-
     protected IDraw draw;
-    protected MyData data;
     protected boolean isRapidFeed;
 
     protected BaseDraw(IDraw draw) {
         this.draw = draw;
     }
 
-    public abstract void drawContour(MyData data,GraphicsContext gc, Point pointCoordinateZero, float zoom, int index);
+    public abstract void drawContour(MyData data,GraphicsContext gc, Point pointCoordinateZero, double zoom, int index);
 
     protected void drawArc(GraphicsContext gc, boolean isRapidFeed, Point pointSystemCoordinate, Point pointStart, Point pointEnd, double radius, double zoom, boolean clockwise) {
         if (isRapidFeed) {
@@ -126,18 +120,14 @@ public abstract class BaseDraw {
         gc.strokeLine(pointSystemCoordinate.getX() + pStart.getX(), pStart.getZ(), pointSystemCoordinate.getX() + pEnd.getX(), pEnd.getZ());
     }
 
-    protected void drawPoint(GraphicsContext gc, Point pointSystemCoordinate, Point pointEnd, float zoom) {
-        float radiusPoint = 5F;
+    protected void drawPoint(GraphicsContext gc, Point pointSystemCoordinate, Point pointEnd, double zoom) {
+        float radiusPoint = 3F;
         Point pEnd = new Point(pointEnd.getX(), pointEnd.getZ());
         pEnd.setX(pEnd.getX() * zoom);
         pEnd.setZ(pEnd.getZ() * zoom);
         if (pEnd.getZ() > 0) pEnd.setZ(pointSystemCoordinate.getZ() - pEnd.getZ());
         else pEnd.setZ(pointSystemCoordinate.getZ() + Math.abs(pEnd.getZ()));
         gc.setFill(Color.RED);
-        gc.fillOval(pointSystemCoordinate.getX() + pEnd.getX(), pEnd.getZ(), radiusPoint, radiusPoint);
+        gc.fillOval(pointSystemCoordinate.getX() + pEnd.getX()-radiusPoint, pEnd.getZ()-radiusPoint, radiusPoint*2, radiusPoint*2);
     }
-
-
-
-
 }

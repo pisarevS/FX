@@ -5,8 +5,8 @@ import javafx.scene.input.MouseEvent;
 
 public interface PresenterImpl {
     void onStart(String program,String parameter);
-    void onCycleStart();
-    void onSingleBlock();
+    void onCycleStart(String program, String parameter);
+    void onSingleBlock(boolean isClick);
     void onReset();
     void onMouseClickedProgram(int numberLine);
     void openDragProgram(DragEvent event);

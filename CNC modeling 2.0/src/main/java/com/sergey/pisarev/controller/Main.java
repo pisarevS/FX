@@ -13,7 +13,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("sample.fxml")));
-        primaryStage.setTitle("CNC modeling");
+        primaryStage.setTitle("CNC modeling 2.0");
         primaryStage.setScene(new Scene(root, 1000, 600));
         primaryStage.setMinHeight(600);
         primaryStage.setMinWidth(1000);

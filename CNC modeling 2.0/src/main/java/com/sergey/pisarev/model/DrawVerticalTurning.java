@@ -7,17 +7,17 @@ import javafx.scene.canvas.GraphicsContext;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DrawHorizontalTurning extends BaseDraw {
+public class DrawVerticalTurning extends BaseDraw {
 
     private List<StringBuffer> programList;
     protected ArrayList<Frame> frameList;
 
-    public DrawHorizontalTurning(IDraw draw) {
+    public DrawVerticalTurning(IDraw draw) {
         super(draw);
     }
 
     @Override
-    public void drawContour(MyData data,GraphicsContext gc, Point pointCoordinateZero, double zoom, int index) {
+    public void drawContour(MyData data, GraphicsContext gc, Point pointCoordinateZero, double zoom, int index) {
         programList = data.getProgramList();
         frameList = data.getFrameList();
         boolean isLine = false;
@@ -28,26 +28,26 @@ public class DrawHorizontalTurning extends BaseDraw {
         pStart.setZ(250f);
         pEnd.setX(650f);
         pEnd.setZ(250f);
-        double radius = 0;
+
+        float radius = 0;
         for (int i = 0; i < index; i++) {
             checkGCode(frameList.get(i).getGCode());
-
             if (data.getErrorListMap().containsKey(frameList.get(i).getId())) {
                 draw.showError(data.getErrorListMap().get(frameList.get(i).getId()));
                 break;
             } else {
                 if (frameList.get(i).getIsCR()) {
-                    pEnd.setX(frameList.get(i).getZ());
-                    pEnd.setZ(frameList.get(i).getX());
+                    pEnd.setX(frameList.get(i).getX());
+                    pEnd.setZ(frameList.get(i).getZ());
                     radius = frameList.get(i).getCr();
                     isRadius = true;
                 } else {
-                    pEnd.setX(frameList.get(i).getZ());
-                    pEnd.setZ(frameList.get(i).getX());
+                    pEnd.setX(frameList.get(i).getX());
+                    pEnd.setZ(frameList.get(i).getZ());
                     isLine = true;
                 }
                 if (isRadius && frameList.get(i).isAxisContains()) {
-                    drawArc(gc,isRapidFeed, pointCoordinateZero, pStart, pEnd, radius, zoom, !clockwise);
+                    drawArc(gc,isRapidFeed, pointCoordinateZero, pStart, pEnd, radius, zoom, clockwise);
                     pStart.setX(pEnd.getX());
                     pStart.setZ(pEnd.getZ());
                     isLine = false;
@@ -94,4 +94,5 @@ public class DrawHorizontalTurning extends BaseDraw {
             }
         }
     }
+
 }

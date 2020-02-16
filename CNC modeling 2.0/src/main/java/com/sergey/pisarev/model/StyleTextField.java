@@ -33,23 +33,26 @@ public class StyleTextField {
     private static final String[] KEYWORDS = new String[] {
             "BORE_DIAM", "WHEEL_UNMACHINED", "WHEEL_MACHINED", "SYM_FACTOR", "TREAD_HEIGHT_S1",
             "TREAD_HEIGHT_S2", "GLOBAL_ALLOWANCE", "TREAD_ALLOWANCE", "TREAD_DIAM", "VYLET_ST",
-            "STUPICA_VNUT", "STUPICA_NAR", "DISK_VNUT", "DISK_NAR", "else",
+            "STUPICA_VNUT", "STUPICA_NAR", "DISK_VNUT", "DISK_NAR",
             "YABLOKO_VNUT", "YABLOKO_NAR", "WHEEL_HEIGHT", "N_GANTRYPOS_X", "N_GANTRYPOS_Z",
-            "for", "goto", "if", "implements", "import",
-            "instanceof", "int", "interface", "long", "native",
-            "new", "package", "private", "protected", "public",
-            "return", "short", "static", "strictfp", "super",
-            "switch", "synchronized", "this", "throw", "throws",
-            "transient", "try", "void", "volatile", "while"
+            "N_WHEEL_UNMACHINED", "N_WHEEL_MACHINED", "N_SYM_FACTOR"
     };
 
     private static final String[] AXIS = new String[] {
             "X", "Z", "U" ,"W", "CR"
     };
 
+    private static final String[] GCODE= new String[] {
+            "G0", "G00", "G1" ,"G01", "G2","G02","G3","G03","G4",
+            "G04","G40","G41","G42","G54","G55","G56","G57","G58","G60",
+            "G64","G640","G90","G91","G95","G96","G97","G603","G641","G153"
+    };
+
 
     private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
     private static final String AXIS_PATTERN = "\\b(" + String.join("|", AXIS) + ")\\b";
+    private static final String GCODE_PATTERN = "\\b(" + String.join("|", GCODE) + ")\\b";
+    private static final String FIGURES_PATTERN = "(?:[^\\w_]|^|\\b)(\\d+)";
     private static final String PAREN_PATTERN = "\\(|\\)";
     private static final String BRACE_PATTERN = "\\{|\\}";
     private static final String BRACKET_PATTERN = "\\[|\\]";
@@ -66,6 +69,8 @@ public class StyleTextField {
                     + "|(?<STRING>" + STRING_PATTERN + ")"
                     + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
                     + "|(?<AXIS>" + AXIS_PATTERN + ")"
+                    + "|(?<GCODE>" + GCODE_PATTERN + ")"
+                    + "|(?<FIGURES>" + FIGURES_PATTERN + ")"
     );
 
 
@@ -84,7 +89,9 @@ public class StyleTextField {
                                                             matcher.group("STRING") != null ? "string" :
                                                                     matcher.group("COMMENT") != null ? "comment" :
                                                                             matcher.group("AXIS") != null ? "axis" :
-                                                                                    null; /* never happens */ assert styleClass != null;
+                                                                                 matcher.group("GCODE") != null ? "g_code" :
+                                                                                      matcher.group("FIGURES") != null ? "figures" :
+                                                                                          null; /* never happens */ assert styleClass != null;
             spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
             spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
             lastKwEnd = matcher.end();

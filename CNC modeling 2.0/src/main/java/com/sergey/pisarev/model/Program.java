@@ -1,8 +1,7 @@
 package com.sergey.pisarev.model;
 
+import com.sergey.pisarev.interfaces.Callback;
 import com.sergey.pisarev.model.base.BaseProgram;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,11 +18,13 @@ public class Program extends BaseProgram implements Runnable {
     private String[] defs = {"DEF REAL", "DEF INT"};
     private String offn = "OFFN=";
     private MyData data=new MyData();
+    private Callback callback;
 
-    public Program(String program,String parameter) {
+    public Program(String program, String parameter, Callback callback) {
         super( program ,parameter);
         programList = new ArrayList<>();
         parameterList = new ArrayList<>();
+        this.callback=callback;
     }
 
     @Override
@@ -37,18 +38,11 @@ public class Program extends BaseProgram implements Runnable {
             searchDef( programList );
 
         parameterList.addAll( getList( parameter ) );
-
         readParameterVariables( parameterList );
         replaceParameterVariables( variablesList );
         replaceProgramVariables( programList );
         addFrameList();
-       /* for (int i = 0; i < frameList.size(); i++) {
-            System.out.println(  frameList.get( i ).toString() );
-        }*/
-        for (int i = 0; i < data.getFrameList().size(); i++) {
-            System.out.println(  data.getFrameList().get( i ).toString() );
-        }
-
+        callback.callingBack(data);
     }
 
     @Override
@@ -67,7 +61,7 @@ public class Program extends BaseProgram implements Runnable {
             strFrame = programList.get( i );
             Frame frame = new Frame();
 
-            try {
+            /*try {
                 if (contains( strFrame, offn )) {
                     frame.setOffn( searchOffn( strFrame ) );
                     frame.setId( i );
@@ -78,7 +72,7 @@ public class Program extends BaseProgram implements Runnable {
                 }
             } catch (Exception e) {
                 errorListMap.put( i, strFrame.toString() );
-            }
+            }*/
 
             try {
                 if (containsGCode( strFrame)) {

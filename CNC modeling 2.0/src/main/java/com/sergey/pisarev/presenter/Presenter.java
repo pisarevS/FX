@@ -1,24 +1,38 @@
 package com.sergey.pisarev.presenter;
 
 import com.sergey.pisarev.controller.ResizableCanvas;
+import com.sergey.pisarev.interfaces.Callback;
 import com.sergey.pisarev.interfaces.IController;
 import com.sergey.pisarev.interfaces.IDraw;
 import com.sergey.pisarev.interfaces.PresenterImpl;
-import com.sergey.pisarev.model.DrawHorizontalTurning;
-import com.sergey.pisarev.model.File;
-import com.sergey.pisarev.model.Point;
+import com.sergey.pisarev.model.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
-public class Presenter implements PresenterImpl, IDraw {
+import java.util.ArrayList;
+
+public class Presenter implements PresenterImpl, IDraw, Callback {
 
     private IController controller;
-    private double canvasWidth, canvasHeight,moveX,moveZ;
+    private double canvasWidth, canvasHeight, moveX, moveZ;
     private GraphicsContext gc;
     private ResizableCanvas canvas;
     private Point pointSystemCoordinate;
+    private MyData data;
+    private DrawVerticalTurning drawVerticalTurning;
+    private boolean isReset = false;
+    private int index;
+    private Timeline timeline;
+    private boolean isStart = false;
+    private boolean isSingleBlock=false;
+    private double zooming=1;
+    private ArrayList<String> errorList;
 
 
     public Presenter(IController controller, ResizableCanvas resizableCanvas) {
@@ -28,12 +42,14 @@ public class Presenter implements PresenterImpl, IDraw {
         canvas.widthProperty().addListener(observable -> initSystemCoordinate());
         canvas.heightProperty().addListener(observable -> initSystemCoordinate());
         handle();
+        handleZooming();
+        errorList=new ArrayList<>();
     }
 
     private void initSystemCoordinate() {
         canvasWidth = canvas.getWidth();
         canvasHeight = canvas.getHeight();
-        pointSystemCoordinate = new Point(canvasWidth / 2,canvasHeight / 2);
+        pointSystemCoordinate = new Point(canvasWidth / 2, canvasHeight / 2);
         gc.clearRect(0, 0, canvasWidth, canvasHeight);
         gc.setStroke(Color.BLACK);
         gc.setLineDashes(5, 5);
@@ -41,9 +57,10 @@ public class Presenter implements PresenterImpl, IDraw {
         gc.setLineWidth(0.5);
         gc.strokeLine(pointSystemCoordinate.getX(), 0, pointSystemCoordinate.getX(), canvasHeight);
         gc.strokeLine(0, pointSystemCoordinate.getZ(), canvasWidth, pointSystemCoordinate.getZ());
+        startDraw(index);
     }
 
-    public void handle() {
+    private void handle() {
         canvas.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
             double downX = event.getX();
             double downZ = event.getY();
@@ -54,6 +71,18 @@ public class Presenter implements PresenterImpl, IDraw {
             pointSystemCoordinate.setX(event.getX() + moveX);
             pointSystemCoordinate.setZ(event.getY() + moveZ);
             drawSysCoordinate();
+            startDraw(index);
+        });
+    }
+
+    private void handleZooming(){
+        canvas.setOnScroll((ScrollEvent event) -> {
+            zooming+=event.getDeltaY()/600;
+            if(zooming>0){
+                startDraw(index);
+            }else {
+                zooming=0;
+            }
         });
     }
 
@@ -69,30 +98,60 @@ public class Presenter implements PresenterImpl, IDraw {
 
     @Override
     public void onStart(String program, String parameter) {
-        //Thread thread = new Thread(new Program(program, parameter));
-        //thread.start();
-        Point pointStart=new Point(0,0);
-        Point pointEnd=new Point(100,100);
+        if (!isReset && !program.equals("")) {
+            isStart = true;
+            isReset=true;
+            startThread(program,parameter);
+            startDraw(index);
+        }
     }
 
     @Override
-    public void onCycleStart() {
-
+    public void onCycleStart(String program, String parameter) {
+        if (!isReset && !program.equals("")&&!isSingleBlock) {
+            startThread(program,parameter);
+            if (data != null) {
+                timeline = new Timeline(new KeyFrame(Duration.millis(200), event -> {
+                    index++;
+                    startDraw(index);
+                    controller.showFrame(data.getFrameList().get(index-1).getId());
+                }));
+                timeline.setCycleCount(data.getFrameList().size());
+                timeline.play();
+            }
+        }else if(isSingleBlock){
+            index++;
+            if(index<=data.getFrameList().size())
+            startDraw(index);
+            controller.showFrame(data.getFrameList().get(index-1).getId());
+        }
+        isReset=true;
     }
 
     @Override
-    public void onSingleBlock() {
-
+    public void onSingleBlock(boolean isClick) {
+        if(isClick){
+            timeline.stop();
+            isSingleBlock=true;
+        }else {
+            isSingleBlock=false;
+            timeline.play();
+        }
     }
 
     @Override
     public void onReset() {
-
-    }
-
-    private void manager(){
-        DrawHorizontalTurning drawHorizontalTurning = new DrawHorizontalTurning(this);
-        //drawHorizontalTurning.drawContour();
+        isReset = false;
+        isSingleBlock=false;
+        data = null;
+        index = 0;
+        zooming=1;
+        errorList.clear();
+        drawVerticalTurning = null;
+        initSystemCoordinate();
+        if (timeline != null) {
+            timeline.stop();
+        }
     }
 
     @Override
@@ -112,6 +171,37 @@ public class Presenter implements PresenterImpl, IDraw {
 
     @Override
     public void showError(String error) {
+        if(!errorList.contains(error)){
+            timeline.stop();
+            errorList.add(error);
+            controller.showError(error);
+        }
+    }
 
+    @Override
+    public void callingBack(MyData data) {
+        this.data = data;
+        drawVerticalTurning = new DrawVerticalTurning(this);
+        if (isStart) {
+            index = data.getFrameList().size();
+            isStart = false;
+        }
+    }
+
+    private void startDraw(int index) {
+        if (drawVerticalTurning != null) {
+            drawSysCoordinate();
+            drawVerticalTurning.drawContour(data, gc, pointSystemCoordinate, zooming, index);
+        }
+    }
+
+    private  void startThread(String program, String parameter) {
+        Thread thread = new Thread(new Program(program, parameter, this));
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
