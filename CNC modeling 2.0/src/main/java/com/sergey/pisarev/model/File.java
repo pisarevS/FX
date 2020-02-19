@@ -9,10 +9,18 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class File {
 
-    public static String getFileContent( DragEvent event ) {
+    public static java.io.File fileProgram;
+    public static java.io.File fileParameter;
+
+    public static String getFileContent( DragEvent event,String key ) {
+        List<java.io.File> file=event.getDragboard().getFiles();
+        if(key.equals("program")){
+            fileProgram=file.get(0);
+        }else if(key.equals("parameter")){
+            fileParameter=file.get(0);
+        }
         StringBuilder sb = new StringBuilder();
         try {
-            List<java.io.File> file=event.getDragboard().getFiles();
             FileInputStream program=new FileInputStream(file.get(0));
             BufferedReader br = new BufferedReader( new InputStreamReader(program, UTF_8.name()));
 
@@ -21,17 +29,17 @@ public class File {
                     sb.append( line );
                     sb.append( '\n' );
                 }
-
+                program.close();
         }catch ( IOException e){
             System.out.println(e.getMessage());
         }
         return sb.toString();
     }
 
-    public static String getFileContent( String path ) {
+    public static String getFileContent( java.io.File file ) {
+
         StringBuilder sb = new StringBuilder();
         try {
-            java.io.File file=new java.io.File(path);
             FileInputStream program=new FileInputStream(file);
             BufferedReader br = new BufferedReader( new InputStreamReader(program, UTF_8.name()));
 
@@ -40,10 +48,21 @@ public class File {
                 sb.append( line );
                 sb.append( '\n' );
             }
-
+            program.close();
         }catch ( IOException e){
             System.out.println(e.getMessage());
         }
         return sb.toString();
+    }
+
+    public static void setFileContent(java.io.File file, String text ) {
+
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            fileOutputStream.write(text.getBytes());
+            fileOutputStream.close();
+        }catch ( IOException e){
+            System.out.println(e.getMessage());
+        }
     }
 }

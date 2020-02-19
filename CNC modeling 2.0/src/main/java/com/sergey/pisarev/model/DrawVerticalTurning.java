@@ -1,16 +1,19 @@
 package com.sergey.pisarev.model;
 
 import com.sergey.pisarev.interfaces.IDraw;
+import com.sergey.pisarev.interfaces.IPointDraw;
 import com.sergey.pisarev.model.base.BaseDraw;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DrawVerticalTurning extends BaseDraw {
+public class DrawVerticalTurning extends BaseDraw implements IPointDraw {
 
     private List<StringBuffer> programList;
     protected ArrayList<Frame> frameList;
+    private int numberLIne;
 
     public DrawVerticalTurning(IDraw draw) {
         super(draw);
@@ -58,9 +61,14 @@ public class DrawVerticalTurning extends BaseDraw {
                     pStart.setX(pEnd.getX());
                     pStart.setZ(pEnd.getZ());
                 }
+                if(isDrawPoint&&frameList.get(i).getId()==numberLIne){
+                    pEnd.setX(frameList.get(i).getX());
+                    pEnd.setZ(frameList.get(i).getZ());
+                    drawPoint(gc, pointCoordinateZero, pEnd, zoom,Color.web("#3507EE"),5);
+                }
             }
         }
-        drawPoint(gc, pointCoordinateZero, pEnd, zoom);
+        drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.RED,4);
     }
 
     private boolean isG17(List<StringBuffer> programList) {
@@ -95,4 +103,9 @@ public class DrawVerticalTurning extends BaseDraw {
         }
     }
 
+    @Override
+    public void getNumberLine(int numberLIne) {
+        isDrawPoint=true;
+        this.numberLIne=numberLIne;
+    }
 }

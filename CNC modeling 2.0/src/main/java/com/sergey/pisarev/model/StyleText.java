@@ -13,7 +13,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class StyleTextField {
+public class StyleText {
 
 
     public void setStyle(CodeArea codeArea){
@@ -39,13 +39,14 @@ public class StyleTextField {
     };
 
     private static final String[] AXIS = new String[] {
-            "X", "Z", "U" ,"W", "CR"
+            "X", "Z", "U" ,"W", "CR","F"
     };
 
     private static final String[] GCODE= new String[] {
             "G0", "G00", "G1" ,"G01", "G2","G02","G3","G03","G4",
             "G04","G40","G41","G42","G54","G55","G56","G57","G58","G60",
-            "G64","G640","G90","G91","G95","G96","G97","G603","G641","G153"
+            "G64","G640","G90","G91","G95","G96","G97","G603","G641","G153",
+            "G18","G450"
     };
 
 
@@ -55,7 +56,7 @@ public class StyleTextField {
     private static final String FIGURES_PATTERN = "(?:[^\\w_]|^|\\b)(\\d+)";
     private static final String PAREN_PATTERN = "\\(|\\)";
     private static final String BRACE_PATTERN = "\\{|\\}";
-    private static final String BRACKET_PATTERN = "\\[|\\]";
+    private static final String NUMBER_FRAME_PATTERN = "N(\\d+)";
     private static final String SEMICOLON_PATTERN = "\\+|\\-|\\*|\\/";
     private static final String STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
     private static final String COMMENT_PATTERN = ";[^\n]*";
@@ -64,7 +65,7 @@ public class StyleTextField {
             "(?<KEYWORD>" + KEYWORD_PATTERN + ")"
                     + "|(?<PAREN>" + PAREN_PATTERN + ")"
                     + "|(?<BRACE>" + BRACE_PATTERN + ")"
-                    + "|(?<BRACKET>" + BRACKET_PATTERN + ")"
+                    + "|(?<NUMBERFRAME>" + NUMBER_FRAME_PATTERN + ")"
                     + "|(?<SEMICOLON>" + SEMICOLON_PATTERN + ")"
                     + "|(?<STRING>" + STRING_PATTERN + ")"
                     + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
@@ -84,7 +85,7 @@ public class StyleTextField {
                     matcher.group("KEYWORD") != null ? "keyword" :
                             matcher.group("PAREN") != null ? "paren" :
                                     matcher.group("BRACE") != null ? "brace" :
-                                            matcher.group("BRACKET") != null ? "bracket" :
+                                            matcher.group("NUMBERFRAME") != null ? "number_frame" :
                                                     matcher.group("SEMICOLON") != null ? "semicolon" :
                                                             matcher.group("STRING") != null ? "string" :
                                                                     matcher.group("COMMENT") != null ? "comment" :

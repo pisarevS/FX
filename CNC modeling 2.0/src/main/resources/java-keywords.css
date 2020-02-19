@@ -15,8 +15,8 @@
 .paren {
     -fx-fill: #DF5624 !important;
 }
-.bracket {
-    -fx-fill: darkgreen !important;
+.number_frame {
+    -fx-fill: #9999FF !important;
 }
 .brace {
     -fx-fill: teal !important;
@@ -47,7 +47,7 @@
 }
 
 .paragraph-box:has-caret {
-    -fx-background-color: #323232 !important;
+     -fx-background-color: #323232 !important;
      -fx-fill: black !important;
      -fx-font-weight: bold;
 }

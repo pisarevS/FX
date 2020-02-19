@@ -56,23 +56,9 @@ public class Program extends BaseProgram implements Runnable {
         float tempCR = 0;
         boolean isCR = false;
         boolean isRadius = false;
-        boolean isOffn = false;
         for (int i = 0; i < programList.size(); i++) {
             strFrame = programList.get( i );
             Frame frame = new Frame();
-
-            /*try {
-                if (contains( strFrame, offn )) {
-                    frame.setOffn( searchOffn( strFrame ) );
-                    frame.setId( i );
-                    frame.setX( tempHorizontal );
-                    frame.setZ( tempVertical );
-                    frameList.add( frame );
-                    isOffn = true;
-                }
-            } catch (Exception e) {
-                errorListMap.put( i, strFrame.toString() );
-            }*/
 
             try {
                 if (containsGCode( strFrame)) {
@@ -122,15 +108,11 @@ public class Program extends BaseProgram implements Runnable {
 
             String radiusCR = "CR=";
             try {
-                if (contains( strFrame, radiusCR ) && isRadius && !isOffn) {
+                if (contains( strFrame, radiusCR ) && isRadius) {
                     tempCR = coordinateSearch( strFrame, radiusCR );
                     if (tempCR != FIBO) {
                         isCR = true;
                     }
-                } else if (contains( strFrame, radiusCR ) && !isRadius && !isOffn) {
-                    errorListMap.put( i, strFrame.toString() );
-                } else if (!contains( strFrame, radiusCR ) && isRadius && !isOffn) {
-                    errorListMap.put( i, strFrame.toString() );
                 }
             } catch (Exception e) {
                 errorListMap.put( i, strFrame.toString() );
@@ -147,7 +129,6 @@ public class Program extends BaseProgram implements Runnable {
                 isHorizontalAxis = false;
                 isVerticalAxis = false;
                 isCR = false;
-                isOffn = false;
             }
 
             if (isHorizontalAxis || isVerticalAxis) {
@@ -158,7 +139,6 @@ public class Program extends BaseProgram implements Runnable {
                 frameList.add( frame );
                 isHorizontalAxis = false;
                 isVerticalAxis = false;
-                isOffn = false;
             }
         }
         data.setErrorListMap( errorListMap );

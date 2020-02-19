@@ -30,10 +30,9 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     private int index;
     private Timeline timeline;
     private boolean isStart = false;
-    private boolean isSingleBlock=false;
-    private double zooming=1;
+    private boolean isSingleBlock = false;
+    private double zooming = 1.5;
     private ArrayList<String> errorList;
-
 
     public Presenter(IController controller, ResizableCanvas resizableCanvas) {
         this.canvas = resizableCanvas;
@@ -43,7 +42,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         canvas.heightProperty().addListener(observable -> initSystemCoordinate());
         handle();
         handleZooming();
-        errorList=new ArrayList<>();
+        errorList = new ArrayList<>();
     }
 
     private void initSystemCoordinate() {
@@ -75,13 +74,13 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         });
     }
 
-    private void handleZooming(){
+    private void handleZooming() {
         canvas.setOnScroll((ScrollEvent event) -> {
-            zooming+=event.getDeltaY()/600;
-            if(zooming>0){
+            zooming += event.getDeltaY() / 600;
+            if (zooming > 0) {
                 startDraw(index);
-            }else {
-                zooming=0;
+            } else {
+                zooming = 0;
             }
         });
     }
@@ -100,52 +99,59 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     public void onStart(String program, String parameter) {
         if (!isReset && !program.equals("")) {
             isStart = true;
-            isReset=true;
-            startThread(program,parameter);
+            isReset = true;
+            startThread(program, parameter);
             startDraw(index);
         }
     }
 
     @Override
     public void onCycleStart(String program, String parameter) {
-        if (!isReset && !program.equals("")&&!isSingleBlock) {
-            startThread(program,parameter);
-            if (data != null) {
-                timeline = new Timeline(new KeyFrame(Duration.millis(200), event -> {
-                    index++;
-                    startDraw(index);
-                    controller.showFrame(data.getFrameList().get(index-1).getId());
-                }));
-                timeline.setCycleCount(data.getFrameList().size());
-                timeline.play();
-            }
-        }else if(isSingleBlock){
+        if (!isReset && !program.equals("") && !isSingleBlock) {
+            startThread(program, parameter);
+            assert data != null;
+            timeline = new Timeline(new KeyFrame(Duration.millis(200), event -> {
+                index++;
+                startDraw(index);
+                controller.showFrame(data.getFrameList().get(index - 1).getId());
+                if (index == data.getFrameList().size())
+                    controller.onReset();
+            }));
+            timeline.setCycleCount(data.getFrameList().size());
+            timeline.play();
+        } else if (isSingleBlock) {
             index++;
-            if(index<=data.getFrameList().size())
-            startDraw(index);
-            controller.showFrame(data.getFrameList().get(index-1).getId());
+            if (index <= data.getFrameList().size())
+                startDraw(index);
+            if (index == data.getFrameList().size())
+                controller.onReset();
+            controller.showFrame(data.getFrameList().get(index - 1).getId());
         }
-        isReset=true;
+        isReset = true;
     }
 
     @Override
     public void onSingleBlock(boolean isClick) {
-        if(isClick){
+        if (isClick) {
             timeline.stop();
-            isSingleBlock=true;
-        }else {
-            isSingleBlock=false;
+            isSingleBlock = true;
+        } else {
+            isSingleBlock = false;
             timeline.play();
         }
     }
 
     @Override
     public void onReset() {
+       reset();
+    }
+
+    private void reset(){
         isReset = false;
-        isSingleBlock=false;
+        isSingleBlock = false;
         data = null;
         index = 0;
-        zooming=1;
+        zooming = 1;
         errorList.clear();
         drawVerticalTurning = null;
         initSystemCoordinate();
@@ -156,26 +162,31 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
 
     @Override
     public void onMouseClickedProgram(int numberLine) {
-        controller.onDraw(numberLine);
+        if (drawVerticalTurning != null)
+            drawVerticalTurning.getNumberLine(numberLine);
+        startDraw(index);
     }
 
     @Override
     public void openDragProgram(DragEvent event) {
-        controller.showProgram(File.getFileContent(event));
+        controller.showProgram(File.getFileContent( event,"program"));
+        reset();
     }
 
     @Override
     public void openDragParameter(DragEvent event) {
-        controller.showParameter(File.getFileContent(event));
+        controller.showParameter(File.getFileContent( event,"parameter"));
+        reset();
     }
 
     @Override
     public void showError(String error) {
-        if(!errorList.contains(error)){
-            timeline.stop();
+        if (!errorList.contains(error)) {
             errorList.add(error);
             controller.showError(error);
         }
+        if (timeline != null)
+            timeline.stop();
     }
 
     @Override
@@ -195,7 +206,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         }
     }
 
-    private  void startThread(String program, String parameter) {
+    private void startThread(String program, String parameter) {
         Thread thread = new Thread(new Program(program, parameter, this));
         thread.start();
         try {

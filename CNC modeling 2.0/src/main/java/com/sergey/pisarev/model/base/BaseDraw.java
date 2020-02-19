@@ -7,12 +7,14 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 
-
 public abstract class BaseDraw {
 
     protected boolean clockwise;
     protected IDraw draw;
     protected boolean isRapidFeed;
+    private double lineWidth=1.3;
+    private double lineWidthDashes=1;
+    protected boolean isDrawPoint;
 
     protected BaseDraw(IDraw draw) {
         this.draw = draw;
@@ -24,9 +26,11 @@ public abstract class BaseDraw {
         if (isRapidFeed) {
             gc.setStroke(Color.BLACK);
             gc.setLineDashes(3, 5);
+            gc.setLineWidth(lineWidthDashes);
         } else {
             gc.setStroke(Color.GREEN);
             gc.setLineDashes();
+            gc.setLineWidth(lineWidth);
         }
         Point pStart = new Point(pointStart.getX(), pointStart.getZ());
         Point pEnd = new Point(pointEnd.getX(), pointEnd.getZ());
@@ -102,9 +106,11 @@ public abstract class BaseDraw {
         if (isRapidFeed) {
             gc.setStroke(Color.BLACK);
             gc.setLineDashes(3, 5);
+            gc.setLineWidth(lineWidthDashes);
         } else {
             gc.setStroke(Color.GREEN);
             gc.setLineDashes();
+            gc.setLineWidth(lineWidth);
         }
         Point pStart = new Point(pointStart.getX(), pointStart.getZ());
         Point pEnd = new Point(pointEnd.getX(), pointEnd.getZ());
@@ -116,18 +122,16 @@ public abstract class BaseDraw {
         else pStart.setZ(pointSystemCoordinate.getZ() + Math.abs(pStart.getZ()));
         if (pEnd.getZ() > 0) pEnd.setZ(pointSystemCoordinate.getZ() - pEnd.getZ());
         else pEnd.setZ(pointSystemCoordinate.getZ() + Math.abs(pEnd.getZ()));
-        gc.setLineWidth(1);
         gc.strokeLine(pointSystemCoordinate.getX() + pStart.getX(), pStart.getZ(), pointSystemCoordinate.getX() + pEnd.getX(), pEnd.getZ());
     }
 
-    protected void drawPoint(GraphicsContext gc, Point pointSystemCoordinate, Point pointEnd, double zoom) {
-        float radiusPoint = 3F;
+    protected void drawPoint(GraphicsContext gc, Point pointSystemCoordinate, Point pointEnd, double zoom,Color color,double radiusPoint) {
         Point pEnd = new Point(pointEnd.getX(), pointEnd.getZ());
         pEnd.setX(pEnd.getX() * zoom);
         pEnd.setZ(pEnd.getZ() * zoom);
         if (pEnd.getZ() > 0) pEnd.setZ(pointSystemCoordinate.getZ() - pEnd.getZ());
         else pEnd.setZ(pointSystemCoordinate.getZ() + Math.abs(pEnd.getZ()));
-        gc.setFill(Color.RED);
+        gc.setFill(color);
         gc.fillOval(pointSystemCoordinate.getX() + pEnd.getX()-radiusPoint, pEnd.getZ()-radiusPoint, radiusPoint*2, radiusPoint*2);
     }
 }
