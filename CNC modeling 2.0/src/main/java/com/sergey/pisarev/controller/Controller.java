@@ -22,7 +22,6 @@ import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.TwoDimensional;
 import com.sergey.pisarev.model.StyleText;
 
-
 public class Controller implements IController {
 
     private CodeArea codeAreaProgram=new CodeArea();
@@ -287,10 +286,6 @@ public class Controller implements IController {
             File.setFileContent(file,text);
         });
         alert.showAndWait();
-    }
-
-    public static void quit(){
-
     }
 
 }
