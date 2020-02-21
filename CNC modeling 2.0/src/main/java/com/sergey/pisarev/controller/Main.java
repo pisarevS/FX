@@ -18,13 +18,14 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        Controller.STAGE=primaryStage;
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("sample.fxml")));
         primaryStage.setTitle(title);
         primaryStage.setScene(new Scene(root, 1000, 600));
         primaryStage.setMinHeight(600);
         primaryStage.setMinWidth(1000);
-        primaryStage.setOnCloseRequest(Event::consume);
         primaryStage.show();
+
     }
 
     public static void main(String[] args) {

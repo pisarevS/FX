@@ -21,7 +21,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.181" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sergey.pisarev.controller.Controller">
+<VBox prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sergey.pisarev.controller.Controller">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -30,6 +30,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#menuSaveProgram" text="Save Program" />
             <MenuItem mnemonicParsing="false" onAction="#menuSaveParameter" text="Save Parameter" />
                   <MenuItem mnemonicParsing="false" onAction="#menuSaveAll" text="Save All" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuRenameFrames" text="Rename frames" />
             <MenuItem mnemonicParsing="false" onAction="#menuQuit" text="Exit" />
           </items>
         </Menu>

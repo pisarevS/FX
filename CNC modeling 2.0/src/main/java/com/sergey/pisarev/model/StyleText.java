@@ -16,18 +16,23 @@ import java.util.regex.Pattern;
 public class StyleText {
 
 
-    public void setStyle(CodeArea codeArea){
-        codeArea.getStylesheets().add(Objects.requireNonNull(Controller.class.getClassLoader().getResource("java-keywords.css")).toExternalForm());
+    public static void setStyle(CodeArea codeArea){
+        codeArea.getStylesheets().add(Objects.requireNonNull(Controller.class.getClassLoader().getResource("g_code_keywords.css")).toExternalForm());
         Subscription cleanupWhenNoLongerNeedIt = codeArea
                 // plain changes = ignore style changes that are emitted when syntax highlighting is reapplied
                 // multi plain changes = save computation by not rerunning the code multiple times
                 //   when making multiple changes (e.g. renaming a method at multiple parts in file)
                 .multiPlainChanges()
 
-                // do not emit an event until 500 ms have passed since the last emission of previous stream
-                .successionEnds(Duration.ofMillis(500))
+                // do not emit an event until 1 ms have passed since the last emission of previous stream
+                .successionEnds(Duration.ofMillis(1))
                 // run the following code block when previous stream emits an event
                 .subscribe(ignore -> codeArea.setStyleSpans(0, computeHighlighting(codeArea.getText())));
+    }
+
+    public static void setStyleRefresh(CodeArea codeArea){
+        codeArea.getStylesheets().add(Objects.requireNonNull(Controller.class.getClassLoader().getResource("g_code_keywords.css")).toExternalForm());
+        codeArea.setStyleSpans(0, computeHighlighting(codeArea.getText()));
     }
 
     private static final String[] KEYWORDS = new String[] {
@@ -42,22 +47,14 @@ public class StyleText {
             "X", "Z", "U" ,"W", "CR","F"
     };
 
-    private static final String[] GCODE= new String[] {
-            "G0", "G00", "G1" ,"G01", "G2","G02","G3","G03","G4",
-            "G04","G40","G41","G42","G54","G55","G56","G57","G58","G60",
-            "G64","G640","G90","G91","G95","G96","G97","G603","G641","G153",
-            "G18","G450"
-    };
-
-
     private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
     private static final String AXIS_PATTERN = "\\b(" + String.join("|", AXIS) + ")\\b";
-    private static final String GCODE_PATTERN = "\\b(" + String.join("|", GCODE) + ")\\b";
+    private static final String GCODE_PATTERN = "G(\\d+)";
     private static final String FIGURES_PATTERN = "(?:[^\\w_]|^|\\b)(\\d+)";
     private static final String PAREN_PATTERN = "\\(|\\)";
     private static final String BRACE_PATTERN = "\\{|\\}";
     private static final String NUMBER_FRAME_PATTERN = "N(\\d+)";
-    private static final String SEMICOLON_PATTERN = "\\+|\\-|\\*|\\/";
+    private static final String SEMICOLON_PATTERN = "\\+|\\-|\\*|\\/|\\=";
     private static final String STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
     private static final String COMMENT_PATTERN = ";[^\n]*";
 

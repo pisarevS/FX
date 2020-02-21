@@ -33,6 +33,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     private boolean isSingleBlock = false;
     private double zooming = 1.5;
     private ArrayList<String> errorList;
+    private boolean isChangesText=false;
 
     public Presenter(IController controller, ResizableCanvas resizableCanvas) {
         this.canvas = resizableCanvas;
@@ -130,6 +131,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         isReset = true;
     }
 
+
     @Override
     public void onSingleBlock(boolean isClick) {
         if (isClick) {
@@ -147,6 +149,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     }
 
     private void reset(){
+        isStart = false;
         isReset = false;
         isSingleBlock = false;
         data = null;
@@ -180,13 +183,35 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     }
 
     @Override
-    public void showError(String error) {
-        if (!errorList.contains(error)) {
-            errorList.add(error);
-            controller.showError(error);
+    public void setOnChangesTextProgram(String program, String parameter) {
+        if(isStart){
+            isChangesText=true;
+            startThread(program, parameter);
+            startDraw(index);
+            isChangesText=false;
         }
-        if (timeline != null)
-            timeline.stop();
+    }
+
+    @Override
+    public void setOnChangesTextParameter(String program, String parameter) {
+        if(isStart){
+            isChangesText=true;
+            startThread(program, parameter);
+            startDraw(index);
+            isChangesText=false;
+        }
+    }
+
+    @Override
+    public void showError(String error) {
+        if (!isChangesText) {
+            if (!errorList.contains(error)) {
+                errorList.add(error);
+                controller.showError(error);
+            }
+            if (timeline != null)
+                timeline.stop();
+        }
     }
 
     @Override
@@ -195,7 +220,6 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         drawVerticalTurning = new DrawVerticalTurning(this);
         if (isStart) {
             index = data.getFrameList().size();
-            isStart = false;
         }
     }
 

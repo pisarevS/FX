@@ -33,7 +33,7 @@ public abstract class BaseProgram {
 
     protected abstract ArrayList<StringBuffer> getList(String program);
 
-    protected abstract void replaceProgramVariables(ArrayList<StringBuffer> programList);
+    protected abstract void replaceProgramVariables(ArrayList<StringBuffer> programList) throws Exception;
 
     protected abstract void replaceParameterVariables(Map<String, String> variablesList);
 
@@ -116,9 +116,8 @@ public abstract class BaseProgram {
         return gCodeList;
     }
 
-    protected float coordinateSearch(StringBuffer frame, String axis) {
-        Expression expression = new Expression();
-        StringBuffer temp = new StringBuffer();
+    protected float coordinateSearch(StringBuffer frame, String axis) throws Exception {
+        StringBuilder temp = new StringBuilder();
         for (int i = frame.indexOf( axis ) + axis.length(); i < frame.length(); i++) {
             if (readUp( frame.charAt( i ) )) {
                 temp.append( frame.charAt( i ) );
@@ -128,17 +127,17 @@ public abstract class BaseProgram {
         }
         if (temp.toString().contains( "=" )) {
             int index = temp.indexOf( "=" );
-            temp = temp.replace( index, index + 1, "" );
+            temp.replace(index, index + 1, "");
         }
-        if (isSymbol( temp )) {
-            return expression.calculate( temp.toString() );
-        } else if (!isSymbol( temp )) {
+        if (isSymbol( temp.toString() )) {
+            return Expression.calculate( temp.toString() );
+        } else if (!isSymbol( temp.toString() )) {
             return Float.parseFloat( temp.toString() );
         }
         return FIBO;
     }
 
-    protected float incrementSearch(StringBuffer frame, String axis) {
+    protected float incrementSearch(StringBuffer frame, String axis) throws Exception {
         Expression expression = new Expression();
         StringBuilder temp = new StringBuilder();
         int n = frame.indexOf( axis );
@@ -260,13 +259,13 @@ public abstract class BaseProgram {
         return false;
     }
 
-    private boolean isSymbol(StringBuffer text) {
-        if (text.toString().contains( "+" )) return true;
-        if (text.toString().contains( "-" )) return true;
-        if (text.toString().contains( "*" )) return true;
-        if (text.toString().contains( "/" )) return true;
-        if (text.toString().contains( "(" )) return true;
-        return text.toString().contains( ")" );
+    protected boolean isSymbol(String text) {
+        if (text.contains( "+" )) return true;
+        if (text.contains( "-" )) return true;
+        if (text.contains( "*" )) return true;
+        if (text.contains( "/" )) return true;
+        if (text.contains( "(" )) return true;
+        return text.contains( ")" );
     }
 
     protected boolean activatedRadius(ArrayList<String> gCode) {

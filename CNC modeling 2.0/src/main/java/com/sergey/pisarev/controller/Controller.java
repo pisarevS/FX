@@ -3,24 +3,32 @@ package com.sergey.pisarev.controller;
 import com.sergey.pisarev.interfaces.IController;
 import com.sergey.pisarev.interfaces.PresenterImpl;
 import com.sergey.pisarev.model.File;
+import com.sergey.pisarev.model.RenameNumberFrame;
 import com.sergey.pisarev.presenter.Presenter;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.TwoDimensional;
 import com.sergey.pisarev.model.StyleText;
+import org.reactfx.Subscription;
+
+import java.time.Duration;
 
 public class Controller implements IController {
 
@@ -30,6 +38,9 @@ public class Controller implements IController {
     private int countClick=2;
     private boolean isDownSingleBlock=false;
     private boolean isCycleStart=false;
+
+    @FXML
+    public static Stage STAGE;
 
     @FXML
     StackPane paneCanvas =new StackPane();
@@ -59,8 +70,7 @@ public class Controller implements IController {
         paneCanvas.getChildren().add(visualizerCanvas);
 
         presenter=new Presenter(this,visualizerCanvas);
-        StyleText styleText =new StyleText();
-        styleText.setStyle(codeAreaProgram);
+        StyleText.setStyle(codeAreaProgram);
         codeAreaProgram.setParagraphGraphicFactory(LineNumberFactory.get(codeAreaProgram));
         StackPane stackPaneProgram = new StackPane(new VirtualizedScrollPane<>(codeAreaProgram));
         AnchorPane.setTopAnchor(stackPaneProgram,0.0);
@@ -69,7 +79,7 @@ public class Controller implements IController {
         AnchorPane.setRightAnchor(stackPaneProgram,0.0);
         anchorPaneProgram.getChildren().add(stackPaneProgram);
 
-        styleText.setStyle(codeAreaParameter);
+        StyleText.setStyle(codeAreaParameter);
         codeAreaParameter.setParagraphGraphicFactory(LineNumberFactory.get(codeAreaParameter));
         StackPane stackPaneParameter = new StackPane(new VirtualizedScrollPane<>(codeAreaParameter));
         AnchorPane.setTopAnchor(stackPaneParameter,0.0);
@@ -85,6 +95,8 @@ public class Controller implements IController {
 
         TableUtils.installCopyPasteHandler(codeAreaProgram);
         TableUtils.installCopyPasteHandler(codeAreaParameter);
+        setOnChangesText(codeAreaProgram,codeAreaParameter);
+        exit();
     }
 
     @FXML
@@ -164,10 +176,7 @@ public class Controller implements IController {
         countClick=2;
         presenter.onReset();
         if(isCycleStart){
-            String text=codeAreaProgram.getText();
-            codeAreaProgram.clear();
-            codeAreaProgram.appendText(text);
-            isCycleStart=false;
+            StyleText.setStyleRefresh(codeAreaProgram);
         }
     }
 
@@ -219,20 +228,6 @@ public class Controller implements IController {
     }
 
     @FXML
-    public void menuSaveAll(ActionEvent actionEvent) {
-        if(File.fileProgram!=null) {
-            File.setFileContent(File.fileProgram,codeAreaProgram.getText());
-        }  if(File.fileParameter!=null){
-            File.setFileContent(File.fileParameter,codeAreaParameter.getText());
-        } if(File.fileProgram!=null||File.fileParameter!=null){
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setAlertType(AlertType.INFORMATION);
-            alert.setContentText("All saved!");
-            alert.showAndWait();
-        }
-    }
-
-    @FXML
     public void menuSaveProgram(ActionEvent actionEvent) {
         if(File.fileProgram!=null) {
             File.setFileContent(File.fileProgram,codeAreaProgram.getText());
@@ -255,9 +250,67 @@ public class Controller implements IController {
     }
 
     @FXML
+    public void menuSaveAll(ActionEvent actionEvent) {
+        if(File.fileProgram!=null) {
+            File.setFileContent(File.fileProgram,codeAreaProgram.getText());
+        }  if(File.fileParameter!=null){
+            File.setFileContent(File.fileParameter,codeAreaParameter.getText());
+        } if(File.fileProgram!=null||File.fileParameter!=null){
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setAlertType(AlertType.INFORMATION);
+            alert.setContentText("All saved!");
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    public void menuRenameFrames(ActionEvent actionEvent) {
+        /*int width=300;
+        int height=300;
+        Label startFrameLabel = new Label("Start frame");
+        Label stepLabel = new Label("Step");
+        Button okButton=new Button("Ok");
+
+        StackPane secondaryLayout = new StackPane();
+        secondaryLayout.getChildren().addAll(startFrameLabel,stepLabel,okButton);
+
+        Scene secondScene = new Scene(secondaryLayout, width, height);
+
+        // New window (Stage)
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Rename frames");
+        newWindow.setScene(secondScene);
+
+        okButton.setOnAction(event -> {
+            String temp=RenameNumberFrame.rename(codeAreaProgram.getText(),10,10);
+            codeAreaProgram.clear();
+            codeAreaProgram.appendText(temp);
+            newWindow.close();
+        });
+        // Specifies the modality for new window.
+        newWindow.initModality(Modality.WINDOW_MODAL);
+        newWindow.setResizable(false);
+        // Specifies the owner Window (parent) for new window
+        newWindow.initOwner(STAGE);
+
+        // Set position of second window, related to primary window.
+        newWindow.setX(STAGE.getWidth()/2+ (width >> 1));
+        newWindow.setY(STAGE.getHeight()/2- (height >> 1));
+
+        newWindow.show();*/
+    }
+
+    @FXML
     public void menuQuit(ActionEvent actionEvent) {
         saveChanges();
         Platform.exit();
+    }
+
+    private void exit(){
+        STAGE.setOnCloseRequest(event -> {
+            saveChanges();
+            Platform.exit();
+        });
     }
 
     private void saveChanges(){
@@ -288,4 +341,14 @@ public class Controller implements IController {
         alert.showAndWait();
     }
 
+    private void setOnChangesText(CodeArea codeAreaProgram,CodeArea codeAreaParameter){
+        Subscription cleanupWhenNoLongerNeedItProgram = codeAreaProgram
+                .multiPlainChanges()
+                .successionEnds(Duration.ofMillis(1))
+                .subscribe(ignore -> presenter.setOnChangesTextProgram(codeAreaProgram.getText(),codeAreaParameter.getText()));
+        Subscription cleanupWhenNoLongerNeedItParameter = codeAreaParameter
+                .multiPlainChanges()
+                .successionEnds(Duration.ofMillis(1))
+                .subscribe(ignore -> presenter.setOnChangesTextParameter(codeAreaProgram.getText(),codeAreaParameter.getText()));
+    }
 }

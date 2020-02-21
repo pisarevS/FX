@@ -11,4 +11,6 @@ public interface PresenterImpl {
     void onMouseClickedProgram(int numberLine);
     void openDragProgram(DragEvent event);
     void openDragParameter(DragEvent event);
+    void setOnChangesTextProgram(String program, String parameter);
+    void setOnChangesTextParameter(String program, String parameter);
 }
