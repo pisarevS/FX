@@ -8,7 +8,7 @@ public interface PresenterImpl {
     void onCycleStart(String program, String parameter);
     void onSingleBlock(boolean isClick);
     void onReset();
-    void onMouseClickedProgram(int numberLine);
+    void getCaretPosition(int numberLine);
     void openDragProgram(DragEvent event);
     void openDragParameter(DragEvent event);
     void setOnChangesTextProgram(String program, String parameter);

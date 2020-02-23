@@ -1,10 +1,7 @@
 package com.sergey.pisarev.presenter;
 
 import com.sergey.pisarev.controller.ResizableCanvas;
-import com.sergey.pisarev.interfaces.Callback;
-import com.sergey.pisarev.interfaces.IController;
-import com.sergey.pisarev.interfaces.IDraw;
-import com.sergey.pisarev.interfaces.PresenterImpl;
+import com.sergey.pisarev.interfaces.*;
 import com.sergey.pisarev.model.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -26,13 +23,14 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     private Point pointSystemCoordinate;
     private MyData data;
     private DrawVerticalTurning drawVerticalTurning;
-    private boolean isReset = false;
     private int index;
     private Timeline timeline;
-    private boolean isStart = false;
-    private boolean isSingleBlock = false;
     private double zooming = 1.5;
     private ArrayList<String> errorList;
+    private boolean isStart = false;
+    private boolean isCycleStart = false;
+    private boolean isSingleBlock = false;
+    private boolean isReset = false;
     private boolean isChangesText=false;
 
     public Presenter(IController controller, ResizableCanvas resizableCanvas) {
@@ -108,6 +106,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
 
     @Override
     public void onCycleStart(String program, String parameter) {
+        isCycleStart=true;
         if (!isReset && !program.equals("") && !isSingleBlock) {
             startThread(program, parameter);
             assert data != null;
@@ -131,7 +130,6 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         isReset = true;
     }
 
-
     @Override
     public void onSingleBlock(boolean isClick) {
         if (isClick) {
@@ -152,6 +150,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         isStart = false;
         isReset = false;
         isSingleBlock = false;
+        isCycleStart=false;
         data = null;
         index = 0;
         zooming = 1;
@@ -164,10 +163,14 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     }
 
     @Override
-    public void onMouseClickedProgram(int numberLine) {
-        if (drawVerticalTurning != null)
-            drawVerticalTurning.getNumberLine(numberLine);
-        startDraw(index);
+    public void getCaretPosition(int numberLine) {
+        if(isStart||isCycleStart){
+            isChangesText=true;
+            if (drawVerticalTurning != null)
+                drawVerticalTurning.getNumberLine(numberLine);
+            startDraw(index);
+            isChangesText=false;
+        }
     }
 
     @Override

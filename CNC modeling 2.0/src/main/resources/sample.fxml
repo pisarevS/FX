@@ -30,7 +30,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#menuSaveProgram" text="Save Program" />
             <MenuItem mnemonicParsing="false" onAction="#menuSaveParameter" text="Save Parameter" />
                   <MenuItem mnemonicParsing="false" onAction="#menuSaveAll" text="Save All" />
-                  <MenuItem mnemonicParsing="false" onAction="#menuRenameFrames" text="Rename frames" />
+
             <MenuItem mnemonicParsing="false" onAction="#menuQuit" text="Exit" />
           </items>
         </Menu>

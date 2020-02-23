@@ -56,13 +56,21 @@ public class File {
     }
 
     public static void setFileContent(java.io.File file, String text ) {
-
+        Writer writer=null;
         try {
+            writer=new BufferedWriter(new FileWriter(file));
+            writer.write(text);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        /*try {
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             fileOutputStream.write(text.getBytes());
             fileOutputStream.close();
         }catch ( IOException e){
             System.out.println(e.getMessage());
-        }
+        }*/
     }
 }

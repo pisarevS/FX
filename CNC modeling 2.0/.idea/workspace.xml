@@ -7,24 +7,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/RenameNumberFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/CNC_madeling_2_0_jar/CNC madeling 2.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/CNC_madeling_2_0_jar/CNC madeling 2.0.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/controller/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/controller/Controller.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/controller/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/controller/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/interfaces/PresenterImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/interfaces/PresenterImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/StyleText.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/StyleText.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/File.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/File.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/Program.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/Program.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/presenter/Presenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/presenter/Presenter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/java-keywords.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/g_code_keywords.css" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/g_code_keywords.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/sample.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/sample.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/controller/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/controller/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/controller/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/interfaces/PresenterImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/interfaces/PresenterImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Expression.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Expression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/File.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/File.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Program.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Program.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/StyleText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/StyleText.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/base/BaseProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/base/BaseProgram.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/presenter/Presenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/presenter/Presenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/java-keywords.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/g_code_keywords.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/g_code_keywords.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/g_code_keywords.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/sample.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/sample.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -346,19 +343,19 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="254" y="83" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1600.860@0.0.1600.860" timestamp="1581841880422" />
-    <state x="605" y="138" key="#com.intellij.ide.util.MemberChooser" timestamp="1582287699575">
+    <state x="605" y="138" key="#com.intellij.ide.util.MemberChooser" timestamp="1582449972476">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="517" y="117" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1580654398999" />
-    <state x="605" y="138" key="#com.intellij.ide.util.MemberChooser/0.0.1600.860@0.0.1600.860" timestamp="1582287699575" />
+    <state x="605" y="138" key="#com.intellij.ide.util.MemberChooser/0.0.1600.860@0.0.1600.860" timestamp="1582449972476" />
     <state x="530" y="204" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1581187151732">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="530" y="204" key="#com.intellij.ide.util.PackageChooserDialog/0.0.1600.860@0.0.1600.860" timestamp="1581187151732" />
-    <state x="530" y="212" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1581866556042">
+    <state x="530" y="212" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1582308622565">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="530" y="212" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1600.860@0.0.1600.860" timestamp="1581866556042" />
+    <state x="530" y="212" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1600.860@0.0.1600.860" timestamp="1582308622565" />
     <state x="480" y="156" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1582206025782">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -375,51 +372,51 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="555" y="131" key="#xdebugger.evaluate/0.0.1600.860@0.0.1600.860" timestamp="1581842297923" />
-    <state width="478" height="438" key="DebuggerActiveHint" timestamp="1582285725381">
+    <state width="478" height="438" key="DebuggerActiveHint" timestamp="1582451776395">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state width="478" height="438" key="DebuggerActiveHint/0.0.1600.860@0.0.1600.860" timestamp="1582285725381" />
+    <state width="478" height="438" key="DebuggerActiveHint/0.0.1600.860@0.0.1600.860" timestamp="1582451776395" />
     <state x="542" y="125" key="FileChooserDialogImpl" timestamp="1582275931011">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="463" y="106" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1580647020566" />
     <state x="542" y="125" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1582275931011" />
-    <state width="1556" height="213" key="GridCell.Tab.0.bottom" timestamp="1582298776092">
+    <state width="1556" height="211" key="GridCell.Tab.0.bottom" timestamp="1582457429821">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state width="1323" height="177" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1580654610125" />
-    <state width="1556" height="213" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1582298776092" />
-    <state width="1556" height="213" key="GridCell.Tab.0.center" timestamp="1582298776092">
+    <state width="1556" height="211" key="GridCell.Tab.0.bottom/0.0.1600.860@0.0.1600.860" timestamp="1582457429821" />
+    <state width="1556" height="211" key="GridCell.Tab.0.center" timestamp="1582457429820">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state width="1323" height="177" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1580654610125" />
-    <state width="1556" height="213" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1582298776092" />
-    <state width="1556" height="213" key="GridCell.Tab.0.left" timestamp="1582298776091">
+    <state width="1556" height="211" key="GridCell.Tab.0.center/0.0.1600.860@0.0.1600.860" timestamp="1582457429820" />
+    <state width="1556" height="211" key="GridCell.Tab.0.left" timestamp="1582457429820">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state width="1323" height="177" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1580654610125" />
-    <state width="1556" height="213" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1582298776091" />
-    <state width="1556" height="213" key="GridCell.Tab.0.right" timestamp="1582298776092">
+    <state width="1556" height="211" key="GridCell.Tab.0.left/0.0.1600.860@0.0.1600.860" timestamp="1582457429820" />
+    <state width="1556" height="211" key="GridCell.Tab.0.right" timestamp="1582457429821">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state width="1323" height="177" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1580654610125" />
-    <state width="1556" height="213" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1582298776092" />
-    <state x="22" y="629" width="1556" height="188" key="GridCell.Tab.1.bottom" timestamp="1582293976964">
+    <state width="1556" height="211" key="GridCell.Tab.0.right/0.0.1600.860@0.0.1600.860" timestamp="1582457429821" />
+    <state x="22" y="629" width="1556" height="188" key="GridCell.Tab.1.bottom" timestamp="1582453212103">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="22" y="629" width="1556" height="188" key="GridCell.Tab.1.bottom/0.0.1600.860@0.0.1600.860" timestamp="1582293976964" />
-    <state x="22" y="629" width="1556" height="188" key="GridCell.Tab.1.center" timestamp="1582293976964">
+    <state x="22" y="629" width="1556" height="188" key="GridCell.Tab.1.bottom/0.0.1600.860@0.0.1600.860" timestamp="1582453212103" />
+    <state x="22" y="629" width="1556" height="188" key="GridCell.Tab.1.center" timestamp="1582453212103">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="22" y="629" width="1556" height="188" key="GridCell.Tab.1.center/0.0.1600.860@0.0.1600.860" timestamp="1582293976964" />
-    <state x="22" y="629" width="1556" height="188" key="GridCell.Tab.1.left" timestamp="1582293976964">
+    <state x="22" y="629" width="1556" height="188" key="GridCell.Tab.1.center/0.0.1600.860@0.0.1600.860" timestamp="1582453212103" />
+    <state x="22" y="629" width="1556" height="188" key="GridCell.Tab.1.left" timestamp="1582453212103">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="22" y="629" width="1556" height="188" key="GridCell.Tab.1.left/0.0.1600.860@0.0.1600.860" timestamp="1582293976964" />
-    <state x="22" y="629" width="1556" height="188" key="GridCell.Tab.1.right" timestamp="1582293976964">
+    <state x="22" y="629" width="1556" height="188" key="GridCell.Tab.1.left/0.0.1600.860@0.0.1600.860" timestamp="1582453212103" />
+    <state x="22" y="629" width="1556" height="188" key="GridCell.Tab.1.right" timestamp="1582453212103">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="22" y="629" width="1556" height="188" key="GridCell.Tab.1.right/0.0.1600.860@0.0.1600.860" timestamp="1582293976964" />
+    <state x="22" y="629" width="1556" height="188" key="GridCell.Tab.1.right/0.0.1600.860@0.0.1600.860" timestamp="1582453212103" />
     <state x="144" y="629" width="1568" height="248" key="GridCell.Tab.2.bottom" timestamp="1581842240036">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -452,15 +449,15 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state width="1568" height="248" key="GridCell.Tab.3.right/0.0.1600.860@0.0.1600.860" timestamp="1581842124094" />
-    <state x="280" y="3" key="SettingsEditor" timestamp="1582094165310">
+    <state x="280" y="3" key="SettingsEditor" timestamp="1582308640427">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="280" y="3" key="SettingsEditor/0.0.1600.860@0.0.1600.860" timestamp="1582094165310" />
-    <state x="450" y="222" key="com.intellij.ide.util.TipDialog" timestamp="1582271183497">
+    <state x="280" y="3" key="SettingsEditor/0.0.1600.860@0.0.1600.860" timestamp="1582308640427" />
+    <state x="450" y="222" key="com.intellij.ide.util.TipDialog" timestamp="1582436812304">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="384" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1580646880849" />
-    <state x="450" y="222" key="com.intellij.ide.util.TipDialog/0.0.1600.860@0.0.1600.860" timestamp="1582271183497" />
+    <state x="450" y="222" key="com.intellij.ide.util.TipDialog/0.0.1600.860@0.0.1600.860" timestamp="1582436812304" />
     <state x="16" y="542" width="1584" height="287" key="dock-window-1" timestamp="1581841735205">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
@@ -485,32 +482,6 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="463" y="181" width="672" height="758" key="search.everywhere.popup/0.0.1600.860@0.0.1600.860" timestamp="1582107753721" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/sergey/pisarev/presenter/Presenter.java</url>
-          <line>197</line>
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/sergey/pisarev/presenter/Presenter.java</url>
-          <line>198</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/sergey/pisarev/presenter/Presenter.java</url>
-          <line>199</line>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/sergey/pisarev/presenter/Presenter.java</url>
-          <line>200</line>
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/CNC_modeling_2_0$Main.ic" NAME="Main Coverage Results" MODIFIED="1581842148507" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

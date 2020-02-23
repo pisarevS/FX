@@ -3,30 +3,26 @@ package com.sergey.pisarev.controller;
 import com.sergey.pisarev.interfaces.IController;
 import com.sergey.pisarev.interfaces.PresenterImpl;
 import com.sergey.pisarev.model.File;
-import com.sergey.pisarev.model.RenameNumberFrame;
 import com.sergey.pisarev.presenter.Presenter;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.TwoDimensional;
 import com.sergey.pisarev.model.StyleText;
-import org.reactfx.Subscription;
 
 import java.time.Duration;
 
@@ -69,6 +65,8 @@ public class Controller implements IController {
         paneCanvas.setStyle("-fx-background-color: #F5F5F5");
         paneCanvas.getChildren().add(visualizerCanvas);
 
+        codeAreaProgram.addEventHandler(KeyEvent.KEY_RELEASED,codeAreaChangeCaretListener());
+
         presenter=new Presenter(this,visualizerCanvas);
         StyleText.setStyle(codeAreaProgram);
         codeAreaProgram.setParagraphGraphicFactory(LineNumberFactory.get(codeAreaProgram));
@@ -99,6 +97,13 @@ public class Controller implements IController {
         exit();
     }
 
+    private EventHandler<InputEvent> codeAreaChangeCaretListener(){
+        return event -> {
+            CodeArea codeArea = (CodeArea) event.getSource();
+            presenter.getCaretPosition(codeArea.offsetToPosition(codeArea.getCaretPosition(), TwoDimensional.Bias.Forward).getMajor());
+        };
+    }
+
     @FXML
     public void handleDragOverProgram(DragEvent event){
         if(event.getDragboard().hasFiles())
@@ -115,6 +120,7 @@ public class Controller implements IController {
     @FXML
     public void handleDragProgram(DragEvent event){
         presenter.openDragProgram(event);
+        STAGE.setTitle(File.fileProgram.toString());
     }
 
     @FXML
@@ -124,7 +130,7 @@ public class Controller implements IController {
 
     @FXML
     public void onMouseClickedProgram(Event event){
-        presenter.onMouseClickedProgram(codeAreaProgram.offsetToPosition(codeAreaProgram.getCaretPosition(), TwoDimensional.Bias.Forward).getMajor());
+        presenter.getCaretPosition(codeAreaProgram.offsetToPosition(codeAreaProgram.getCaretPosition(), TwoDimensional.Bias.Forward).getMajor());
     }
 
     @FXML
@@ -306,25 +312,15 @@ public class Controller implements IController {
         Platform.exit();
     }
 
-    private void exit(){
-        STAGE.setOnCloseRequest(event -> {
-            saveChanges();
-            Platform.exit();
-        });
-    }
-
-    private void saveChanges(){
-        if(File.fileProgram!=null) {
-            String programFile=File.getFileContent(File.fileProgram);
-            if(!programFile.equals(codeAreaProgram.getText())){
-                alertSaveChanges(File.fileProgram,codeAreaProgram.getText(),"Program");
-            }
-        } if(File.fileParameter!=null) {
-            String parameterFile=File.getFileContent(File.fileParameter);
-            if(!parameterFile.equals(codeAreaParameter.getText())){
-                alertSaveChanges(File.fileParameter,codeAreaParameter.getText(),"Parameter");
-            }
-        }
+    private void setOnChangesText(CodeArea codeAreaProgram,CodeArea codeAreaParameter){
+       codeAreaProgram
+                .multiPlainChanges()
+                .successionEnds(Duration.ofMillis(1))
+                .subscribe(ignore -> presenter.setOnChangesTextProgram(codeAreaProgram.getText(),codeAreaParameter.getText()));
+       codeAreaParameter
+                .multiPlainChanges()
+                .successionEnds(Duration.ofMillis(1))
+                .subscribe(ignore -> presenter.setOnChangesTextParameter(codeAreaProgram.getText(),codeAreaParameter.getText()));
     }
 
     private void alertSaveChanges(java.io.File file,String text,String message){
@@ -341,14 +337,24 @@ public class Controller implements IController {
         alert.showAndWait();
     }
 
-    private void setOnChangesText(CodeArea codeAreaProgram,CodeArea codeAreaParameter){
-        Subscription cleanupWhenNoLongerNeedItProgram = codeAreaProgram
-                .multiPlainChanges()
-                .successionEnds(Duration.ofMillis(1))
-                .subscribe(ignore -> presenter.setOnChangesTextProgram(codeAreaProgram.getText(),codeAreaParameter.getText()));
-        Subscription cleanupWhenNoLongerNeedItParameter = codeAreaParameter
-                .multiPlainChanges()
-                .successionEnds(Duration.ofMillis(1))
-                .subscribe(ignore -> presenter.setOnChangesTextParameter(codeAreaProgram.getText(),codeAreaParameter.getText()));
+    private void saveChanges(){
+        if(File.fileProgram!=null) {
+            String programFile=File.getFileContent(File.fileProgram);
+            if(!programFile.equals(codeAreaProgram.getText())){
+                alertSaveChanges(File.fileProgram,codeAreaProgram.getText(),"Program");
+            }
+        } if(File.fileParameter!=null) {
+            String parameterFile=File.getFileContent(File.fileParameter);
+            if(!parameterFile.equals(codeAreaParameter.getText())){
+                alertSaveChanges(File.fileParameter,codeAreaParameter.getText(),"Parameter");
+            }
+        }
+    }
+
+    private void exit(){
+        STAGE.setOnCloseRequest(event -> {
+            saveChanges();
+            Platform.exit();
+        });
     }
 }

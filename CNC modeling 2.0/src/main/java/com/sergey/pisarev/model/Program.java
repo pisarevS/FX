@@ -199,7 +199,7 @@ public class Program extends BaseProgram implements Runnable {
     }
 
     @Override
-    protected void replaceProgramVariables(ArrayList<StringBuffer> programList)  {
+    protected void replaceProgramVariables(ArrayList<StringBuffer> programList) {
         for (Map.Entry entry : variablesList.entrySet()) {
             for (StringBuffer stringBuffer : programList) {
 
@@ -272,16 +272,19 @@ public class Program extends BaseProgram implements Runnable {
     }
 
     private void initVariables(ArrayList<StringBuffer> programList) {
-        for (Map.Entry entry : variablesList.entrySet()) {
-            for (StringBuffer stringBuffer : programList) {
-                if (stringBuffer.toString().contains(entry.getKey().toString() + "=")) {
-
-                    //String value = stringBuffer.substring(stringBuffer.indexOf("=") + 1, stringBuffer.indexOf(" ")).replace(" ", "");
-
-                    String value = stringBuffer.substring(stringBuffer.indexOf("=") + 1, stringBuffer.length()).replace(" ", "");
-
-                    variablesList.replace(entry.getKey().toString(), "", value);
-                }
+        for (StringBuffer stringBuffer : programList) {
+            if (!stringBuffer.toString().contains(defs[0]) && !stringBuffer.toString().contains(defs[1])) {
+                variablesList.forEach((key, value) -> {
+                    if (stringBuffer.toString().contains(key + "=")) {
+                        String[] arrStr = stringBuffer.toString().split(" ");
+                        for (String str : arrStr) {
+                            if (str.contains("=")) {
+                                String[] arrVar = str.split("=");
+                                variablesList.put(arrVar[0].replace(" ", ""), arrVar[1].replace(" ", ""));
+                            }
+                        }
+                    }
+                });
             }
         }
     }
@@ -289,17 +292,17 @@ public class Program extends BaseProgram implements Runnable {
     private void searchDef(ArrayList<StringBuffer> programList) {
         for (StringBuffer stringBuffer : programList) {
             for (String def : defs) {
-                if (stringBuffer.toString().contains(def) && stringBuffer.toString().contains("=")) {
-                    int n = stringBuffer.indexOf(def) + def.length();
-                    String key = stringBuffer.substring(n, stringBuffer.indexOf("=")).replace(" ", "");
-                    String value = stringBuffer.substring(stringBuffer.indexOf("=") + 1, stringBuffer.length()).replace(" ", "");
-                    variablesList.put(key, value);
-                }
-                if (stringBuffer.toString().contains(def) && !stringBuffer.toString().contains("=") && !stringBuffer.toString().contains(",")) {
-                    int n = stringBuffer.indexOf(def) + def.length();
-
-                    String key = stringBuffer.substring(n, stringBuffer.length()).replace(" ", "");
-                    variablesList.put(key, "");
+                if (stringBuffer.toString().contains(def)) {
+                    stringBuffer.delete(0, stringBuffer.indexOf(def) + def.length());
+                    String[] arrStr = stringBuffer.toString().split(",");
+                    for (String str : arrStr) {
+                        if (str.contains("=")) {
+                            String[] arrVar = str.split("=");
+                            variablesList.put(arrVar[0].replace(" ", ""), arrVar[1].replace(" ", ""));
+                        } else {
+                            variablesList.put(str.replace(" ", ""), "");
+                        }
+                    }
                 }
             }
         }
