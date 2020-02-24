@@ -59,7 +59,6 @@
        -fx-text-fill: green;
  }
 
-
 .paragraph-box:text {
      -fx-fill: black !important;
      -fx-font-weight: bold;

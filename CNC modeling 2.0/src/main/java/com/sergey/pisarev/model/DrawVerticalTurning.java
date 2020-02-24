@@ -50,25 +50,25 @@ public class DrawVerticalTurning extends BaseDraw implements IPointDraw {
                     isLine = true;
                 }
                 if (isRadius && frameList.get(i).isAxisContains()) {
-                    drawArc(gc,isRapidFeed, pointCoordinateZero, pStart, pEnd, radius, zoom, clockwise);
+                    drawArc(gc, isRapidFeed, pointCoordinateZero, pStart, pEnd, radius, zoom, clockwise);
                     pStart.setX(pEnd.getX());
                     pStart.setZ(pEnd.getZ());
                     isLine = false;
                     isRadius = false;
                 }
                 if (isLine && frameList.get(i).isAxisContains()) {
-                    drawLine(gc,isRapidFeed, pointCoordinateZero, pStart, pEnd, zoom);
+                    drawLine(gc, isRapidFeed, pointCoordinateZero, pStart, pEnd, zoom);
                     pStart.setX(pEnd.getX());
                     pStart.setZ(pEnd.getZ());
                 }
-                if(isDrawPoint&&frameList.get(i).getId()==numberLIne){
+                if (isDrawPoint && frameList.get(i).getId() == numberLIne) {
                     pEnd.setX(frameList.get(i).getX());
                     pEnd.setZ(frameList.get(i).getZ());
-                    drawPoint(gc, pointCoordinateZero, pEnd, zoom,Color.web("#3507EE"),5);
+                    drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.web("#3507EE"), 5);
                 }
             }
         }
-        drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.RED,4);
+        drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.RED, 4);
     }
 
     private boolean isG17(List<StringBuffer> programList) {
@@ -85,11 +85,11 @@ public class DrawVerticalTurning extends BaseDraw implements IPointDraw {
             switch (gCode) {
                 case "G0":
                 case "G00":
-                    isRapidFeed=true;
+                    isRapidFeed = true;
                     break;
                 case "G1":
                 case "G01":
-                    isRapidFeed=false;
+                    isRapidFeed = false;
                     break;
                 case "G2":
                 case "G02":
@@ -105,7 +105,7 @@ public class DrawVerticalTurning extends BaseDraw implements IPointDraw {
 
     @Override
     public void getNumberLine(int numberLIne) {
-        isDrawPoint=true;
-        this.numberLIne=numberLIne;
+        isDrawPoint = true;
+        this.numberLIne = numberLIne;
     }
 }

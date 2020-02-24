@@ -7,20 +7,20 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class Program extends BaseProgram implements Runnable {
 
     private ArrayList<StringBuffer> programList;
-    private ArrayList<StringBuffer> parameterList;
+    //private ArrayList<StringBuffer> parameterList;
     private String[] defs = {"DEF REAL", "DEF INT"};
     private String offn = "OFFN=";
     private MyData data = new MyData();
     private Callback callback;
 
-    public Program(String program, String parameter, Callback callback) {
-        super(program, parameter);
+    public Program(String program, Map<String, String> variablesList, Callback callback) {
+        super(program,  variablesList);
         programList = new ArrayList<>();
-        parameterList = new ArrayList<>();
         this.callback = callback;
     }
 
@@ -33,8 +33,8 @@ public class Program extends BaseProgram implements Runnable {
         gotoF(programList);
         if (containsDef(programList))
             searchDef(programList);
-        parameterList.addAll(getList(parameter));
-        readParameterVariables(parameterList);
+           //parameterList.addAll(getList(parameter));
+        ///readParameterVariables(parameterList);
         initVariables(programList);
         replaceParameterVariables(variablesList);
         replaceProgramVariables(programList);
@@ -145,8 +145,7 @@ public class Program extends BaseProgram implements Runnable {
         data.setFrameList(frameList);
     }
 
-    @Override
-    protected ArrayList<StringBuffer> getList(String program) {
+    public static ArrayList<StringBuffer> getList(String program) {
         ArrayList<StringBuffer> arrayList = new ArrayList<>();
         try {
             BufferedReader br = new BufferedReader(new StringReader(program));

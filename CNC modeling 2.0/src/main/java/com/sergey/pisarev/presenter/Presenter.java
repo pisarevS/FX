@@ -13,6 +13,9 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class Presenter implements PresenterImpl, IDraw, Callback {
 
@@ -25,13 +28,15 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     private DrawVerticalTurning drawVerticalTurning;
     private int index;
     private Timeline timeline;
-    private double zooming = 1.5;
+    private final double defZoom=2;
+    private double zooming=defZoom;
     private ArrayList<String> errorList;
     private boolean isStart = false;
     private boolean isCycleStart = false;
     private boolean isSingleBlock = false;
     private boolean isReset = false;
     private boolean isChangesText=false;
+    private Map<String, String> variablesList;
 
     public Presenter(IController controller, ResizableCanvas resizableCanvas) {
         this.canvas = resizableCanvas;
@@ -42,6 +47,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         handle();
         handleZooming();
         errorList = new ArrayList<>();
+        variablesList = new LinkedHashMap<>();
     }
 
     private void initSystemCoordinate() {
@@ -81,7 +87,8 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
             } else {
                 zooming = 0;
             }
-        });
+            controller.getZooming( (zooming-defZoom)/defZoom*100+100);
+    });
     }
 
     private void drawSysCoordinate() {
@@ -95,20 +102,20 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     }
 
     @Override
-    public void onStart(String program, String parameter) {
+    public void onStart(String program) {
         if (!isReset && !program.equals("")) {
             isStart = true;
             isReset = true;
-            startThread(program, parameter);
+            startThread(program);
             startDraw(index);
         }
     }
 
     @Override
-    public void onCycleStart(String program, String parameter) {
+    public void onCycleStart(String program) {
         isCycleStart=true;
         if (!isReset && !program.equals("") && !isSingleBlock) {
-            startThread(program, parameter);
+            startThread(program);
             assert data != null;
             timeline = new Timeline(new KeyFrame(Duration.millis(200), event -> {
                 index++;
@@ -153,13 +160,14 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         isCycleStart=false;
         data = null;
         index = 0;
-        zooming = 1;
+        zooming = defZoom;
         errorList.clear();
         drawVerticalTurning = null;
         initSystemCoordinate();
         if (timeline != null) {
             timeline.stop();
         }
+        controller.getZooming( 100);
     }
 
     @Override
@@ -175,31 +183,18 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
 
     @Override
     public void openDragProgram(DragEvent event) {
-        controller.showProgram(File.getFileContent( event,"program"));
+        controller.showProgram(File.getFileContent( event));
+
+        //readParameterVariables(Objects.requireNonNull(File.getParameter(File.fileProgram)));
+        //controller.getVariablesList(variablesList);
         reset();
     }
 
     @Override
-    public void openDragParameter(DragEvent event) {
-        controller.showParameter(File.getFileContent( event,"parameter"));
-        reset();
-    }
-
-    @Override
-    public void setOnChangesTextProgram(String program, String parameter) {
+    public void setOnChangesTextProgram(String program) {
         if(isStart){
             isChangesText=true;
-            startThread(program, parameter);
-            startDraw(index);
-            isChangesText=false;
-        }
-    }
-
-    @Override
-    public void setOnChangesTextParameter(String program, String parameter) {
-        if(isStart){
-            isChangesText=true;
-            startThread(program, parameter);
+            startThread(program);
             startDraw(index);
             isChangesText=false;
         }
@@ -233,13 +228,36 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         }
     }
 
-    private void startThread(String program, String parameter) {
-        Thread thread = new Thread(new Program(program, parameter, this));
+    private void startThread(String program) {
+        readParameterVariables(Objects.requireNonNull(File.getParameter(File.fileProgram)));
+        Thread thread = new Thread(new Program(program, variablesList, this));
         thread.start();
         try {
             thread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void readParameterVariables(ArrayList<StringBuffer> parameterList) {
+        variablesList.clear();
+        for (StringBuffer stringBuffer : parameterList) {
+            if (stringBuffer.toString().contains(";")) {
+                stringBuffer.delete(stringBuffer.indexOf(";"), stringBuffer.length());
+            }
+            if (stringBuffer.toString().contains("=")) {
+                int key = 0;
+                for (int j = stringBuffer.indexOf("=") - 1; j >= 0; j--) {
+                    char c = stringBuffer.charAt(j);
+                    if (c == ' ') {
+                        key = j;
+                        break;
+                    }
+                }
+                variablesList.put(
+                        stringBuffer.substring(key, stringBuffer.indexOf("=")).replace(" ", "")
+                        , stringBuffer.substring(stringBuffer.indexOf("=") + 1, stringBuffer.length()).replace(" ", ""));
+            }
         }
     }
 }

@@ -17,6 +17,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
@@ -25,66 +26,66 @@ import org.fxmisc.richtext.model.TwoDimensional;
 import com.sergey.pisarev.model.StyleText;
 
 import java.time.Duration;
+import java.util.Map;
 
 public class Controller implements IController {
 
-    private CodeArea codeAreaProgram=new CodeArea();
-    private CodeArea codeAreaParameter=new CodeArea();
+    private CodeArea codeAreaProgram = new CodeArea();
+    private CodeArea codeAreaParameter = new CodeArea();
     private PresenterImpl presenter;
-    private int countClick=2;
-    private boolean isDownSingleBlock=false;
-    private boolean isCycleStart=false;
+    private int countClick = 2;
+    private boolean isDownSingleBlock = false;
+    private boolean isCycleStart = false;
 
     @FXML
     public static Stage STAGE;
 
     @FXML
-    StackPane paneCanvas =new StackPane();
+    Text textZooming=new Text();
 
     @FXML
-    AnchorPane anchorPaneProgram=new AnchorPane();
+    StackPane paneCanvas = new StackPane();
 
     @FXML
-    AnchorPane anchorPaneParameter=new AnchorPane();
+    AnchorPane anchorPaneProgram = new AnchorPane();
 
     @FXML
-    Button buttonStart=new Button();
+    Button buttonStart = new Button();
 
     @FXML
-    Button buttonCycleStart=new Button();
+    Button buttonCycleStart = new Button();
 
     @FXML
-    Button buttonSingleBlock=new Button();
+    Button buttonSingleBlock = new Button();
 
     @FXML
-    Button buttonReset=new Button();
+    Button buttonReset = new Button();
 
     @FXML
-    public void initialize(){
+    public void initialize() {
         ResizableCanvas visualizerCanvas = new ResizableCanvas();
         paneCanvas.setStyle("-fx-background-color: #F5F5F5");
         paneCanvas.getChildren().add(visualizerCanvas);
 
-        codeAreaProgram.addEventHandler(KeyEvent.KEY_RELEASED,codeAreaChangeCaretListener());
+        codeAreaProgram.addEventHandler(KeyEvent.KEY_RELEASED, codeAreaChangeCaretListener());
 
-        presenter=new Presenter(this,visualizerCanvas);
+        presenter = new Presenter(this, visualizerCanvas);
         StyleText.setStyle(codeAreaProgram);
         codeAreaProgram.setParagraphGraphicFactory(LineNumberFactory.get(codeAreaProgram));
         StackPane stackPaneProgram = new StackPane(new VirtualizedScrollPane<>(codeAreaProgram));
-        AnchorPane.setTopAnchor(stackPaneProgram,0.0);
-        AnchorPane.setBottomAnchor(stackPaneProgram,0.0);
-        AnchorPane.setLeftAnchor(stackPaneProgram,0.0);
-        AnchorPane.setRightAnchor(stackPaneProgram,0.0);
+        AnchorPane.setTopAnchor(stackPaneProgram, 0.0);
+        AnchorPane.setBottomAnchor(stackPaneProgram, 0.0);
+        AnchorPane.setLeftAnchor(stackPaneProgram, 0.0);
+        AnchorPane.setRightAnchor(stackPaneProgram, 0.0);
         anchorPaneProgram.getChildren().add(stackPaneProgram);
 
         StyleText.setStyle(codeAreaParameter);
         codeAreaParameter.setParagraphGraphicFactory(LineNumberFactory.get(codeAreaParameter));
         StackPane stackPaneParameter = new StackPane(new VirtualizedScrollPane<>(codeAreaParameter));
-        AnchorPane.setTopAnchor(stackPaneParameter,0.0);
-        AnchorPane.setBottomAnchor(stackPaneParameter,0.0);
-        AnchorPane.setLeftAnchor(stackPaneParameter,0.0);
-        AnchorPane.setRightAnchor(stackPaneParameter,0.0);
-        anchorPaneParameter.getChildren().add(stackPaneParameter);
+        AnchorPane.setTopAnchor(stackPaneParameter, 0.0);
+        AnchorPane.setBottomAnchor(stackPaneParameter, 0.0);
+        AnchorPane.setLeftAnchor(stackPaneParameter, 0.0);
+        AnchorPane.setRightAnchor(stackPaneParameter, 0.0);
 
         buttonStart.setTextFill(Color.BLACK);
         buttonCycleStart.setTextFill(Color.BLACK);
@@ -93,11 +94,11 @@ public class Controller implements IController {
 
         TableUtils.installCopyPasteHandler(codeAreaProgram);
         TableUtils.installCopyPasteHandler(codeAreaParameter);
-        setOnChangesText(codeAreaProgram,codeAreaParameter);
+        setOnChangesText(codeAreaProgram);
         exit();
     }
 
-    private EventHandler<InputEvent> codeAreaChangeCaretListener(){
+    private EventHandler<InputEvent> codeAreaChangeCaretListener() {
         return event -> {
             CodeArea codeArea = (CodeArea) event.getSource();
             presenter.getCaretPosition(codeArea.offsetToPosition(codeArea.getCaretPosition(), TwoDimensional.Bias.Forward).getMajor());
@@ -105,31 +106,19 @@ public class Controller implements IController {
     }
 
     @FXML
-    public void handleDragOverProgram(DragEvent event){
-        if(event.getDragboard().hasFiles())
-        event.acceptTransferModes(TransferMode.ANY);
-    }
-
-    @FXML
-    public void handleDragOverParameter(DragEvent event){
-        if(event.getDragboard().hasFiles()){
+    public void handleDragOverProgram(DragEvent event) {
+        if (event.getDragboard().hasFiles())
             event.acceptTransferModes(TransferMode.ANY);
-        }
     }
 
     @FXML
-    public void handleDragProgram(DragEvent event){
+    public void handleDragProgram(DragEvent event) {
         presenter.openDragProgram(event);
         STAGE.setTitle(File.fileProgram.toString());
     }
 
     @FXML
-    public void handleDragParameter(DragEvent event){
-        presenter.openDragParameter(event);
-    }
-
-    @FXML
-    public void onMouseClickedProgram(Event event){
+    public void onMouseClickedProgram(Event event) {
         presenter.getCaretPosition(codeAreaProgram.offsetToPosition(codeAreaProgram.getCaretPosition(), TwoDimensional.Bias.Forward).getMajor());
     }
 
@@ -139,7 +128,7 @@ public class Controller implements IController {
         buttonStart.setDisable(true);
         buttonCycleStart.setDisable(true);
         buttonSingleBlock.setDisable(true);
-        presenter.onStart(codeAreaProgram.getText(),codeAreaParameter.getText());
+        presenter.onStart(codeAreaProgram.getText());
     }
 
     @FXML
@@ -148,23 +137,23 @@ public class Controller implements IController {
         buttonStart.setDisable(true);
         buttonCycleStart.setDisable(true);
         buttonSingleBlock.setDisable(false);
-        isCycleStart=true;
-        if(isDownSingleBlock) {
+        isCycleStart = true;
+        if (isDownSingleBlock) {
             buttonCycleStart.setDisable(false);
         }
-        presenter.onCycleStart(codeAreaProgram.getText(),codeAreaParameter.getText());
+        presenter.onCycleStart(codeAreaProgram.getText());
     }
 
     @FXML
     public void onSingleBlock(ActionEvent actionEvent) {
         countClick++;
-        if(countClick%2==0){
-            isDownSingleBlock=false;
+        if (countClick % 2 == 0) {
+            isDownSingleBlock = false;
             buttonSingleBlock.setStyle("-fx-background-color: ");
             buttonCycleStart.setDisable(true);
             presenter.onSingleBlock(false);
-        }else {
-            isDownSingleBlock=true;
+        } else {
+            isDownSingleBlock = true;
             buttonSingleBlock.setStyle("-fx-background-color: yellow");
             buttonCycleStart.setDisable(false);
             buttonStart.setDisable(true);
@@ -179,9 +168,9 @@ public class Controller implements IController {
         buttonCycleStart.setDisable(false);
         buttonSingleBlock.setDisable(true);
         buttonSingleBlock.setStyle("-fx-background-color: ");
-        countClick=2;
+        countClick = 2;
         presenter.onReset();
-        if(isCycleStart){
+        if (isCycleStart) {
             StyleText.setStyleRefresh(codeAreaProgram);
         }
     }
@@ -202,12 +191,6 @@ public class Controller implements IController {
     }
 
     @Override
-    public void showParameter(String text) {
-        codeAreaParameter.clear();
-        codeAreaParameter.appendText(text);
-    }
-
-    @Override
     public void showError(String error) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Error");
@@ -219,6 +202,17 @@ public class Controller implements IController {
     @Override
     public void showFrame(int number) {
         commentLine(number);
+    }
+
+    @Override
+    public void getVariablesList(Map<String, String> variablesList) {
+        variablesList.forEach((key, value) -> StyleText.KEYWORDS.add(key));
+        StyleText.setStyleRefresh(codeAreaProgram);
+    }
+
+    @Override
+    public void getZooming(double zooming) {
+        textZooming.setText((int)zooming +"%");
     }
 
     private void commentLine(int l) {
@@ -235,36 +229,11 @@ public class Controller implements IController {
 
     @FXML
     public void menuSaveProgram(ActionEvent actionEvent) {
-        if(File.fileProgram!=null) {
-            File.setFileContent(File.fileProgram,codeAreaProgram.getText());
+        if (File.fileProgram != null) {
+            File.setFileContent(File.fileProgram, codeAreaProgram.getText());
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setAlertType(AlertType.INFORMATION);
             alert.setContentText("Program saved!");
-            alert.showAndWait();
-        }
-    }
-
-    @FXML
-    public void menuSaveParameter(ActionEvent actionEvent) {
-        if(File.fileParameter!=null){
-            File.setFileContent(File.fileParameter,codeAreaParameter.getText());
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setAlertType(AlertType.INFORMATION);
-            alert.setContentText("Parameter saved!");
-            alert.showAndWait();
-        }
-    }
-
-    @FXML
-    public void menuSaveAll(ActionEvent actionEvent) {
-        if(File.fileProgram!=null) {
-            File.setFileContent(File.fileProgram,codeAreaProgram.getText());
-        }  if(File.fileParameter!=null){
-            File.setFileContent(File.fileParameter,codeAreaParameter.getText());
-        } if(File.fileProgram!=null||File.fileParameter!=null){
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setAlertType(AlertType.INFORMATION);
-            alert.setContentText("All saved!");
             alert.showAndWait();
         }
     }
@@ -312,18 +281,14 @@ public class Controller implements IController {
         Platform.exit();
     }
 
-    private void setOnChangesText(CodeArea codeAreaProgram,CodeArea codeAreaParameter){
-       codeAreaProgram
+    private void setOnChangesText(CodeArea codeAreaProgram) {
+        codeAreaProgram
                 .multiPlainChanges()
                 .successionEnds(Duration.ofMillis(1))
-                .subscribe(ignore -> presenter.setOnChangesTextProgram(codeAreaProgram.getText(),codeAreaParameter.getText()));
-       codeAreaParameter
-                .multiPlainChanges()
-                .successionEnds(Duration.ofMillis(1))
-                .subscribe(ignore -> presenter.setOnChangesTextParameter(codeAreaProgram.getText(),codeAreaParameter.getText()));
+                .subscribe(ignore -> presenter.setOnChangesTextProgram(codeAreaProgram.getText()));
     }
 
-    private void alertSaveChanges(java.io.File file,String text,String message){
+    private void alertSaveChanges(java.io.File file, String text, String message) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setAlertType(AlertType.INFORMATION);
         alert.setContentText("Do you want to save " + message + " changes?");
@@ -332,26 +297,21 @@ public class Controller implements IController {
         Button yesButton = (Button) alert.getDialogPane().lookupButton(ButtonType.YES);
         yesButton.setOnAction(event -> {
             System.out.println("yes");
-            File.setFileContent(file,text);
+            File.setFileContent(file, text);
         });
         alert.showAndWait();
     }
 
-    private void saveChanges(){
-        if(File.fileProgram!=null) {
-            String programFile=File.getFileContent(File.fileProgram);
-            if(!programFile.equals(codeAreaProgram.getText())){
-                alertSaveChanges(File.fileProgram,codeAreaProgram.getText(),"Program");
-            }
-        } if(File.fileParameter!=null) {
-            String parameterFile=File.getFileContent(File.fileParameter);
-            if(!parameterFile.equals(codeAreaParameter.getText())){
-                alertSaveChanges(File.fileParameter,codeAreaParameter.getText(),"Parameter");
+    private void saveChanges() {
+        if (File.fileProgram != null) {
+            String programFile = File.getFileContent(File.fileProgram);
+            if (!programFile.equals(codeAreaProgram.getText())) {
+                alertSaveChanges(File.fileProgram, codeAreaProgram.getText(), "Program");
             }
         }
     }
 
-    private void exit(){
+    private void exit() {
         STAGE.setOnCloseRequest(event -> {
             saveChanges();
             Platform.exit();

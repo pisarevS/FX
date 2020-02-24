@@ -66,5 +66,4 @@ public class ResizableCanvas extends Canvas {
         super.setWidth(width);
         super.setHeight(height);
     }
-
 }

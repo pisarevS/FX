@@ -7,8 +7,6 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.effect.Light.Distant?>
 <?import javafx.scene.effect.Lighting?>
 <?import javafx.scene.effect.Shadow?>
@@ -16,6 +14,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <VBox prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sergey.pisarev.controller.Controller">
   <children>
@@ -23,9 +22,7 @@
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-                  <MenuItem mnemonicParsing="false" onAction="#menuSaveProgram" text="Save Program" />
-            <MenuItem mnemonicParsing="false" onAction="#menuSaveParameter" text="Save Parameter" />
-                  <MenuItem mnemonicParsing="false" onAction="#menuSaveAll" text="Save All" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuSaveProgram" text="Save" />
 
             <MenuItem mnemonicParsing="false" onAction="#menuQuit" text="Exit" />
           </items>
@@ -41,20 +38,7 @@
       <items>
       <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="551.0" prefWidth="224.0">
         <children>
-                  <TabPane minWidth="200.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <tabs>
-                      <Tab text="Program">
-                        <content>
-                          <AnchorPane fx:id="anchorPaneProgram" minHeight="0.0" minWidth="200.0" onDragDropped="#handleDragProgram" onDragOver="#handleDragOverProgram" onMouseClicked="#onMouseClickedProgram" prefHeight="180.0" prefWidth="200.0" />
-                        </content>
-                      </Tab>
-                      <Tab text="Parameter">
-                        <content>
-                          <AnchorPane fx:id="anchorPaneParameter" minHeight="0.0" minWidth="0.0" onDragDropped="#handleDragParameter" onDragOver="#handleDragOverParameter" prefHeight="180.0" prefWidth="200.0" />
-                        </content>
-                      </Tab>
-                    </tabs>
-                  </TabPane>
+              <AnchorPane fx:id="anchorPaneProgram" minHeight="0.0" minWidth="200.0" onDragDropped="#handleDragProgram" onDragOver="#handleDragOverProgram" onMouseClicked="#onMouseClickedProgram" prefHeight="180.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
         </children>
       </AnchorPane>
         <AnchorPane minWidth="600.0">
@@ -69,11 +53,11 @@
                               <StackPane fx:id="paneCanvas" layoutX="295.0" layoutY="122.0" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                         </AnchorPane>
-                      <AnchorPane maxHeight="150.0" minHeight="150.0" minWidth="0.0" prefHeight="150.0" prefWidth="160.0" style="-fx-background-color: #E8E8E8;">
+                      <AnchorPane maxHeight="90.0" minHeight="45.0" minWidth="0.0" prefHeight="70.0" prefWidth="743.0" style="-fx-background-color: #E8E8E8;">
                            <children>
-                              <Button fx:id="buttonCycleStart" disable="true" layoutX="6.0" layoutY="6.0" mnemonicParsing="false" onAction="#onCycleStart" prefHeight="41.0" prefWidth="64.0" text="CYCLE START" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="6.0">
+                              <Button fx:id="buttonCycleStart" disable="true" layoutX="78.0" layoutY="11.0" mnemonicParsing="false" onAction="#onCycleStart" prefHeight="30.0" prefWidth="82.0" text="CYCLE START" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="78.0" AnchorPane.topAnchor="11.0">
                                  <font>
-                                    <Font size="11.0" />
+                                    <Font size="10.0" />
                                  </font>
                                  <effect>
                                     <Lighting>
@@ -85,9 +69,9 @@
                                        </light>
                                     </Lighting>
                                  </effect></Button>
-                              <Button fx:id="buttonReset" cancelButton="true" disable="true" layoutX="6.0" layoutY="102.0" mnemonicParsing="false" onAction="#onReset" prefHeight="24.0" prefWidth="64.0" text="RESET" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="102.0">
+                              <Button fx:id="buttonReset" cancelButton="true" disable="true" layoutX="6.0" layoutY="45.0" mnemonicParsing="false" onAction="#onReset" prefHeight="30.0" prefWidth="64.0" text="RESET" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="45.0">
                                  <font>
-                                    <Font size="11.0" />
+                                    <Font size="10.0" />
                                  </font>
                                  <effect>
                                     <Lighting>
@@ -99,9 +83,9 @@
                                        </light>
                                     </Lighting>
                                  </effect></Button>
-                              <Button fx:id="buttonStart" defaultButton="true" disable="true" layoutX="78.0" layoutY="6.0" mnemonicParsing="false" onAction="#onStart" prefHeight="41.0" prefWidth="64.0" text="START" AnchorPane.leftAnchor="78.0" AnchorPane.topAnchor="6.0">
+                              <Button fx:id="buttonStart" defaultButton="true" disable="true" layoutX="6.0" layoutY="11.0" mnemonicParsing="false" onAction="#onStart" prefHeight="30.0" prefWidth="64.0" text="START" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="11.0">
                                  <font>
-                                    <Font size="11.0" />
+                                    <Font size="10.0" />
                                  </font>
                                  <effect>
                                     <Lighting>
@@ -113,9 +97,9 @@
                                        </light>
                                     </Lighting>
                                  </effect></Button>
-                              <Button fx:id="buttonSingleBlock" disable="true" layoutX="6.0" layoutY="52.0" mnemonicParsing="false" onAction="#onSingleBlock" prefHeight="41.0" prefWidth="64.0" text="SINGLE BLOCK" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="52.0">
+                              <Button fx:id="buttonSingleBlock" disable="true" layoutX="78.0" layoutY="45.0" mnemonicParsing="false" onAction="#onSingleBlock" prefHeight="30.0" prefWidth="82.0" text="SINGLE BLOCK" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="78.0" AnchorPane.topAnchor="45.0">
                                  <font>
-                                    <Font size="11.0" />
+                                    <Font size="10.0" />
                                  </font>
                                  <effect>
                                     <Lighting>
@@ -127,6 +111,11 @@
                                        </light>
                                     </Lighting>
                                  </effect></Button>
+                              <Text fx:id="textZooming" layoutX="697.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="100%" AnchorPane.bottomAnchor="67.7373046875" AnchorPane.rightAnchor="14.337890625" AnchorPane.topAnchor="4.9716796875">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
                            </children>
                         </AnchorPane>
                     </items>

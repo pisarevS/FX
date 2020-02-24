@@ -12,15 +12,15 @@ public abstract class BaseDraw {
     protected boolean clockwise;
     protected IDraw draw;
     protected boolean isRapidFeed;
-    private double lineWidth=1.3;
-    private double lineWidthDashes=1;
+    private double lineWidth = 1.5;
+    private double lineWidthDashes = 1;
     protected boolean isDrawPoint;
 
     protected BaseDraw(IDraw draw) {
         this.draw = draw;
     }
 
-    public abstract void drawContour(MyData data,GraphicsContext gc, Point pointCoordinateZero, double zoom, int index);
+    public abstract void drawContour(MyData data, GraphicsContext gc, Point pointCoordinateZero, double zoom, int index);
 
     protected void drawArc(GraphicsContext gc, boolean isRapidFeed, Point pointSystemCoordinate, Point pointStart, Point pointEnd, double radius, double zoom, boolean clockwise) {
         if (isRapidFeed) {
@@ -125,13 +125,13 @@ public abstract class BaseDraw {
         gc.strokeLine(pointSystemCoordinate.getX() + pStart.getX(), pStart.getZ(), pointSystemCoordinate.getX() + pEnd.getX(), pEnd.getZ());
     }
 
-    protected void drawPoint(GraphicsContext gc, Point pointSystemCoordinate, Point pointEnd, double zoom,Color color,double radiusPoint) {
+    protected void drawPoint(GraphicsContext gc, Point pointSystemCoordinate, Point pointEnd, double zoom, Color color, double radiusPoint) {
         Point pEnd = new Point(pointEnd.getX(), pointEnd.getZ());
         pEnd.setX(pEnd.getX() * zoom);
         pEnd.setZ(pEnd.getZ() * zoom);
         if (pEnd.getZ() > 0) pEnd.setZ(pointSystemCoordinate.getZ() - pEnd.getZ());
         else pEnd.setZ(pointSystemCoordinate.getZ() + Math.abs(pEnd.getZ()));
         gc.setFill(color);
-        gc.fillOval(pointSystemCoordinate.getX() + pEnd.getX()-radiusPoint, pEnd.getZ()-radiusPoint, radiusPoint*2, radiusPoint*2);
+        gc.fillOval(pointSystemCoordinate.getX() + pEnd.getX() - radiusPoint, pEnd.getZ() - radiusPoint, radiusPoint * 2, radiusPoint * 2);
     }
 }

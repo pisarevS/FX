@@ -36,7 +36,7 @@ public class Expression {
     }
 
     //"Входной" метод класса
-    public static float calculate(String input)  {
+    public static float calculate(String input) {
         input = insertZero(input);
         String output = getExpression(input); //Преобразовываем выражение в постфиксную запись
         return counting(output); //Возвращаем результат
@@ -47,7 +47,8 @@ public class Expression {
 
         if (input.contains("-") && sb.charAt(0) == '-') {
             sb = sb.replace(0, 0, "0");
-        }  if (input.contains("-") && sb.indexOf("-") != 0) {
+        }
+        if (input.contains("-") && sb.indexOf("-") != 0) {
             for (int i = 0; i < sb.length(); i++) {
                 if (sb.charAt(i) == '-') {
                     if (sb.charAt(i - 1) == '(' || sb.charAt(i - 1) == '+' || sb.charAt(i - 1) == '-') {
@@ -55,7 +56,8 @@ public class Expression {
                     }
                 }
             }
-        }  if (input.contains("+") && sb.indexOf("+") != 0) {
+        }
+        if (input.contains("+") && sb.indexOf("+") != 0) {
             for (int i = 0; i < sb.length(); i++) {
                 if (sb.charAt(i) == '+') {
                     if (sb.charAt(i - 1) == '(' || sb.charAt(i - 1) == '+' || sb.charAt(i - 1) == '-') {
