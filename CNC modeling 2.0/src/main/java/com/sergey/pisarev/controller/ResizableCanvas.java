@@ -6,10 +6,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class ResizableCanvas extends Canvas {
-    GraphicsContext gc                  = getGraphicsContext2D();
-    int             canvasWidth         = 0;
-    int             canvasHeight        = 0;
-    int             halfCanvasHeight    = 0;
+    GraphicsContext gc = getGraphicsContext2D();
+    int canvasWidth = 0;
+    int canvasHeight = 0;
+    int halfCanvasHeight = 0;
+
     /**
      * Constructor
      */

@@ -30,8 +30,7 @@ import java.util.Map;
 
 public class Controller implements IController {
 
-    private CodeArea codeAreaProgram = new CodeArea();
-    private CodeArea codeAreaParameter = new CodeArea();
+    public CodeArea codeAreaProgram = new CodeArea();
     private PresenterImpl presenter;
     private int countClick = 2;
     private boolean isDownSingleBlock = false;
@@ -41,7 +40,7 @@ public class Controller implements IController {
     public static Stage STAGE;
 
     @FXML
-    Text textZooming=new Text();
+    Text textZooming = new Text();
 
     @FXML
     StackPane paneCanvas = new StackPane();
@@ -61,8 +60,11 @@ public class Controller implements IController {
     @FXML
     Button buttonReset = new Button();
 
+    public static Controller controller;
+
     @FXML
     public void initialize() {
+        controller = this;
         ResizableCanvas visualizerCanvas = new ResizableCanvas();
         paneCanvas.setStyle("-fx-background-color: #F5F5F5");
         paneCanvas.getChildren().add(visualizerCanvas);
@@ -79,21 +81,12 @@ public class Controller implements IController {
         AnchorPane.setRightAnchor(stackPaneProgram, 0.0);
         anchorPaneProgram.getChildren().add(stackPaneProgram);
 
-        StyleText.setStyle(codeAreaParameter);
-        codeAreaParameter.setParagraphGraphicFactory(LineNumberFactory.get(codeAreaParameter));
-        StackPane stackPaneParameter = new StackPane(new VirtualizedScrollPane<>(codeAreaParameter));
-        AnchorPane.setTopAnchor(stackPaneParameter, 0.0);
-        AnchorPane.setBottomAnchor(stackPaneParameter, 0.0);
-        AnchorPane.setLeftAnchor(stackPaneParameter, 0.0);
-        AnchorPane.setRightAnchor(stackPaneParameter, 0.0);
-
         buttonStart.setTextFill(Color.BLACK);
         buttonCycleStart.setTextFill(Color.BLACK);
         buttonSingleBlock.setTextFill(Color.BLACK);
         buttonReset.setTextFill(Color.BLACK);
 
         TableUtils.installCopyPasteHandler(codeAreaProgram);
-        TableUtils.installCopyPasteHandler(codeAreaParameter);
         setOnChangesText(codeAreaProgram);
         exit();
     }
@@ -212,7 +205,7 @@ public class Controller implements IController {
 
     @Override
     public void getZooming(double zooming) {
-        textZooming.setText((int)zooming +"%");
+        textZooming.setText((int) zooming + "%");
     }
 
     private void commentLine(int l) {
@@ -296,7 +289,6 @@ public class Controller implements IController {
         alert.getButtonTypes().addAll(ButtonType.YES, ButtonType.NO);
         Button yesButton = (Button) alert.getDialogPane().lookupButton(ButtonType.YES);
         yesButton.setOnAction(event -> {
-            System.out.println("yes");
             File.setFileContent(file, text);
         });
         alert.showAndWait();

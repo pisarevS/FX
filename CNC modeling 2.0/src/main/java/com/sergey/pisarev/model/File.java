@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 import static java.lang.System.out;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -67,14 +66,14 @@ public class File {
         }
     }
 
-    public static ArrayList<StringBuffer> getParameter( java.io.File path) {
-        java.io.File folder = new java.io.File( path.getParent() );
+    public static ArrayList<StringBuffer> getParameter(java.io.File path) {
+        java.io.File folder = new java.io.File(path.getParent());
         java.io.File[] listOfFiles = folder.listFiles();
         assert listOfFiles != null;
         for (java.io.File listOfFile : listOfFiles) {
             if (listOfFile.isFile()) {
-                if (listOfFile.getName().contains( "PAR" )) {
-                   return Program.getList( getFileContent(new java.io.File(listOfFile.getPath())));
+                if (listOfFile.getName().contains("PAR")) {
+                    return Program.getList(getFileContent(new java.io.File(listOfFile.getPath())));
                 }
             }
         }

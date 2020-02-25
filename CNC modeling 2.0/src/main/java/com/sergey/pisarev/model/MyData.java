@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class MyData {
+
     private ArrayList<StringBuffer> programList = new ArrayList<>();
 
     private Map<Integer, String> errorListMap = new LinkedHashMap<>();

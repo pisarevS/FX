@@ -28,14 +28,14 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     private DrawVerticalTurning drawVerticalTurning;
     private int index;
     private Timeline timeline;
-    private final double defZoom=2;
-    private double zooming=defZoom;
+    private final double defZoom = 2;
+    private double zooming = defZoom;
     private ArrayList<String> errorList;
     private boolean isStart = false;
     private boolean isCycleStart = false;
     private boolean isSingleBlock = false;
     private boolean isReset = false;
-    private boolean isChangesText=false;
+    private boolean isChangesText = false;
     private Map<String, String> variablesList;
 
     public Presenter(IController controller, ResizableCanvas resizableCanvas) {
@@ -87,8 +87,8 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
             } else {
                 zooming = 0;
             }
-            controller.getZooming( (zooming-defZoom)/defZoom*100+100);
-    });
+            controller.getZooming((zooming - defZoom) / defZoom * 100 + 100);
+        });
     }
 
     private void drawSysCoordinate() {
@@ -113,7 +113,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
 
     @Override
     public void onCycleStart(String program) {
-        isCycleStart=true;
+        isCycleStart = true;
         if (!isReset && !program.equals("") && !isSingleBlock) {
             startThread(program);
             assert data != null;
@@ -150,14 +150,14 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
 
     @Override
     public void onReset() {
-       reset();
+        reset();
     }
 
-    private void reset(){
+    private void reset() {
         isStart = false;
         isReset = false;
         isSingleBlock = false;
-        isCycleStart=false;
+        isCycleStart = false;
         data = null;
         index = 0;
         zooming = defZoom;
@@ -167,23 +167,23 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         if (timeline != null) {
             timeline.stop();
         }
-        controller.getZooming( 100);
+        controller.getZooming(100);
     }
 
     @Override
     public void getCaretPosition(int numberLine) {
-        if(isStart||isCycleStart){
-            isChangesText=true;
+        if (isStart || isCycleStart) {
+            isChangesText = true;
             if (drawVerticalTurning != null)
                 drawVerticalTurning.getNumberLine(numberLine);
             startDraw(index);
-            isChangesText=false;
+            isChangesText = false;
         }
     }
 
     @Override
     public void openDragProgram(DragEvent event) {
-        controller.showProgram(File.getFileContent( event));
+        controller.showProgram(File.getFileContent(event));
 
         //readParameterVariables(Objects.requireNonNull(File.getParameter(File.fileProgram)));
         //controller.getVariablesList(variablesList);
@@ -192,11 +192,11 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
 
     @Override
     public void setOnChangesTextProgram(String program) {
-        if(isStart){
-            isChangesText=true;
+        if (isStart) {
+            isChangesText = true;
             startThread(program);
             startDraw(index);
-            isChangesText=false;
+            isChangesText = false;
         }
     }
 

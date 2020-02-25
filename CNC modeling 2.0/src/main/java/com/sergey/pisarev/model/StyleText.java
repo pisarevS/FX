@@ -33,7 +33,7 @@ public class StyleText {
         codeArea.setStyleSpans(0, computeHighlighting(codeArea.getText()));
     }
 
-    public static final List<String> KEYWORDS= Arrays.asList("BORE_DIAM", "WHEEL_UNMACHINED", "WHEEL_MACHINED", "SYM_FACTOR", "TREAD_HEIGHT_S1",
+    public static final List<String> KEYWORDS = Arrays.asList("BORE_DIAM", "WHEEL_UNMACHINED", "WHEEL_MACHINED", "SYM_FACTOR", "TREAD_HEIGHT_S1",
             "TREAD_HEIGHT_S2", "GLOBAL_ALLOWANCE", "TREAD_ALLOWANCE", "TREAD_DIAM", "VYLET_ST",
             "STUPICA_VNUT", "STUPICA_NAR", "DISK_VNUT", "DISK_NAR",
             "YABLOKO_VNUT", "YABLOKO_NAR", "WHEEL_HEIGHT", "N_GANTRYPOS_X", "N_GANTRYPOS_Z",

@@ -1,8 +1,5 @@
 package com.sergey.pisarev.model;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,7 +7,7 @@ import java.util.regex.Pattern;
 public class RenameNumberFrame {
 
     public static String rename(String text, int firstNumber, int iterNumber) {
-        ArrayList<StringBuffer> list = getList(text);
+        ArrayList<StringBuffer> list = Program.getList(text);
 
         Pattern closedFrame = Pattern.compile(";[^\n]*");
         Pattern numberFrame = Pattern.compile("N(\\d+)");
@@ -54,20 +51,5 @@ public class RenameNumberFrame {
             result.append(stringBuffer).append("\n");
         }
         return result.toString();
-    }
-
-    private static ArrayList<StringBuffer> getList(String program) {
-        ArrayList<StringBuffer> arrayList = new ArrayList<>();
-        try {
-            BufferedReader br = new BufferedReader(new StringReader(program));
-            String line;
-            while ((line = br.readLine()) != null) {
-                arrayList.add(new StringBuffer(line));
-            }
-            br.close();
-        } catch (IOException ignored) {
-
-        }
-        return arrayList;
     }
 }
