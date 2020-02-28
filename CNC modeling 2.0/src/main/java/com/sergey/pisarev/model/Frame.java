@@ -1,6 +1,7 @@
 package com.sergey.pisarev.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Frame {
 
@@ -11,7 +12,7 @@ public class Frame {
     private float offn;
     private boolean isCR = false;
     private boolean isAxisContains = false;
-    private ArrayList<String> gCode = new ArrayList<>();
+    private List<String> gCode = new ArrayList<>();
 
     public boolean isAxisContains() {
         return isAxisContains;
@@ -29,11 +30,11 @@ public class Frame {
         isAxisContains = axisContains;
     }
 
-    public void setGCode(ArrayList<String> gCode) {
+    public void setGCode(List<String> gCode) {
         this.gCode = gCode;
     }
 
-    public ArrayList<String> getGCode() {
+    public List<String> getGCode() {
         return gCode;
     }
 

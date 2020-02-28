@@ -12,10 +12,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class Presenter implements PresenterImpl, IDraw, Callback {
 
@@ -239,7 +236,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         }
     }
 
-    private void readParameterVariables(ArrayList<StringBuffer> parameterList) {
+    private void readParameterVariables(List<StringBuffer> parameterList) {
         variablesList.clear();
         for (StringBuffer stringBuffer : parameterList) {
             if (stringBuffer.toString().contains(";")) {

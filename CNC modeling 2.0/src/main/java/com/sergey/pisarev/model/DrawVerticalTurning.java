@@ -12,7 +12,7 @@ import java.util.List;
 public class DrawVerticalTurning extends BaseDraw implements IPointDraw {
 
     private List<StringBuffer> programList;
-    protected ArrayList<Frame> frameList;
+    protected List<Frame> frameList;
     private int numberLIne;
 
     public DrawVerticalTurning(IDraw draw) {

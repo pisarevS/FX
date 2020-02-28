@@ -2,15 +2,16 @@ package com.sergey.pisarev.model;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MyData {
 
-    private ArrayList<StringBuffer> programList = new ArrayList<>();
+    private List<StringBuffer> programList = new ArrayList<>();
 
     private Map<Integer, String> errorListMap = new LinkedHashMap<>();
 
-    private ArrayList<Frame> frameList = new ArrayList<>();
+    private List<Frame> frameList = new ArrayList<>();
 
     public MyData() {
     }
@@ -23,7 +24,7 @@ public class MyData {
         this.errorListMap = errorListMap;
     }
 
-    public ArrayList<Frame> getFrameList() {
+    public List<Frame> getFrameList() {
         return frameList;
     }
 
@@ -31,11 +32,11 @@ public class MyData {
         this.frameList = frameList;
     }
 
-    public ArrayList<StringBuffer> getProgramList() {
+    public List<StringBuffer> getProgramList() {
         return programList;
     }
 
-    public void setProgramList(ArrayList<StringBuffer> programList) {
+    public void setProgramList(List<StringBuffer> programList) {
         this.programList = programList;
     }
 }

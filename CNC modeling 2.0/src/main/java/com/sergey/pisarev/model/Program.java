@@ -6,10 +6,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Program implements Runnable {
 
-    private ArrayList<StringBuffer> programList;
+    private List<StringBuffer> programList;
     private String[] defs = {"DEF REAL", "DEF INT"};
     private MyData data = new MyData();
     private Callback callback;
@@ -33,7 +34,7 @@ public class Program implements Runnable {
     }
 
     private void initLists() {
-        programList = new ArrayList<>();
+
         listIgnore = new ArrayList<>();
         frameList = new ArrayList<>();
         errorListMap = new HashMap<>();
@@ -78,21 +79,23 @@ public class Program implements Runnable {
 
     @Override
     public void run() {
-        programList.addAll(getList(program));
-        data.setProgramList(programList);
-        removeIgnore(programList);
-        removeLockedFrame(programList);
-        gotoF(programList);
-        if (containsDef(programList))
-            searchDef(programList);
-        initVariables(programList);
         replaceParameterVariables(variablesList);
-        replaceProgramVariables(programList);
+        programList = Arrays.stream(program.split("\n"))
+                .map(StringBuffer::new)
+                .peek(data.getProgramList()::add)
+                .peek(this::removeLockedFrame)
+                .peek(this::removeIgnore)
+                .peek(this::containsDef)
+                .peek(this::initVariables)
+                .peek(this::replaceProgramVariables)
+                .collect(Collectors.toList());
+
+        gotoF(programList);
         addFrameList();
         callback.callingBack(data);
     }
 
-    protected void addFrameList() {
+    private void addFrameList() {
         selectCoordinateSystem(programList);
         StringBuffer strFrame;
         boolean isHorizontalAxis = false;
@@ -108,7 +111,7 @@ public class Program implements Runnable {
 
             try {
                 if (containsGCode(strFrame)) {
-                    ArrayList<String> gCode = searchGCog(strFrame.toString());
+                    List<String> gCode = searchGCog(strFrame.toString());
                     isRadius = activatedRadius(gCode);
                     frame.setGCode(gCode);
                     frame.setId(i);
@@ -194,19 +197,13 @@ public class Program implements Runnable {
         data.setFrameList(frameList);
     }
 
-    public static ArrayList<StringBuffer> getList(String program) {
-        ArrayList<StringBuffer> arrayList = new ArrayList<>();
-        try {
-            BufferedReader br = new BufferedReader(new StringReader(program));
-            String line;
-            while ((line = br.readLine()) != null) {
-                arrayList.add(new StringBuffer(line));
-            }
-            br.close();
-        } catch (IOException ignored) {
+    private void removeLockedFrame(StringBuffer frame) {
+        frame = frame.toString().contains(";") ? frame.delete(frame.indexOf(";"), frame.length()) : frame;
+    }
 
-        }
-        return arrayList;
+    private void removeIgnore(StringBuffer frame) {
+        for (String ignore : listIgnore)
+            frame = frame.toString().contains(ignore) ? frame.delete(0, frame.length()) : frame;
     }
 
     private void replaceParameterVariables(Map<String, String> variablesList) {
@@ -221,28 +218,26 @@ public class Program implements Runnable {
         });
     }
 
-    private void replaceProgramVariables(ArrayList<StringBuffer> programList) {
+    private void replaceProgramVariables(StringBuffer frame) {
         variablesList.forEach((key, value) -> {
-            for (StringBuffer stringBuffer : programList) {
-                if (stringBuffer.toString().contains(key)) {
-                    String value1 = value;
-                    if (isSymbol(value1)) {
-                        double newValve = 0;
-                        try {
-                            newValve = Expression.calculate(value1);
-                        } catch (EmptyStackException e) {
-                            e.printStackTrace();
-                        }
-                        value1 = String.valueOf(newValve);
+            if (frame.toString().contains(key)) {
+                String value1 = value;
+                if (isSymbol(value1)) {
+                    double newValve = 0;
+                    try {
+                        newValve = Expression.calculate(value1);
+                    } catch (EmptyStackException e) {
+                        e.printStackTrace();
                     }
-                    String str = stringBuffer.toString().replace(key, value1);
-                    stringBuffer.replace(0, stringBuffer.length(), str);
+                    value1 = String.valueOf(newValve);
                 }
+                String str = frame.toString().replace(key, value1);
+                frame.replace(0, frame.length(), str);
             }
         });
     }
 
-    private void gotoF(ArrayList<StringBuffer> programList) {
+    private void gotoF(List<StringBuffer> programList) {
         String label;
         String gotoF = "GOTOF";
         for (int i = 0; i < programList.size(); i++) {
@@ -259,58 +254,12 @@ public class Program implements Runnable {
         }
     }
 
-    private void removeIgnore(ArrayList<StringBuffer> programList) {
-        programList.forEach(valve -> {
-            listIgnore.forEach(ignore -> {
-                if (valve.toString().contains(ignore)) {
-                    valve.delete(0, valve.length());
-                }
-            });
-        });
-    }
-
-    private void removeLockedFrame(ArrayList<StringBuffer> programList) {
-        programList.forEach(valve -> {
-            if (valve.toString().contains(";")) {
-                valve.delete(valve.indexOf(";"), valve.length());
-            }
-        });
-    }
-
-    private boolean containsDef(ArrayList<StringBuffer> programList) {
+    private void containsDef(StringBuffer frame) {
         for (String def : defs) {
-            for (StringBuffer stringBuffer : programList) {
-                if (stringBuffer.toString().contains(def))
-                    return true;
-            }
-        }
-        return false;
-    }
-
-    private void initVariables(ArrayList<StringBuffer> programList) {
-        programList.forEach(valve -> {
-            if (!valve.toString().contains(defs[0]) && !valve.toString().contains(defs[1])) {
-                variablesList.forEach((key, value) -> {
-                    if (valve.toString().contains(key + "=")) {
-                        String[] arrStr = valve.toString().split(" ");
-                        for (String str : arrStr) {
-                            if (str.contains("=")) {
-                                String[] arrVar = str.split("=");
-                                variablesList.put(arrVar[0].replace(" ", ""), arrVar[1].replace(" ", ""));
-                            }
-                        }
-                    }
-                });
-            }
-        });
-    }
-
-    private void searchDef(ArrayList<StringBuffer> programList) {
-        for (String def : defs) {
-            programList.forEach(valve -> {
-                if (valve.toString().contains(def)) {
-                    valve.delete(0, valve.indexOf(def) + def.length());
-                    String[] arrStr = valve.toString().split(",");
+            if (frame.toString().contains(def)) {
+                if (frame.toString().contains(def)) {
+                    frame.delete(0, frame.indexOf(def) + def.length());
+                    String[] arrStr = frame.toString().split(",");
                     for (String str : arrStr) {
                         if (str.contains("=")) {
                             String[] arrVar = str.split("=");
@@ -320,8 +269,25 @@ public class Program implements Runnable {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private void initVariables(StringBuffer frame) {
+        if (!frame.toString().contains(defs[0]) && !frame.toString().contains(defs[1])) {
+            variablesList.forEach((key, value) -> {
+                if (frame.toString().contains(key + "=")) {
+                    String[] arrStr = frame.toString().split(" ");
+                    for (String str : arrStr) {
+                        if (str.contains("=")) {
+                            String[] arrVar = str.split("=");
+                            variablesList.put(arrVar[0].replace(" ", ""), arrVar[1].replace(" ", ""));
+                        }
+                    }
+                }
             });
         }
+        replaceParameterVariables(variablesList);
     }
 
     private boolean isGCode(String g) {
@@ -418,7 +384,7 @@ public class Program implements Runnable {
         return false;
     }
 
-    private void selectCoordinateSystem(ArrayList<StringBuffer> programList) {
+    private void selectCoordinateSystem(List<StringBuffer> programList) {
         programList.forEach(valve -> {
             if (valve.toString().contains("X"))
                 x++;
@@ -493,7 +459,7 @@ public class Program implements Runnable {
         return text.contains(")");
     }
 
-    private boolean activatedRadius(ArrayList<String> gCode) {
+    private boolean activatedRadius(List<String> gCode) {
         for (String code : gCode) {
             switch (code) {
                 case "G2":

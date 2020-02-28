@@ -13,6 +13,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
+import java.awt.*;
+import java.io.File;
 import java.util.Collection;
 import java.util.Objects;
 

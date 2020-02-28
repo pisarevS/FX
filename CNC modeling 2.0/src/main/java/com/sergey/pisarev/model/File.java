@@ -5,8 +5,11 @@ import javafx.scene.input.DragEvent;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 import static java.lang.System.out;
@@ -59,21 +62,30 @@ public class File {
         Writer writer;
         try {
             writer = Files.newBufferedWriter(file.toPath(), StandardCharsets.UTF_8);
-            writer.write(text);
+            List<String>list = Arrays.stream(text.split("\n")).collect(Collectors.toList());
+            for (String line:list) {
+                writer.write(line);
+                writer.write("\n");
+            }
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static ArrayList<StringBuffer> getParameter(java.io.File path) {
+    public static List<StringBuffer> getParameter(java.io.File path) {
         java.io.File folder = new java.io.File(path.getParent());
         java.io.File[] listOfFiles = folder.listFiles();
         assert listOfFiles != null;
         for (java.io.File listOfFile : listOfFiles) {
             if (listOfFile.isFile()) {
                 if (listOfFile.getName().contains("PAR")) {
-                    return Program.getList(getFileContent(new java.io.File(listOfFile.getPath())));
+                    try {
+                        return  Files.lines(Paths.get(listOfFile.getPath())).map(StringBuffer::new).collect(Collectors.toList());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return new ArrayList<>();
+                    }
                 }
             }
         }

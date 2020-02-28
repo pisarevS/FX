@@ -53,7 +53,7 @@
                               <StackPane fx:id="paneCanvas" layoutX="295.0" layoutY="122.0" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                         </AnchorPane>
-                      <AnchorPane maxHeight="90.0" minHeight="45.0" minWidth="0.0" prefHeight="70.0" prefWidth="743.0" style="-fx-background-color: #E8E8E8;">
+                      <AnchorPane maxHeight="90.0" minHeight="90.0" minWidth="0.0" prefHeight="90.0" prefWidth="743.0" style="-fx-background-color: #E8E8E8;">
                            <children>
                               <Button fx:id="buttonCycleStart" disable="true" layoutX="78.0" layoutY="11.0" mnemonicParsing="false" onAction="#onCycleStart" prefHeight="30.0" prefWidth="82.0" text="CYCLE START" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="78.0" AnchorPane.topAnchor="11.0">
                                  <font>

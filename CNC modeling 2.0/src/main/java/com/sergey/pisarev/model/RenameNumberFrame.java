@@ -1,13 +1,18 @@
 package com.sergey.pisarev.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class RenameNumberFrame {
 
     public static String rename(String text, int firstNumber, int iterNumber) {
-        ArrayList<StringBuffer> list = Program.getList(text);
+        List<StringBuffer> list =  Arrays.stream(text.split("\n"))
+                .map(StringBuffer::new)
+                .collect(Collectors.toList());
 
         Pattern closedFrame = Pattern.compile(";[^\n]*");
         Pattern numberFrame = Pattern.compile("N(\\d+)");
