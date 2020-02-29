@@ -23,7 +23,7 @@ public class StyleText {
                 .multiPlainChanges()
 
                 // do not emit an event until 1 ms have passed since the last emission of previous stream
-                .successionEnds(Duration.ofMillis(1))
+                .successionEnds(Duration.ofMillis(100))
                 // run the following code block when previous stream emits an event
                 .subscribe(ignore -> codeArea.setStyleSpans(0, computeHighlighting(codeArea.getText())));
     }

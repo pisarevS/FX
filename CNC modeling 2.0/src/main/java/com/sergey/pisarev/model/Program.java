@@ -2,10 +2,9 @@ package com.sergey.pisarev.model;
 
 import com.sergey.pisarev.interfaces.Callback;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Program implements Runnable {
@@ -85,7 +84,8 @@ public class Program implements Runnable {
                 .peek(data.getProgramList()::add)
                 .peek(this::removeLockedFrame)
                 .peek(this::removeIgnore)
-                .peek(this::containsDef)
+                .peek(this::addDefVariables)
+                .peek(this::addRVariables)
                 .peek(this::initVariables)
                 .peek(this::replaceProgramVariables)
                 .collect(Collectors.toList());
@@ -254,7 +254,7 @@ public class Program implements Runnable {
         }
     }
 
-    private void containsDef(StringBuffer frame) {
+    private void addDefVariables(StringBuffer frame) {
         for (String def : defs) {
             if (frame.toString().contains(def)) {
                 if (frame.toString().contains(def)) {
@@ -270,6 +270,15 @@ public class Program implements Runnable {
                     }
                 }
             }
+        }
+    }
+
+    private void addRVariables(StringBuffer frame){
+        Pattern pattern=Pattern.compile("R(\\d+)"+"=");
+        Matcher matcher = pattern.matcher(frame);
+        while (matcher.find()){
+            variablesList.put(matcher.group().replace("=",""),"");
+            System.out.println(matcher.group());
         }
     }
 
