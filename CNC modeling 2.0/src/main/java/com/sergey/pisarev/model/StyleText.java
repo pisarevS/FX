@@ -45,6 +45,7 @@ public class StyleText {
     };
 
     private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+    private static final String R_PARAMETER = "R(\\d+)";
     private static final String AXIS_PATTERN = "\\b(" + String.join("|", AXIS) + ")\\b";
     private static final String GCODE_PATTERN = "G(\\d+)";
     private static final String FIGURES_PATTERN = "(?:[^\\w_]|^|\\b)(\\d+)";
@@ -57,6 +58,7 @@ public class StyleText {
 
     private static final Pattern PATTERN = Pattern.compile(
             "(?<KEYWORD>" + KEYWORD_PATTERN + ")"
+                    + "|(?<RPARAMETER>" + R_PARAMETER + ")"
                     + "|(?<PAREN>" + PAREN_PATTERN + ")"
                     + "|(?<BRACE>" + BRACE_PATTERN + ")"
                     + "|(?<NUMBERFRAME>" + NUMBER_FRAME_PATTERN + ")"
@@ -77,7 +79,8 @@ public class StyleText {
         while (matcher.find()) {
             String styleClass =
                     matcher.group("KEYWORD") != null ? "keyword" :
-                            matcher.group("PAREN") != null ? "paren" :
+                            matcher.group("RPARAMETER") != null ? "rparameter" :
+                                 matcher.group("PAREN") != null ? "paren" :
                                     matcher.group("BRACE") != null ? "brace" :
                                             matcher.group("NUMBERFRAME") != null ? "number_frame" :
                                                     matcher.group("SEMICOLON") != null ? "semicolon" :

@@ -15,6 +15,10 @@
 .keyword {
     -fx-fill: #00FFFF !important;
 }
+
+.rparameter {
+    -fx-fill: #00FFFF !important;
+}
 .semicolon {
     -fx-fill: white !important;
 }

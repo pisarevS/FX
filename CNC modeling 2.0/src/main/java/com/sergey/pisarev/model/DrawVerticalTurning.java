@@ -5,8 +5,6 @@ import com.sergey.pisarev.interfaces.IPointDraw;
 import com.sergey.pisarev.model.base.BaseDraw;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class DrawVerticalTurning extends BaseDraw implements IPointDraw {

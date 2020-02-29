@@ -278,7 +278,6 @@ public class Program implements Runnable {
         Matcher matcher = pattern.matcher(frame);
         while (matcher.find()){
             variablesList.put(matcher.group().replace("=",""),"");
-            System.out.println(matcher.group());
         }
     }
 
