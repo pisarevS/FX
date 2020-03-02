@@ -43,6 +43,8 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         canvas.heightProperty().addListener(observable -> initSystemCoordinate());
         handle();
         handleZooming();
+        onMouseClickedCanvas();
+        onMouseMovedCanvas();
         errorList = new ArrayList<>();
         variablesList = new LinkedHashMap<>();
     }
@@ -85,6 +87,52 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
                 zooming = 0;
             }
             controller.getZooming((zooming - defZoom) / defZoom * 100 + 100);
+        });
+    }
+
+    private void onMouseClickedCanvas() {
+        canvas.setOnMouseClicked(event -> {
+            if (isStart || isCycleStart) {
+                if (event.getClickCount() == 2) {
+                    Point point = new Point();
+                    point.setX((pointSystemCoordinate.getX() - event.getX()) * -1);
+                    point.setZ(event.getY());
+                    if (point.getZ() > 0) point.setZ(pointSystemCoordinate.getZ() - point.getZ());
+                    else point.setZ(pointSystemCoordinate.getZ() + Math.abs(point.getZ()));
+                    point.setX(point.getX() / zooming);
+                    point.setZ(point.getZ() / zooming);
+                    getNumberFrame(point);
+                }
+            }
+        });
+    }
+
+    private void getNumberFrame(Point point) {
+        int side = 5;
+        Rect rect = new Rect();
+        rect.setRect(point.getX() - (side >> 1), point.getZ() - (side >> 1), side, side);
+
+        if (drawVerticalTurning != null)
+            for (Frame frame : data.getFrameList()) {
+                if (rect.isInsideRect(frame.getX(), frame.getZ())) {
+                    drawVerticalTurning.setNumberLine(frame.getId());
+                    startDraw(index);
+                    controller.showFrame(frame.getId());
+                    System.out.println(data.getProgramList().get(frame.getId()));
+                }
+            }
+    }
+
+    private void onMouseMovedCanvas() {
+        canvas.setOnMouseMoved(event -> {
+            Point point = new Point();
+            point.setX((pointSystemCoordinate.getX() - event.getX()) * -1);
+            point.setZ(event.getY());
+            if (point.getZ() > 0) point.setZ(pointSystemCoordinate.getZ() - point.getZ());
+            else point.setZ(pointSystemCoordinate.getZ() + Math.abs(point.getZ()));
+            point.setX(point.getX() / zooming);
+            point.setZ(point.getZ() / zooming);
+            controller.getCoordinateCanvas(point.getX(), point.getZ());
         });
     }
 
@@ -172,7 +220,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         if (isStart || isCycleStart) {
             isChangesText = true;
             if (drawVerticalTurning != null)
-                drawVerticalTurning.getNumberLine(numberLine);
+                drawVerticalTurning.setNumberLine(numberLine);
             startDraw(index);
             isChangesText = false;
         }

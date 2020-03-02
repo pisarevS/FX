@@ -3,9 +3,9 @@ package com.sergey.pisarev.model;
 public class Point {
 
 
-    private double x;
+    protected double x;
 
-    private double z;
+    protected double z;
 
     public Point() {
 

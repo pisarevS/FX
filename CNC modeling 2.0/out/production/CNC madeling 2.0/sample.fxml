@@ -50,7 +50,20 @@
                               <Cursor fx:constant="CROSSHAIR" />
                            </cursor>
                            <children>
-                              <StackPane fx:id="paneCanvas" layoutX="295.0" layoutY="122.0" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <StackPane fx:id="paneCanvas" layoutX="295.0" layoutY="122.0" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                       <children>
+                                          <Text fx:id="textCoordinateX" layoutX="666.0" layoutY="379.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X" wrappingWidth="60.0" AnchorPane.bottomAnchor="92.98828125" AnchorPane.rightAnchor="17.0" />
+                                          <Text fx:id="textCoordinateZ" layoutX="666.0" layoutY="420.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Z " wrappingWidth="60.0" AnchorPane.bottomAnchor="51.0" AnchorPane.rightAnchor="17.0" />
+                                          <Text fx:id="textZooming" layoutX="666.0" layoutY="456.0" strokeType="OUTSIDE" strokeWidth="0.0" text="100%" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="40.466796875">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </AnchorPane>
+                                 </children></StackPane>
                            </children>
                         </AnchorPane>
                       <AnchorPane maxHeight="90.0" minHeight="90.0" minWidth="0.0" prefHeight="90.0" prefWidth="743.0" style="-fx-background-color: #E8E8E8;">
@@ -111,11 +124,6 @@
                                        </light>
                                     </Lighting>
                                  </effect></Button>
-                              <Text fx:id="textZooming" layoutX="697.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="100%" AnchorPane.bottomAnchor="67.7373046875" AnchorPane.rightAnchor="14.337890625" AnchorPane.topAnchor="4.9716796875">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Text>
                            </children>
                         </AnchorPane>
                     </items>

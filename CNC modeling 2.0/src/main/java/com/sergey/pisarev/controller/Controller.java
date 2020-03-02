@@ -3,6 +3,8 @@ package com.sergey.pisarev.controller;
 import com.sergey.pisarev.interfaces.IController;
 import com.sergey.pisarev.interfaces.PresenterImpl;
 import com.sergey.pisarev.model.File;
+import com.sergey.pisarev.model.Point;
+import com.sergey.pisarev.model.Rect;
 import com.sergey.pisarev.presenter.Presenter;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -20,11 +22,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.fxmisc.flowless.VirtualizedScrollPane;
+import org.fxmisc.richtext.Caret;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.TwoDimensional;
 import com.sergey.pisarev.model.StyleText;
-
+;
 import java.time.Duration;
 import java.util.Map;
 
@@ -41,6 +44,12 @@ public class Controller implements IController {
 
     @FXML
     Text textZooming = new Text();
+
+    @FXML
+    Text textCoordinateX = new Text();
+
+    @FXML
+    Text textCoordinateZ = new Text();
 
     @FXML
     StackPane paneCanvas = new StackPane();
@@ -208,6 +217,15 @@ public class Controller implements IController {
         textZooming.setText((int) zooming + "%");
     }
 
+    @Override
+    public void getCoordinateCanvas(double x, double z) {
+        double scale = Math.pow(10, 2);
+        x = Math.round(x * scale) / scale;
+        z = Math.round(z * scale) / scale;
+        textCoordinateX.setText("X " + x);
+        textCoordinateZ.setText("Z " + z);
+    }
+
     private void commentLine(int l) {
         int start = codeAreaProgram.position(0, 0).toOffset();
         int end;
@@ -217,6 +235,10 @@ public class Controller implements IController {
             end = codeAreaProgram.getLength();
         }
         String line = codeAreaProgram.getText().substring(start, end);
+
+        codeAreaProgram.requestFollowCaret();
+        //codeAreaProgram.requestFocus();
+
         codeAreaProgram.replaceText(start, end, line);
     }
 

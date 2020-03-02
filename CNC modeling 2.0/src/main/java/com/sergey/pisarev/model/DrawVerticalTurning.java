@@ -102,7 +102,7 @@ public class DrawVerticalTurning extends BaseDraw implements IPointDraw {
     }
 
     @Override
-    public void getNumberLine(int numberLIne) {
+    public void setNumberLine(int numberLIne) {
         isDrawPoint = true;
         this.numberLIne = numberLIne;
     }
