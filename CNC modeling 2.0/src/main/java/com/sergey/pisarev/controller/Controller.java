@@ -3,8 +3,6 @@ package com.sergey.pisarev.controller;
 import com.sergey.pisarev.interfaces.IController;
 import com.sergey.pisarev.interfaces.PresenterImpl;
 import com.sergey.pisarev.model.File;
-import com.sergey.pisarev.model.Point;
-import com.sergey.pisarev.model.Rect;
 import com.sergey.pisarev.presenter.Presenter;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -22,7 +20,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.fxmisc.flowless.VirtualizedScrollPane;
-import org.fxmisc.richtext.Caret;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.TwoDimensional;
@@ -202,11 +199,6 @@ public class Controller implements IController {
     }
 
     @Override
-    public void showFrame(int number) {
-        commentLine(number);
-    }
-
-    @Override
     public void getVariablesList(Map<String, String> variablesList) {
         variablesList.forEach((key, value) -> StyleText.KEYWORDS.add(key));
         StyleText.setStyleRefresh(codeAreaProgram);
@@ -226,20 +218,14 @@ public class Controller implements IController {
         textCoordinateZ.setText("Z " + z);
     }
 
-    private void commentLine(int l) {
-        int start = codeAreaProgram.position(0, 0).toOffset();
-        int end;
-        try {
-            end = codeAreaProgram.position(l + 1, 0).toOffset() - 1;
-        } catch (Exception e) {
-            end = codeAreaProgram.getLength();
-        }
-        String line = codeAreaProgram.getText().substring(start, end);
+    @Override
+    public void showCaretBoxOnCycleStart(int number, StringBuffer frame) {
+        showCaretBox(number,frame);
+    }
 
-        codeAreaProgram.requestFollowCaret();
-        //codeAreaProgram.requestFocus();
-
-        codeAreaProgram.replaceText(start, end, line);
+    @Override
+    public void showCaretBoxOnCanvasClick(int number, StringBuffer frame) {
+       showCaretBox(number,frame);
     }
 
     @FXML
@@ -248,7 +234,7 @@ public class Controller implements IController {
             File.setFileContent(File.fileProgram, codeAreaProgram.getText());
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setAlertType(AlertType.INFORMATION);
-            alert.setContentText("Program saved!");
+            alert.setContentText("File saved!");
             alert.showAndWait();
         }
     }
@@ -303,10 +289,10 @@ public class Controller implements IController {
                 .subscribe(ignore -> presenter.setOnChangesTextProgram(codeAreaProgram.getText()));
     }
 
-    private void alertSaveChanges(java.io.File file, String text, String message) {
+    private void alertSaveChanges(java.io.File file, String text) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setAlertType(AlertType.INFORMATION);
-        alert.setContentText("Do you want to save " + message + " changes?");
+        alert.setContentText("Do you want to save file changes?");
         alert.getButtonTypes().clear();
         alert.getButtonTypes().addAll(ButtonType.YES, ButtonType.NO);
         Button yesButton = (Button) alert.getDialogPane().lookupButton(ButtonType.YES);
@@ -320,9 +306,25 @@ public class Controller implements IController {
         if (File.fileProgram != null) {
             String programFile = File.getFileContent(File.fileProgram);
             if (!programFile.equals(codeAreaProgram.getText())) {
-                alertSaveChanges(File.fileProgram, codeAreaProgram.getText(), "Program");
+                alertSaveChanges(File.fileProgram, codeAreaProgram.getText());
             }
         }
+    }
+
+    private void showCaretBox(int number, StringBuffer frame){
+        int end;
+        try {
+            end = codeAreaProgram.position(number + 1, 0).toOffset() - 1;
+        } catch (Exception e) {
+            end = codeAreaProgram.getLength();
+        }
+        codeAreaProgram.moveTo(end-frame.length());
+        if(!codeAreaProgram.getCaretBounds().isPresent()){
+            codeAreaProgram.requestFollowCaret();
+            codeAreaProgram.requestFocus();
+            codeAreaProgram.scrollYBy(1000);
+        }
+        codeAreaProgram.getCaretBounds();
     }
 
     private void exit() {

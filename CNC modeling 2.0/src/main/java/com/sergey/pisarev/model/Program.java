@@ -79,9 +79,10 @@ public class Program implements Runnable {
     @Override
     public void run() {
         replaceParameterVariables(variablesList);
+        data.setProgramList(Arrays.stream(program.split("\n")).map(StringBuffer::new).collect(Collectors.toList()));
+
         programList = Arrays.stream(program.split("\n"))
                 .map(StringBuffer::new)
-                .peek(data.getProgramList()::add)
                 .peek(this::removeLockedFrame)
                 .peek(this::removeIgnore)
                 .peek(this::addDefVariables)

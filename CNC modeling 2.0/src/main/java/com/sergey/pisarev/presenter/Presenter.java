@@ -101,26 +101,10 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
                     else point.setZ(pointSystemCoordinate.getZ() + Math.abs(point.getZ()));
                     point.setX(point.getX() / zooming);
                     point.setZ(point.getZ() / zooming);
-                    getNumberFrame(point);
+                    setNumberFrame(point);
                 }
             }
         });
-    }
-
-    private void getNumberFrame(Point point) {
-        int side = 5;
-        Rect rect = new Rect();
-        rect.setRect(point.getX() - (side >> 1), point.getZ() - (side >> 1), side, side);
-
-        if (drawVerticalTurning != null)
-            for (Frame frame : data.getFrameList()) {
-                if (rect.isInsideRect(frame.getX(), frame.getZ())) {
-                    drawVerticalTurning.setNumberLine(frame.getId());
-                    startDraw(index);
-                    controller.showFrame(frame.getId());
-                    System.out.println(data.getProgramList().get(frame.getId()));
-                }
-            }
     }
 
     private void onMouseMovedCanvas() {
@@ -134,6 +118,20 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
             point.setZ(point.getZ() / zooming);
             controller.getCoordinateCanvas(point.getX(), point.getZ());
         });
+    }
+
+    private void setNumberFrame(Point point) {
+        int side = 7;
+        Rect rect = new Rect();
+        rect.setRect(point.getX() - (side >> 1), point.getZ() - (side >> 1), side, side);
+        if (drawVerticalTurning != null)
+            for (Frame frame : data.getFrameList()) {
+                if (rect.isInsideRect(frame.getX(), frame.getZ())) {
+                    drawVerticalTurning.setNumberLine(frame.getId());
+                    startDraw(index);
+                    controller.showCaretBoxOnCanvasClick(frame.getId(), data.getProgramList().get(frame.getId()));
+                }
+            }
     }
 
     private void drawSysCoordinate() {
@@ -165,7 +163,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
             timeline = new Timeline(new KeyFrame(Duration.millis(200), event -> {
                 index++;
                 startDraw(index);
-                controller.showFrame(data.getFrameList().get(index - 1).getId());
+                controller.showCaretBoxOnCycleStart(data.getFrameList().get(index - 1).getId(), data.getProgramList().get(data.getFrameList().get(index - 1).getId()));
                 if (index == data.getFrameList().size())
                     controller.onReset();
             }));
@@ -177,7 +175,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
                 startDraw(index);
             if (index == data.getFrameList().size())
                 controller.onReset();
-            controller.showFrame(data.getFrameList().get(index - 1).getId());
+            controller.showCaretBoxOnCycleStart(data.getFrameList().get(index - 1).getId(), data.getProgramList().get(data.getFrameList().get(index - 1).getId()));
         }
         isReset = true;
     }
