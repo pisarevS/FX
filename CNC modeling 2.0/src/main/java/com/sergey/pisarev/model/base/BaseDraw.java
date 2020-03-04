@@ -14,7 +14,7 @@ public abstract class BaseDraw {
     protected boolean isRapidFeed;
     private double lineWidth = 1.5;
     private double lineWidthDashes = 1;
-    protected boolean isDrawPoint;
+    protected boolean isNumberLine;
 
     protected BaseDraw(IDraw draw) {
         this.draw = draw;

@@ -33,6 +33,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     private boolean isSingleBlock = false;
     private boolean isReset = false;
     private boolean isChangesText = false;
+    private boolean isDrawPoint = false;
     private Map<String, String> variablesList;
 
     public Presenter(IController controller, ResizableCanvas resizableCanvas) {
@@ -90,23 +91,6 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         });
     }
 
-    private void onMouseClickedCanvas() {
-        canvas.setOnMouseClicked(event -> {
-            if (isStart || isCycleStart) {
-                if (event.getClickCount() == 2) {
-                    Point point = new Point();
-                    point.setX((pointSystemCoordinate.getX() - event.getX()) * -1);
-                    point.setZ(event.getY());
-                    if (point.getZ() > 0) point.setZ(pointSystemCoordinate.getZ() - point.getZ());
-                    else point.setZ(pointSystemCoordinate.getZ() + Math.abs(point.getZ()));
-                    point.setX(point.getX() / zooming);
-                    point.setZ(point.getZ() / zooming);
-                    setNumberFrame(point);
-                }
-            }
-        });
-    }
-
     private void onMouseMovedCanvas() {
         canvas.setOnMouseMoved(event -> {
             Point point = new Point();
@@ -120,20 +104,46 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         });
     }
 
-    private void setNumberFrame(Point point) {
+    private void onMouseClickedCanvas() {
+        canvas.setOnMouseClicked(event -> {
+            if (isStart || isCycleStart) {
+                if (event.getClickCount() == 2) {
+                    Point point = new Point();
+                    point.setX((pointSystemCoordinate.getX() - event.getX()) * -1);
+                    point.setZ(event.getY());
+                    if (point.getZ() > 0) point.setZ(pointSystemCoordinate.getZ() - point.getZ());
+                    else point.setZ(pointSystemCoordinate.getZ() + Math.abs(point.getZ()));
+                    point.setX(point.getX() / zooming);
+                    point.setZ(point.getZ() / zooming);
+                    Frame frame = getFrame(point);
+                    if (frame != null) {
+                        drawVerticalTurning.setNumberLine(frame.getId());
+                        startDraw(index);
+                        controller.showCaretBoxOnCanvasClick(frame.getId(), data.getProgramList().get(frame.getId()));
+                        isDrawPoint = true;
+                    }else if(isDrawPoint){
+                        drawVerticalTurning.setNumberLine(-1);
+                        startDraw(index);
+                        isDrawPoint=false;
+                    }
+                }
+            }
+        });
+    }
+
+    private Frame getFrame(Point point) {
         int side = 20;
         Rect rect = new Rect();
         rect.setRect(point.getX() - (side >> 1), point.getZ() - (side >> 1), side, side);
         if (drawVerticalTurning != null) {
             Optional<Frame> frame = data.getFrameList().stream()
                     .filter(p -> rect.isInsideRect(p.getX(), p.getZ()))
-                    .min(Comparator.comparingDouble(p -> Math.abs(point.getX() - p.getX() + point.getZ() - p.getZ())));
+                    .min(Comparator.comparingDouble(p -> Math.abs(point.getX() - p.getX()) + Math.abs(point.getZ() - p.getZ())));
             if (frame.isPresent()) {
-                drawVerticalTurning.setNumberLine(frame.get().getId());
-                startDraw(index);
-                controller.showCaretBoxOnCanvasClick(frame.get().getId(), data.getProgramList().get(frame.get().getId()));
+                return frame.get();
             }
         }
+        return null;
     }
 
     private void drawSysCoordinate() {
@@ -229,9 +239,6 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     @Override
     public void openDragProgram(DragEvent event) {
         controller.showProgram(File.getFileContent(event));
-
-        //readParameterVariables(Objects.requireNonNull(File.getParameter(File.fileProgram)));
-        //controller.getVariablesList(variablesList);
         reset();
     }
 

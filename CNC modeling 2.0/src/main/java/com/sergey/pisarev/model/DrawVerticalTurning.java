@@ -10,7 +10,6 @@ import java.util.List;
 public class DrawVerticalTurning extends BaseDraw implements IPointDraw {
 
     private List<StringBuffer> programList;
-    protected List<Frame> frameList;
     private int numberLIne;
 
     public DrawVerticalTurning(IDraw draw) {
@@ -20,11 +19,13 @@ public class DrawVerticalTurning extends BaseDraw implements IPointDraw {
     @Override
     public void drawContour(MyData data, GraphicsContext gc, Point pointCoordinateZero, double zoom, int index) {
         programList = data.getProgramList();
-        frameList = data.getFrameList();
+        List<Frame> frameList = data.getFrameList();
         boolean isLine = false;
         boolean isRadius = false;
+        boolean isDrawPoint=false;
         Point pStart = new Point();
         Point pEnd = new Point();
+        Point point=new Point();
         pStart.setX(650f);
         pStart.setZ(250f);
         pEnd.setX(650f);
@@ -59,14 +60,15 @@ public class DrawVerticalTurning extends BaseDraw implements IPointDraw {
                     pStart.setX(pEnd.getX());
                     pStart.setZ(pEnd.getZ());
                 }
-                if (isDrawPoint && frameList.get(i).getId() == numberLIne) {
-                    pEnd.setX(frameList.get(i).getX());
-                    pEnd.setZ(frameList.get(i).getZ());
-                    drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.web("#3507EE"), 5);
+                if (isNumberLine && frameList.get(i).getId() == numberLIne) {
+                    point.setX(frameList.get(i).getX());
+                    point.setZ(frameList.get(i).getZ());
+                    isDrawPoint=true;
                 }
             }
         }
         drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.RED, 4);
+        if(isDrawPoint) drawPoint(gc, pointCoordinateZero, point, zoom, Color.web("#3507EE"), 5);
     }
 
     private boolean isG17(List<StringBuffer> programList) {
@@ -77,7 +79,7 @@ public class DrawVerticalTurning extends BaseDraw implements IPointDraw {
         return false;
     }
 
-    protected void checkGCode(List<String> gCodeList) {
+    private void checkGCode(List<String> gCodeList) {
         boolean isG17 = isG17(programList);
         for (String gCode : gCodeList) {
             switch (gCode) {
@@ -103,7 +105,7 @@ public class DrawVerticalTurning extends BaseDraw implements IPointDraw {
 
     @Override
     public void setNumberLine(int numberLIne) {
-        isDrawPoint = true;
+        isNumberLine = true;
         this.numberLIne = numberLIne;
     }
 }
