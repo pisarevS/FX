@@ -3,12 +3,17 @@ package com.sergey.pisarev.controller;
 import com.sergey.pisarev.interfaces.IController;
 import com.sergey.pisarev.interfaces.PresenterImpl;
 import com.sergey.pisarev.model.File;
+import com.sergey.pisarev.model.ResizableCanvas;
+import com.sergey.pisarev.model.TableUtils;
 import com.sergey.pisarev.presenter.Presenter;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -18,25 +23,28 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.TwoDimensional;
 import com.sergey.pisarev.model.StyleText;
 ;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.Map;
+import java.util.Objects;
 
-public class Controller implements IController {
+public class MainController implements IController {
 
-    public CodeArea codeAreaProgram = new CodeArea();
+    private CodeArea codeAreaProgram = new CodeArea();
+
     private PresenterImpl presenter;
     private int countClick = 2;
     private boolean isDownSingleBlock = false;
     private boolean isCycleStart = false;
-
-    @FXML
     public static Stage STAGE;
 
     @FXML
@@ -66,11 +74,20 @@ public class Controller implements IController {
     @FXML
     Button buttonReset = new Button();
 
-    public static Controller controller;
+    public static MainController mainController;
+
+    public String getTextCodeArea() {
+        return codeAreaProgram.getText();
+    }
+
+    public void setTextCodeArea(String text) {
+        codeAreaProgram.clear();
+        codeAreaProgram.appendText(text);
+    }
 
     @FXML
     public void initialize() {
-        controller = this;
+        mainController = this;
         ResizableCanvas visualizerCanvas = new ResizableCanvas();
         paneCanvas.setStyle("-fx-background-color: #F5F5F5");
         paneCanvas.getChildren().add(visualizerCanvas);
@@ -241,40 +258,34 @@ public class Controller implements IController {
     }
 
     @FXML
-    public void menuRenameFrames(ActionEvent actionEvent) {
-        /*int width=300;
-        int height=300;
-        Label startFrameLabel = new Label("Start frame");
-        Label stepLabel = new Label("Step");
-        Button okButton=new Button("Ok");
+    public void menuRenameFrameNumbers(ActionEvent actionEvent) {
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("rename_frame_number.fxml")));
+            Stage stage = new Stage();
+            RenameFrameNumbersController.STAGE=stage;
+            stage.setScene(new Scene(root, 328, 250));
+            stage.setTitle("Rename Frames");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UTILITY);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-        StackPane secondaryLayout = new StackPane();
-        secondaryLayout.getChildren().addAll(startFrameLabel,stepLabel,okButton);
-
-        Scene secondScene = new Scene(secondaryLayout, width, height);
-
-        // New window (Stage)
-        Stage newWindow = new Stage();
-        newWindow.setTitle("Rename frames");
-        newWindow.setScene(secondScene);
-
-        okButton.setOnAction(event -> {
-            String temp=RenameNumberFrame.rename(codeAreaProgram.getText(),10,10);
-            codeAreaProgram.clear();
-            codeAreaProgram.appendText(temp);
-            newWindow.close();
-        });
-        // Specifies the modality for new window.
-        newWindow.initModality(Modality.WINDOW_MODAL);
-        newWindow.setResizable(false);
-        // Specifies the owner Window (parent) for new window
-        newWindow.initOwner(STAGE);
-
-        // Set position of second window, related to primary window.
-        newWindow.setX(STAGE.getWidth()/2+ (width >> 1));
-        newWindow.setY(STAGE.getHeight()/2- (height >> 1));
-
-        newWindow.show();*/
+    @FXML
+    public void menuAbout(ActionEvent actionEvent) {
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("about.fxml")));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root, 400, 250));
+            stage.setTitle("About CNC modeling 2.0");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UTILITY);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

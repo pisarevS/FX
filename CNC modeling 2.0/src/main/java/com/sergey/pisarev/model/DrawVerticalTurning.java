@@ -67,8 +67,8 @@ public class DrawVerticalTurning extends BaseDraw implements IPointDraw {
                 }
             }
         }
-        drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.RED, 4);
-        if(isDrawPoint) drawPoint(gc, pointCoordinateZero, point, zoom, Color.web("#3507EE"), 5);
+        drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.RED, 4.5);
+        if(isDrawPoint) drawPoint(gc, pointCoordinateZero, point, zoom, Color.web("#3507EE"), 4.5);
     }
 
     private boolean isG17(List<StringBuffer> programList) {

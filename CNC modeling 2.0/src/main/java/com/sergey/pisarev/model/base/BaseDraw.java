@@ -133,5 +133,10 @@ public abstract class BaseDraw {
         else pEnd.setZ(pointSystemCoordinate.getZ() + Math.abs(pEnd.getZ()));
         gc.setFill(color);
         gc.fillOval(pointSystemCoordinate.getX() + pEnd.getX() - radiusPoint, pEnd.getZ() - radiusPoint, radiusPoint * 2, radiusPoint * 2);
+        gc.setStroke(Color.web("#00FFFF"));
+        gc.setLineDashes();
+        gc.setLineWidth(lineWidth);
+        radiusPoint+=2;
+        gc.strokeOval(pointSystemCoordinate.getX() + pEnd.getX() - radiusPoint, pEnd.getZ() - radiusPoint, radiusPoint * 2, radiusPoint * 2);
     }
 }

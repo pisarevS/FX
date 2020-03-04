@@ -1,6 +1,6 @@
 package com.sergey.pisarev.presenter;
 
-import com.sergey.pisarev.controller.ResizableCanvas;
+import com.sergey.pisarev.model.ResizableCanvas;
 import com.sergey.pisarev.interfaces.*;
 import com.sergey.pisarev.model.*;
 import javafx.animation.KeyFrame;

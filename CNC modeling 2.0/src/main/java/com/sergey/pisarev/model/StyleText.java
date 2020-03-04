@@ -1,6 +1,6 @@
 package com.sergey.pisarev.model;
 
-import com.sergey.pisarev.controller.Controller;
+import com.sergey.pisarev.controller.MainController;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
@@ -15,7 +15,7 @@ public class StyleText {
 
 
     public static void setStyle(CodeArea codeArea) {
-        codeArea.getStylesheets().add(Objects.requireNonNull(Controller.class.getClassLoader().getResource("g_code_keywords.css")).toExternalForm());
+        codeArea.getStylesheets().add(Objects.requireNonNull(MainController.class.getClassLoader().getResource("g_code_keywords.css")).toExternalForm());
         Subscription cleanupWhenNoLongerNeedIt = codeArea
                 // plain changes = ignore style changes that are emitted when syntax highlighting is reapplied
                 // multi plain changes = save computation by not rerunning the code multiple times
@@ -29,7 +29,7 @@ public class StyleText {
     }
 
     public static void setStyleRefresh(CodeArea codeArea) {
-        codeArea.getStylesheets().add(Objects.requireNonNull(Controller.class.getClassLoader().getResource("g_code_keywords.css")).toExternalForm());
+        codeArea.getStylesheets().add(Objects.requireNonNull(MainController.class.getClassLoader().getResource("g_code_keywords.css")).toExternalForm());
         codeArea.setStyleSpans(0, computeHighlighting(codeArea.getText()));
     }
 

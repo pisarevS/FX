@@ -1,4 +1,4 @@
-package com.sergey.pisarev.controller;
+package com.sergey.pisarev.model;
 
 import java.text.NumberFormat;
 import java.text.ParseException;

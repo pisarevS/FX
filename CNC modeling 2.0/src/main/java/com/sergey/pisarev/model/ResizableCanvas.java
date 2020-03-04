@@ -1,4 +1,4 @@
-package com.sergey.pisarev.controller;
+package com.sergey.pisarev.model;
 
 
 import javafx.scene.canvas.Canvas;
@@ -14,7 +14,7 @@ public class ResizableCanvas extends Canvas {
     /**
      * Constructor
      */
-    ResizableCanvas() {
+    public ResizableCanvas() {
         // if i didn't add the draw to the @Override resize(double width, double
         // height) then it must be into the below listeners
 

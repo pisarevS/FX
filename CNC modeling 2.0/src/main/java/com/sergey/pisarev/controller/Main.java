@@ -1,21 +1,11 @@
 package com.sergey.pisarev.controller;
 
 import javafx.application.Application;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.input.TransferMode;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
 
-import java.awt.*;
-import java.io.File;
-import java.util.Collection;
 import java.util.Objects;
 
 public class Main extends Application {
@@ -24,8 +14,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Controller.STAGE = primaryStage;
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("sample.fxml")));
+        MainController.STAGE = primaryStage;
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("main.fxml")));
         primaryStage.setTitle(title);
         primaryStage.setScene(new Scene(root, 1000, 600));
         primaryStage.setMinHeight(600);
