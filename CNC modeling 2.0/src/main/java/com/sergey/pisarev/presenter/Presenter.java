@@ -121,17 +121,19 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     }
 
     private void setNumberFrame(Point point) {
-        int side = 7;
+        int side = 20;
         Rect rect = new Rect();
         rect.setRect(point.getX() - (side >> 1), point.getZ() - (side >> 1), side, side);
-        if (drawVerticalTurning != null)
-            for (Frame frame : data.getFrameList()) {
-                if (rect.isInsideRect(frame.getX(), frame.getZ())) {
-                    drawVerticalTurning.setNumberLine(frame.getId());
-                    startDraw(index);
-                    controller.showCaretBoxOnCanvasClick(frame.getId(), data.getProgramList().get(frame.getId()));
-                }
+        if (drawVerticalTurning != null) {
+            Optional<Frame> frame = data.getFrameList().stream()
+                    .filter(p -> rect.isInsideRect(p.getX(), p.getZ()))
+                    .min(Comparator.comparingDouble(p -> Math.abs(point.getX() - p.getX() + point.getZ() - p.getZ())));
+            if (frame.isPresent()) {
+                drawVerticalTurning.setNumberLine(frame.get().getId());
+                startDraw(index);
+                controller.showCaretBoxOnCanvasClick(frame.get().getId(), data.getProgramList().get(frame.get().getId()));
             }
+        }
     }
 
     private void drawSysCoordinate() {
@@ -284,23 +286,23 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
 
     private void readParameterVariables(List<StringBuffer> parameterList) {
         variablesList.clear();
-        for (StringBuffer stringBuffer : parameterList) {
-            if (stringBuffer.toString().contains(";")) {
-                stringBuffer.delete(stringBuffer.indexOf(";"), stringBuffer.length());
-            }
-            if (stringBuffer.toString().contains("=")) {
-                int key = 0;
-                for (int j = stringBuffer.indexOf("=") - 1; j >= 0; j--) {
-                    char c = stringBuffer.charAt(j);
-                    if (c == ' ') {
-                        key = j;
-                        break;
+        parameterList.stream()
+                .peek(p -> {
+                    if (p.toString().contains(";")) p.delete(p.indexOf(";"), p.length());
+                    if (p.toString().contains("=")) {
+                        int key = 0;
+                        for (int j = p.indexOf("=") - 1; j >= 0; j--) {
+                            char c = p.charAt(j);
+                            if (c == ' ') {
+                                key = j;
+                                break;
+                            }
+                        }
+                        variablesList.put(
+                                p.substring(key, p.indexOf("=")).replace(" ", "")
+                                , p.substring(p.indexOf("=") + 1, p.length()).replace(" ", ""));
                     }
-                }
-                variablesList.put(
-                        stringBuffer.substring(key, stringBuffer.indexOf("=")).replace(" ", "")
-                        , stringBuffer.substring(stringBuffer.indexOf("=") + 1, stringBuffer.length()).replace(" ", ""));
-            }
-        }
+                }).toArray();
+
     }
 }

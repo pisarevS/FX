@@ -199,12 +199,13 @@ public class Program implements Runnable {
     }
 
     private void removeLockedFrame(StringBuffer frame) {
-        frame = frame.toString().contains(";") ? frame.delete(frame.indexOf(";"), frame.length()) : frame;
+        if (frame.toString().contains(";")) frame.delete(frame.indexOf(";"), frame.length());
     }
 
     private void removeIgnore(StringBuffer frame) {
-        for (String ignore : listIgnore)
-            frame = frame.toString().contains(ignore) ? frame.delete(0, frame.length()) : frame;
+        listIgnore.forEach(ignore->{
+            if (frame.toString().contains(ignore)) frame.delete(0, frame.length());
+        });
     }
 
     private void replaceParameterVariables(Map<String, String> variablesList) {
@@ -256,7 +257,7 @@ public class Program implements Runnable {
     }
 
     private void addDefVariables(StringBuffer frame) {
-        for (String def : defs) {
+        Arrays.stream(defs).peek(def->{
             if (frame.toString().contains(def)) {
                 if (frame.toString().contains(def)) {
                     frame.delete(0, frame.indexOf(def) + def.length());
@@ -271,7 +272,7 @@ public class Program implements Runnable {
                     }
                 }
             }
-        }
+        }).toArray();
     }
 
     private void addRVariables(StringBuffer frame){

@@ -187,6 +187,7 @@ public class Controller implements IController {
         codeAreaProgram.appendText(text);
         buttonStart.setDisable(false);
         buttonCycleStart.setDisable(false);
+        buttonReset.setDisable(true);
     }
 
     @Override
