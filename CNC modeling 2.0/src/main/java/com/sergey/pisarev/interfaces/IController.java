@@ -13,7 +13,7 @@ public interface IController {
 
     void getVariablesList(Map<String, String> variablesList);
 
-    void getZooming(double zooming);
+    void setZooming(double zooming);
 
     void getCoordinateCanvas(double x,double z);
 

@@ -36,6 +36,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     private boolean isDrawPoint = false;
     private Map<String, String> variablesList;
 
+
     public Presenter(IController controller, ResizableCanvas resizableCanvas) {
         this.canvas = resizableCanvas;
         this.controller = controller;
@@ -87,7 +88,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
             } else {
                 zooming = 0;
             }
-            controller.getZooming((zooming - defZoom) / defZoom * 100 + 100);
+            controller.setZooming((zooming - defZoom) / defZoom * 100 + 100);
         });
     }
 
@@ -115,35 +116,29 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
                     else point.setZ(pointSystemCoordinate.getZ() + Math.abs(point.getZ()));
                     point.setX(point.getX() / zooming);
                     point.setZ(point.getZ() / zooming);
-                    Frame frame = getFrame(point);
-                    if (frame != null) {
-                        drawVerticalTurning.setNumberLine(frame.getId());
+                    Optional<Frame> frame = getFrame(point);
+                    if (frame.isPresent()) {
+                        drawVerticalTurning.setNumberLine(frame.get().getId());
                         startDraw(index);
-                        controller.showCaretBoxOnCanvasClick(frame.getId(), data.getProgramList().get(frame.getId()));
+                        controller.showCaretBoxOnCanvasClick(frame.get().getId(), data.getProgramList().get(frame.get().getId()));
                         isDrawPoint = true;
-                    }else if(isDrawPoint){
+                    } else if (isDrawPoint) {
                         drawVerticalTurning.setNumberLine(-1);
                         startDraw(index);
-                        isDrawPoint=false;
+                        isDrawPoint = false;
                     }
                 }
             }
         });
     }
 
-    private Frame getFrame(Point point) {
+    private Optional<Frame> getFrame(Point point) {
         int side = 20;
         Rect rect = new Rect();
         rect.setRect(point.getX() - (side >> 1), point.getZ() - (side >> 1), side, side);
-        if (drawVerticalTurning != null) {
-            Optional<Frame> frame = data.getFrameList().stream()
-                    .filter(p -> rect.isInsideRect(p.getX(), p.getZ()))
-                    .min(Comparator.comparingDouble(p -> Math.abs(point.getX() - p.getX()) + Math.abs(point.getZ() - p.getZ())));
-            if (frame.isPresent()) {
-                return frame.get();
-            }
-        }
-        return null;
+        return data.getFrameList().stream()
+                .filter(p -> rect.isInsideRect(p.getX(), p.getZ()))
+                .min(Comparator.comparingDouble(p -> Math.abs(point.getX() - p.getX()) + Math.abs(point.getZ() - p.getZ())));
     }
 
     private void drawSysCoordinate() {
@@ -222,7 +217,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         if (timeline != null) {
             timeline.stop();
         }
-        controller.getZooming(100);
+        controller.setZooming(100);
     }
 
     @Override
@@ -293,8 +288,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
 
     private void readParameterVariables(List<StringBuffer> parameterList) {
         variablesList.clear();
-        parameterList.stream()
-                .peek(p -> {
+        parameterList.forEach(p -> {
                     if (p.toString().contains(";")) p.delete(p.indexOf(";"), p.length());
                     if (p.toString().contains("=")) {
                         int key = 0;
@@ -309,7 +303,6 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
                                 p.substring(key, p.indexOf("=")).replace(" ", "")
                                 , p.substring(p.indexOf("=") + 1, p.length()).replace(" ", ""));
                     }
-                }).toArray();
-
+                });
     }
 }

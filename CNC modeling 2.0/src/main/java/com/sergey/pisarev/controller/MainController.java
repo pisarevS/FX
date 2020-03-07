@@ -223,7 +223,7 @@ public class MainController implements IController {
     }
 
     @Override
-    public void getZooming(double zooming) {
+    public void setZooming(double zooming) {
         textZooming.setText((int) zooming + "%");
     }
 

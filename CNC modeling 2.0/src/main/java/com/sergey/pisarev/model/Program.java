@@ -203,7 +203,7 @@ public class Program implements Runnable {
     }
 
     private void removeIgnore(StringBuffer frame) {
-        listIgnore.forEach(ignore->{
+        listIgnore.forEach(ignore -> {
             if (frame.toString().contains(ignore)) frame.delete(0, frame.length());
         });
     }
@@ -257,45 +257,45 @@ public class Program implements Runnable {
     }
 
     private void addDefVariables(StringBuffer frame) {
-        Arrays.stream(defs).peek(def->{
+        for (String def : defs) {
             if (frame.toString().contains(def)) {
-                if (frame.toString().contains(def)) {
-                    frame.delete(0, frame.indexOf(def) + def.length());
-                    String[] arrStr = frame.toString().split(",");
-                    for (String str : arrStr) {
-                        if (str.contains("=")) {
-                            String[] arrVar = str.split("=");
-                            variablesList.put(arrVar[0].replace(" ", ""), arrVar[1].replace(" ", ""));
-                        } else {
-                            variablesList.put(str.replace(" ", ""), "");
-                        }
+                frame.delete(0, frame.indexOf(def) + def.length());
+                String[] arrStr = frame.toString().split(",");
+                for (String str : arrStr) {
+                    if (str.contains("=")) {
+                        String[] arrVar = str.split("=");
+                        variablesList.put(arrVar[0].replace(" ", ""), arrVar[1].replace(" ", ""));
+                    } else {
+                        variablesList.put(str.replace(" ", ""), "");
                     }
                 }
             }
-        }).toArray();
+        }
     }
 
-    private void addRVariables(StringBuffer frame){
-        Pattern pattern=Pattern.compile("R(\\d+)"+"=");
+    private void addRVariables(StringBuffer frame) {
+        Pattern pattern = Pattern.compile("R(\\d+)" + "=");
         Matcher matcher = pattern.matcher(frame);
-        while (matcher.find()){
-            variablesList.put(matcher.group().replace("=",""),"");
+        while (matcher.find()) {
+            variablesList.put(matcher.group().replace("=", ""), "");
         }
     }
 
     private void initVariables(StringBuffer frame) {
-        if (!frame.toString().contains(defs[0]) && !frame.toString().contains(defs[1])) {
-            variablesList.forEach((key, value) -> {
-                if (frame.toString().contains(key + "=")) {
-                    String[] arrStr = frame.toString().split(" ");
-                    for (String str : arrStr) {
-                        if (str.contains("=")) {
-                            String[] arrVar = str.split("=");
-                            variablesList.put(arrVar[0].replace(" ", ""), arrVar[1].replace(" ", ""));
+        for (String def : defs) {
+            if (frame.indexOf(def) == -1) {
+                variablesList.forEach((key, value) -> {
+                    if (frame.toString().contains(key + "=")) {
+                        String[] arrStr = frame.toString().split(" ");
+                        for (String str : arrStr) {
+                            if (str.contains("=")) {
+                                String[] arrVar = str.split("=");
+                                variablesList.put(arrVar[0].replace(" ", ""), arrVar[1].replace(" ", ""));
+                            }
                         }
                     }
-                }
-            });
+                });
+            }
         }
         replaceParameterVariables(variablesList);
     }
