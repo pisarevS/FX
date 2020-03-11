@@ -11,6 +11,7 @@ public class DrawVerticalTurning extends BaseDraw implements IPointDraw {
 
     private List<StringBuffer> programList;
     private int numberLIne;
+    private boolean isG17=false;
 
     public DrawVerticalTurning(IDraw draw) {
         super(draw);
@@ -33,6 +34,7 @@ public class DrawVerticalTurning extends BaseDraw implements IPointDraw {
 
         float radius = 0;
         for (int i = 0; i < index; i++) {
+            isG17 = isG17(frameList.get(i).getGCode());
             checkGCode(frameList.get(i).getGCode());
             if (data.getErrorListMap().containsKey(frameList.get(i).getId())) {
                 draw.showError(data.getErrorListMap().get(frameList.get(i).getId()));
@@ -71,16 +73,14 @@ public class DrawVerticalTurning extends BaseDraw implements IPointDraw {
         if(isDrawPoint) drawPoint(gc, pointCoordinateZero, point, zoom, Color.web("#3507EE"), 4.5);
     }
 
-    private boolean isG17(List<StringBuffer> programList) {
-        for (StringBuffer stringBuffer : programList)
-            if (stringBuffer.toString().contains("G17")) {
-                return true;
-            }
+    private boolean isG17(List<String> gCodes) {
+        for (String gCode:gCodes) {
+            return gCode.contains("G17");
+        }
         return false;
     }
 
     private void checkGCode(List<String> gCodeList) {
-        boolean isG17 = isG17(programList);
         for (String gCode : gCodeList) {
             switch (gCode) {
                 case "G0":

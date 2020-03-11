@@ -31,7 +31,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     private boolean isStart = false;
     private boolean isCycleStart = false;
     private boolean isSingleBlock = false;
-    private boolean isReset = false;
+    private boolean isReset = false;    
     private boolean isChangesText = false;
     private boolean isDrawPoint = false;
     private Map<String, String> variablesList;

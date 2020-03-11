@@ -342,11 +342,11 @@ public class Program implements Runnable {
                 break;
             }
         }
-        if (temp.toString().contains("=")) {
-            int index = temp.indexOf("=");
-            temp.replace(index, index + 1, "");
-        }
-        if (isSymbol(temp.toString())) {
+        if (isSymbol(temp.toString())&&temp.indexOf("=")!=-1) {
+            if (temp.toString().contains("=")) {
+                int index = temp.indexOf("=");
+                temp.replace(index, index + 1, "");
+            }
             return Expression.calculate(temp.toString());
         } else if (!isSymbol(temp.toString())) {
             return Float.parseFloat(temp.toString());
@@ -461,6 +461,7 @@ public class Program implements Runnable {
     }
 
     private boolean isSymbol(String text) {
+        if (text.contains("=")) return true;
         if (text.contains("+")) return true;
         if (text.contains("-")) return true;
         if (text.contains("*")) return true;
