@@ -11,8 +11,6 @@ public interface IController {
 
     void showCaretBoxOnCycleStart(int number, StringBuffer frame);
 
-    void getVariablesList(Map<String, String> variablesList);
-
     void setZooming(double zooming);
 
     void getCoordinateCanvas(double x,double z);

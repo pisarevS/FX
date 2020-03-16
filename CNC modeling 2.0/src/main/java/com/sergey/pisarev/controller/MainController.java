@@ -217,12 +217,6 @@ public class MainController implements IController {
     }
 
     @Override
-    public void getVariablesList(Map<String, String> variablesList) {
-        variablesList.forEach((key, value) -> StyleText.KEYWORDS.add(key));
-        StyleText.setStyleRefresh(codeAreaProgram);
-    }
-
-    @Override
     public void setZooming(double zooming) {
         textZooming.setText((int) zooming + "%");
     }
