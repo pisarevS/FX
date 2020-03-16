@@ -15,6 +15,8 @@ public abstract class BaseDraw {
     private double lineWidth = 1.5;
     private double lineWidthDashes = 1;
     protected boolean isNumberLine;
+    private Color colorLine=Color.web("#009900");
+    private Color colorLineDashes=Color.BLACK;
 
     protected BaseDraw(IDraw draw) {
         this.draw = draw;
@@ -24,11 +26,11 @@ public abstract class BaseDraw {
 
     protected void drawArc(GraphicsContext gc, boolean isRapidFeed, Point pointSystemCoordinate, Point pointStart, Point pointEnd, double radius, double zoom, boolean clockwise) {
         if (isRapidFeed) {
-            gc.setStroke(Color.BLACK);
+            gc.setStroke(colorLineDashes);
             gc.setLineDashes(3, 5);
             gc.setLineWidth(lineWidthDashes);
         } else {
-            gc.setStroke(Color.GREEN);
+            gc.setStroke(colorLine);
             gc.setLineDashes();
             gc.setLineWidth(lineWidth);
         }
@@ -104,11 +106,11 @@ public abstract class BaseDraw {
 
     protected void drawLine(GraphicsContext gc, boolean isRapidFeed, Point pointSystemCoordinate, Point pointStart, Point pointEnd, double zoom) {
         if (isRapidFeed) {
-            gc.setStroke(Color.BLACK);
+            gc.setStroke(colorLineDashes);
             gc.setLineDashes(3, 5);
             gc.setLineWidth(lineWidthDashes);
         } else {
-            gc.setStroke(Color.GREEN);
+            gc.setStroke(colorLine);
             gc.setLineDashes();
             gc.setLineWidth(lineWidth);
         }
@@ -133,10 +135,10 @@ public abstract class BaseDraw {
         else pEnd.setZ(pointSystemCoordinate.getZ() + Math.abs(pEnd.getZ()));
         gc.setFill(color);
         gc.fillOval(pointSystemCoordinate.getX() + pEnd.getX() - radiusPoint, pEnd.getZ() - radiusPoint, radiusPoint * 2, radiusPoint * 2);
-        gc.setStroke(Color.web("#00FFFF"));
+        gc.setStroke(color);
         gc.setLineDashes();
         gc.setLineWidth(lineWidth);
-        radiusPoint+=2;
+        radiusPoint+=2.5;
         gc.strokeOval(pointSystemCoordinate.getX() + pEnd.getX() - radiusPoint, pEnd.getZ() - radiusPoint, radiusPoint * 2, radiusPoint * 2);
     }
 }

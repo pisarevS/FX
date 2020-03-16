@@ -9,21 +9,12 @@ public class Frame {
     private float x;
     private float z;
     private float cr;
-    private float offn;
     private boolean isCR = false;
     private boolean isAxisContains = false;
     private List<String> gCode = new ArrayList<>();
 
     public boolean isAxisContains() {
         return isAxisContains;
-    }
-
-    public float getOffn() {
-        return offn;
-    }
-
-    public void setOffn(float offn) {
-        this.offn = offn;
     }
 
     public void setAxisContains(boolean axisContains) {
@@ -80,7 +71,7 @@ public class Frame {
 
     @Override
     public String toString() {
-        String frame = id + " " + gCode + " " + x + " " + z + " " + cr + " " + offn;
+        String frame = id + " " + gCode + " " + x + " " + z + " " + cr;
         return frame;
     }
 }

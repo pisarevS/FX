@@ -31,7 +31,6 @@ public class DrawVerticalTurning extends BaseDraw implements IPointDraw {
         pStart.setZ(250f);
         pEnd.setX(650f);
         pEnd.setZ(250f);
-
         float radius = 0;
         for (int i = 0; i < index; i++) {
             isG17 = isG17(frameList.get(i).getGCode());
@@ -69,8 +68,8 @@ public class DrawVerticalTurning extends BaseDraw implements IPointDraw {
                 }
             }
         }
-        drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.RED, 4.5);
-        if(isDrawPoint) drawPoint(gc, pointCoordinateZero, point, zoom, Color.web("#3507EE"), 4.5);
+        drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.RED, 4);
+        if(isDrawPoint) drawPoint(gc, pointCoordinateZero, point, zoom, Color.web("#3507EE"), 4);
     }
 
     private boolean isG17(List<String> gCodes) {
