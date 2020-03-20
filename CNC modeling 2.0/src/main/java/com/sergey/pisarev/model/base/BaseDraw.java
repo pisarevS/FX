@@ -1,11 +1,12 @@
 package com.sergey.pisarev.model.base;
 
 import com.sergey.pisarev.interfaces.IDraw;
-import com.sergey.pisarev.model.MyData;
 import com.sergey.pisarev.model.Point;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
+
+import java.util.List;
 
 public abstract class BaseDraw {
 
@@ -15,14 +16,14 @@ public abstract class BaseDraw {
     private double lineWidth = 1.5;
     private double lineWidthDashes = 1;
     protected boolean isNumberLine;
-    private Color colorLine=Color.web("#009900");
+    private Color colorLine=Color.GREEN;
     private Color colorLineDashes=Color.BLACK;
+    protected int numberLIne;
+    protected boolean isG17=false;
 
     protected BaseDraw(IDraw draw) {
         this.draw = draw;
     }
-
-    public abstract void drawContour(MyData data, GraphicsContext gc, Point pointCoordinateZero, double zoom, int index);
 
     protected void drawArc(GraphicsContext gc, boolean isRapidFeed, Point pointSystemCoordinate, Point pointStart, Point pointEnd, double radius, double zoom, boolean clockwise) {
         if (isRapidFeed) {
@@ -127,7 +128,8 @@ public abstract class BaseDraw {
         gc.strokeLine(pointSystemCoordinate.getX() + pStart.getX(), pStart.getZ(), pointSystemCoordinate.getX() + pEnd.getX(), pEnd.getZ());
     }
 
-    protected void drawPoint(GraphicsContext gc, Point pointSystemCoordinate, Point pointEnd, double zoom, Color color, double radiusPoint) {
+    protected void drawPoint(GraphicsContext gc, Point pointSystemCoordinate, Point pointEnd, double zoom, Color color) {
+        double radiusPoint=4;
         Point pEnd = new Point(pointEnd.getX(), pointEnd.getZ());
         pEnd.setX(pEnd.getX() * zoom);
         pEnd.setZ(pEnd.getZ() * zoom);
@@ -140,5 +142,35 @@ public abstract class BaseDraw {
         gc.setLineWidth(lineWidth);
         radiusPoint+=2.5;
         gc.strokeOval(pointSystemCoordinate.getX() + pEnd.getX() - radiusPoint, pEnd.getZ() - radiusPoint, radiusPoint * 2, radiusPoint * 2);
+    }
+
+    protected boolean isG17(List<String> gCodes) {
+        for (String gCode:gCodes) {
+            return gCode.contains("G17");
+        }
+        return false;
+    }
+
+    protected void checkGCode(List<String> gCodeList) {
+        for (String gCode : gCodeList) {
+            switch (gCode) {
+                case "G0":
+                case "G00":
+                    isRapidFeed = true;
+                    break;
+                case "G1":
+                case "G01":
+                    isRapidFeed = false;
+                    break;
+                case "G2":
+                case "G02":
+                    clockwise = isG17;
+                    break;
+                case "G3":
+                case "G03":
+                    clockwise = !isG17;
+                    break;
+            }
+        }
     }
 }

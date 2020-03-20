@@ -1,7 +1,5 @@
 package com.sergey.pisarev.interfaces;
 
-import java.util.Map;
-
 public interface IController {
     void onReset();
 

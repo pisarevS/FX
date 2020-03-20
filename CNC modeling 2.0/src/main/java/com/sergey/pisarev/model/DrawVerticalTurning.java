@@ -1,17 +1,13 @@
 package com.sergey.pisarev.model;
 
+import com.sergey.pisarev.interfaces.Drawing;
 import com.sergey.pisarev.interfaces.IDraw;
-import com.sergey.pisarev.interfaces.IPointDraw;
 import com.sergey.pisarev.model.base.BaseDraw;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import java.util.List;
 
-public class DrawVerticalTurning extends BaseDraw implements IPointDraw {
-
-    private List<StringBuffer> programList;
-    private int numberLIne;
-    private boolean isG17=false;
+public class DrawVerticalTurning extends BaseDraw implements Drawing {
 
     public DrawVerticalTurning(IDraw draw) {
         super(draw);
@@ -19,7 +15,6 @@ public class DrawVerticalTurning extends BaseDraw implements IPointDraw {
 
     @Override
     public void drawContour(MyData data, GraphicsContext gc, Point pointCoordinateZero, double zoom, int index) {
-        programList = data.getProgramList();
         List<Frame> frameList = data.getFrameList();
         boolean isLine = false;
         boolean isRadius = false;
@@ -68,38 +63,8 @@ public class DrawVerticalTurning extends BaseDraw implements IPointDraw {
                 }
             }
         }
-        drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.RED, 4);
-        if(isDrawPoint) drawPoint(gc, pointCoordinateZero, point, zoom, Color.web("#3507EE"), 4);
-    }
-
-    private boolean isG17(List<String> gCodes) {
-        for (String gCode:gCodes) {
-            return gCode.contains("G17");
-        }
-        return false;
-    }
-
-    private void checkGCode(List<String> gCodeList) {
-        for (String gCode : gCodeList) {
-            switch (gCode) {
-                case "G0":
-                case "G00":
-                    isRapidFeed = true;
-                    break;
-                case "G1":
-                case "G01":
-                    isRapidFeed = false;
-                    break;
-                case "G2":
-                case "G02":
-                    clockwise = isG17;
-                    break;
-                case "G3":
-                case "G03":
-                    clockwise = !isG17;
-                    break;
-            }
-        }
+        drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.RED);
+        if(isDrawPoint) drawPoint(gc, pointCoordinateZero, point, zoom, Color.web("#3507EE"));
     }
 
     @Override

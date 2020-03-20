@@ -1,7 +1,6 @@
 package com.sergey.pisarev.interfaces;
 
 import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseEvent;
 
 public interface PresenterImpl {
     void onStart(String program);

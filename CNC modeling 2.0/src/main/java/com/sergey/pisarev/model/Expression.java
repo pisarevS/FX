@@ -1,6 +1,5 @@
 package com.sergey.pisarev.model;
 
-import java.util.EmptyStackException;
 import java.util.Stack;
 
 public class Expression {

@@ -1,9 +1,6 @@
 package com.sergey.pisarev.controller;
 
-import com.sun.jndi.toolkit.url.Uri;
 import javafx.event.ActionEvent;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 
 import java.awt.*;
 import java.io.IOException;

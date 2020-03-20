@@ -22,7 +22,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     private ResizableCanvas canvas;
     private Point pointSystemCoordinate;
     private MyData data;
-    private DrawVerticalTurning drawVerticalTurning;
+    private Drawing drawing;
     private int index;
     private Timeline timeline;
     private final double defZoom = 2;
@@ -118,12 +118,12 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
                     point.setZ(point.getZ() / zooming);
                     Optional<Frame> frame = getFrame(point);
                     if (frame.isPresent()) {
-                        drawVerticalTurning.setNumberLine(frame.get().getId());
+                        drawing.setNumberLine(frame.get().getId());
                         startDraw(index);
                         controller.showCaretBoxOnCanvasClick(frame.get().getId(), data.getProgramList().get(frame.get().getId()));
                         isDrawPoint = true;
                     } else if (isDrawPoint) {
-                        drawVerticalTurning.setNumberLine(-1);
+                        drawing.setNumberLine(-1);
                         startDraw(index);
                         isDrawPoint = false;
                     }
@@ -212,7 +212,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         index = 0;
         zooming = defZoom;
         errorList.clear();
-        drawVerticalTurning = null;
+        drawing = null;
         initSystemCoordinate();
         if (timeline != null) {
             timeline.stop();
@@ -224,8 +224,8 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     public void getCaretPosition(int numberLine) {
         if (isStart || isCycleStart) {
             isChangesText = true;
-            if (drawVerticalTurning != null)
-                drawVerticalTurning.setNumberLine(numberLine);
+            if (drawing != null)
+                drawing.setNumberLine(numberLine);
             startDraw(index);
             isChangesText = false;
         }
@@ -262,16 +262,16 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     @Override
     public void callingBack(MyData data) {
         this.data = data;
-        drawVerticalTurning = new DrawVerticalTurning(this);
+        drawing = new DrawVerticalTurning(this);
         if (isStart) {
             index = data.getFrameList().size();
         }
     }
 
     private void startDraw(int index) {
-        if (drawVerticalTurning != null) {
+        if (drawing != null) {
             drawSysCoordinate();
-            drawVerticalTurning.drawContour(data, gc, pointSystemCoordinate, zooming, index);
+            drawing.drawContour(data, gc, pointSystemCoordinate, zooming, index);
         }
     }
 

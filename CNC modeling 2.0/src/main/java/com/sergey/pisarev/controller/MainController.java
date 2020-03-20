@@ -39,13 +39,12 @@ import java.util.Objects;
 
 public class MainController implements IController {
 
-    private CodeArea codeAreaProgram = new CodeArea();
-
     private PresenterImpl presenter;
     private int countClick = 2;
     private boolean isDownSingleBlock = false;
     private boolean isCycleStart = false;
     public static Stage STAGE;
+    private CodeArea codeAreaProgram = new CodeArea();
 
     @FXML
     Text textZooming = new Text();
