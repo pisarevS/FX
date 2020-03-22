@@ -14,10 +14,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -44,6 +42,7 @@ public class MainController implements IController {
     private boolean isDownSingleBlock = false;
     private boolean isCycleStart = false;
     public static Stage STAGE;
+    private ContextMenu contextMenu;
     private CodeArea codeAreaProgram = new CodeArea();
 
     @FXML
@@ -108,6 +107,28 @@ public class MainController implements IController {
         buttonSingleBlock.setTextFill(Color.BLACK);
         buttonReset.setTextFill(Color.BLACK);
 
+        contextMenu = new ContextMenu();
+        MenuItem menuItemCopy = new MenuItem("Copy");
+        MenuItem menuItemPaste = new MenuItem("Paste");
+        MenuItem menuItemCut = new MenuItem("Cut");
+        menuItemCopy.setOnAction(event -> codeAreaProgram.copy());
+        menuItemPaste.setOnAction(event -> codeAreaProgram.paste());
+        menuItemCut.setOnAction(event -> codeAreaProgram.cut());
+        contextMenu.getItems().addAll(menuItemCut, menuItemCopy, menuItemPaste);
+        codeAreaProgram.setOnContextMenuRequested(event -> {
+            Clipboard clipboard = Clipboard.getSystemClipboard();
+            if (clipboard != null) {
+                String text=clipboard.getString();
+                if (text==null){
+                    menuItemPaste.setDisable(true);
+                }else {
+                    menuItemPaste.setDisable(false);
+                }
+            }
+            contextMenu.show(codeAreaProgram, event.getScreenX(), event.getScreenY());
+            event.consume();
+        });
+
         TableUtils.installCopyPasteHandler(codeAreaProgram);
         setOnChangesText(codeAreaProgram);
         exit();
@@ -135,6 +156,7 @@ public class MainController implements IController {
     @FXML
     public void onMouseClickedProgram(Event event) {
         presenter.getCaretPosition(codeAreaProgram.offsetToPosition(codeAreaProgram.getCaretPosition(), TwoDimensional.Bias.Forward).getMajor());
+        contextMenu.hide();
     }
 
     @FXML
@@ -231,12 +253,12 @@ public class MainController implements IController {
 
     @Override
     public void showCaretBoxOnCycleStart(int number, StringBuffer frame) {
-        showCaretBox(number,frame);
+        showCaretBox(number, frame);
     }
 
     @Override
     public void showCaretBoxOnCanvasClick(int number, StringBuffer frame) {
-       showCaretBox(number,frame);
+        showCaretBox(number, frame);
     }
 
     @FXML
@@ -255,7 +277,7 @@ public class MainController implements IController {
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("rename_frame_number.fxml")));
             Stage stage = new Stage();
-            RenameFrameNumbersController.STAGE=stage;
+            RenameFrameNumbersController.STAGE = stage;
             stage.setScene(new Scene(root, 328, 250));
             stage.setTitle("Rename Frames");
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -316,15 +338,15 @@ public class MainController implements IController {
         }
     }
 
-    private void showCaretBox(int number, StringBuffer frame){
+    private void showCaretBox(int number, StringBuffer frame) {
         int end;
         try {
             end = codeAreaProgram.position(number + 1, 0).toOffset() - 1;
         } catch (Exception e) {
             end = codeAreaProgram.getLength();
         }
-        codeAreaProgram.moveTo(end-frame.length());
-        if(!codeAreaProgram.getCaretBounds().isPresent()){
+        codeAreaProgram.moveTo(end - frame.length());
+        if (!codeAreaProgram.getCaretBounds().isPresent()) {
             codeAreaProgram.requestFollowCaret();
             codeAreaProgram.requestFocus();
             codeAreaProgram.scrollYBy(1000);
