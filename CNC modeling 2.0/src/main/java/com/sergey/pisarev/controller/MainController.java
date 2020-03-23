@@ -108,22 +108,21 @@ public class MainController implements IController {
         buttonReset.setTextFill(Color.BLACK);
 
         contextMenu = new ContextMenu();
-        MenuItem menuItemCopy = new MenuItem("Copy");
+
+        MenuItem menuItemCopy = new MenuItem( "Copy");
         MenuItem menuItemPaste = new MenuItem("Paste");
-        MenuItem menuItemCut = new MenuItem("Cut");
+        MenuItem menuItemCut = new MenuItem(  "Cut");
         menuItemCopy.setOnAction(event -> codeAreaProgram.copy());
         menuItemPaste.setOnAction(event -> codeAreaProgram.paste());
         menuItemCut.setOnAction(event -> codeAreaProgram.cut());
         contextMenu.getItems().addAll(menuItemCut, menuItemCopy, menuItemPaste);
         codeAreaProgram.setOnContextMenuRequested(event -> {
             Clipboard clipboard = Clipboard.getSystemClipboard();
-            if (clipboard != null) {
-                String text=clipboard.getString();
-                if (text==null){
-                    menuItemPaste.setDisable(true);
-                }else {
-                    menuItemPaste.setDisable(false);
-                }
+            String text = clipboard.getString();
+            if (text == null) {
+                menuItemPaste.setDisable(true);
+            } else {
+                menuItemPaste.setDisable(false);
             }
             contextMenu.show(codeAreaProgram, event.getScreenX(), event.getScreenY());
             event.consume();

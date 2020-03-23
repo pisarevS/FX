@@ -342,13 +342,13 @@ public class Program implements Runnable {
                 break;
             }
         }
-        if (isSymbol(temp.toString())&&temp.indexOf("=")!=-1) {
-            if (temp.toString().contains("=")) {
+        if (isSymbol(temp.toString())&&temp.indexOf("=")==0) {
+            if (temp.indexOf("=")!=-1) {
                 int index = temp.indexOf("=");
                 temp.replace(index, index + 1, "");
             }
             return Expression.calculate(temp.toString());
-        } else if (!isSymbol(temp.toString())) {
+        } else if (!isSymbol(temp.toString())||temp.indexOf("-")==0) {
             return Float.parseFloat(temp.toString());
         }
         return FIBO;

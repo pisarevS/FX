@@ -4,6 +4,7 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
+<?import javafx.scene.input.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
@@ -13,8 +14,14 @@
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-                  <MenuItem mnemonicParsing="false" onAction="#menuSaveProgram" text="Save" />
-                  <MenuItem mnemonicParsing="false" onAction="#menuRenameFrameNumbers" text="Rename frame numbers" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuSaveProgram" text="Save">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#menuRenameFrameNumbers" text="Rename frame numbers">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
 
             <MenuItem mnemonicParsing="false" onAction="#menuQuit" text="Exit" />
           </items>
