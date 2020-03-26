@@ -2,7 +2,10 @@ package com.sergey.pisarev.model;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
@@ -20,6 +23,7 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.model.TwoDimensional;
 
 public class TableUtils {
 
@@ -32,11 +36,46 @@ public class TableUtils {
      *   + CTRL + V = paste to clipboard
      * @param codeArea
      */
-    public static void installCopyPasteHandler(CodeArea codeArea) {
+    public static void installKeyHandler(CodeArea codeArea) {
 
-        // install copy/paste keyboard handler
         codeArea.setOnKeyPressed(new TableKeyEventHandler());
 
+        codeArea.addEventHandler(KeyEvent.KEY_PRESSED,event -> {
+            KeyCodeCombination copyRowKey = new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN);
+            KeyCodeCombination moveRowUpKey = new KeyCodeCombination(KeyCode.UP, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN);
+            KeyCodeCombination moveRowDownKey = new KeyCodeCombination(KeyCode.DOWN, KeyCombination.CONTROL_DOWN,KeyCombination.SHIFT_DOWN);
+            if (copyRowKey.match(event)) {
+                int row = codeArea.offsetToPosition(codeArea.getCaretPosition(), TwoDimensional.Bias.Forward).getMajor();
+                String text = codeArea.getText();
+                String textRow = Arrays.stream(text.split("\n"))
+                        .collect(Collectors.toList())
+                        .get(row);
+                int position = codeArea.getCaretPosition();
+                codeArea.insertText(row, 0, textRow + "\n");
+                codeArea.moveTo(position + textRow.length() + 1);
+                event.consume();
+            }
+            if (moveRowUpKey.match(event)) {
+                int row = codeArea.offsetToPosition(codeArea.getCaretPosition(), TwoDimensional.Bias.Forward).getMajor();
+                String text = codeArea.getText();
+                List<String>list = Arrays.stream(text.split("\n"))
+                        .collect(Collectors.toList());
+                int position = codeArea.getCaretPosition();
+                codeArea.insertText(row - 1, 0, list.get(row) + "\n");
+                codeArea.replaceText(row+1,0,row+1,list.get(row).length()+1,"");
+                codeArea.moveTo(position - list.get(row-1).length()-1 );
+            }
+            if (moveRowDownKey.match(event)) {
+                int row = codeArea.offsetToPosition(codeArea.getCaretPosition(), TwoDimensional.Bias.Forward).getMajor();
+                String text = codeArea.getText();
+                List<String>list = Arrays.stream(text.split("\n"))
+                        .collect(Collectors.toList());
+                int position = codeArea.getCaretPosition();
+                codeArea.insertText(row + 2, 0, list.get(row) + "\n");
+                codeArea.replaceText(row,0,row,list.get(row).length()+1,"");
+                codeArea.moveTo(position + list.get(row+1).length()+1 );
+            }
+        });
     }
 
     /**
@@ -53,7 +92,7 @@ public class TableUtils {
             if (copyKeyCodeCompination.match(keyEvent)) {
 
                 if( keyEvent.getSource() instanceof TableView) {
-
+                    System.out.println("copy");
                     // copy to clipboard
                     copySelectionToClipboard( (TableView<?>) keyEvent.getSource());
 
@@ -72,13 +111,9 @@ public class TableUtils {
 
                     // event is handled, consume it
                     keyEvent.consume();
-
                 }
-
             }
-
         }
-
     }
 
     /**

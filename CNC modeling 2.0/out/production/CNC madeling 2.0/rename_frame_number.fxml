@@ -18,7 +18,7 @@
       </Text>
       <TextField fx:id="textFieldFirstNumber" layoutX="167.0" layoutY="53.0" prefHeight="25.0" prefWidth="111.0" />
       <TextField fx:id="textFieldStep" layoutX="167.0" layoutY="113.0" prefHeight="25.0" prefWidth="111.0" />
-      <Button defaultButton="true" layoutX="193.0" layoutY="180.0" mnemonicParsing="false" onAction="#buttonOnClickOk" prefWidth="65.0" text="Ok" />
-      <Button layoutX="74.0" layoutY="180.0" mnemonicParsing="false" onAction="#buttonOnClickCancel" prefWidth="60.0" text="Cancel" />
+      <Button defaultButton="true" layoutX="203.0" layoutY="180.0" mnemonicParsing="false" onAction="#buttonOnClickOk" prefWidth="75.0" text="Ok" />
+      <Button layoutX="46.0" layoutY="180.0" mnemonicParsing="false" onAction="#buttonOnClickCancel" prefWidth="75.0" text="Cancel" />
    </children>
 </AnchorPane>

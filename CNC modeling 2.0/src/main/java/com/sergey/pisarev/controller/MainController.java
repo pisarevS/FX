@@ -32,7 +32,6 @@ import com.sergey.pisarev.model.StyleText;
 ;
 import java.io.IOException;
 import java.time.Duration;
-import java.util.Map;
 import java.util.Objects;
 
 public class MainController implements IController {
@@ -109,9 +108,9 @@ public class MainController implements IController {
 
         contextMenu = new ContextMenu();
 
-        MenuItem menuItemCopy = new MenuItem( "Copy");
+        MenuItem menuItemCopy = new MenuItem("Copy");
         MenuItem menuItemPaste = new MenuItem("Paste");
-        MenuItem menuItemCut = new MenuItem(  "Cut");
+        MenuItem menuItemCut = new MenuItem("Cut");
         menuItemCopy.setOnAction(event -> codeAreaProgram.copy());
         menuItemPaste.setOnAction(event -> codeAreaProgram.paste());
         menuItemCut.setOnAction(event -> codeAreaProgram.cut());
@@ -128,7 +127,7 @@ public class MainController implements IController {
             event.consume();
         });
 
-        TableUtils.installCopyPasteHandler(codeAreaProgram);
+        TableUtils.installKeyHandler(codeAreaProgram);
         setOnChangesText(codeAreaProgram);
         exit();
     }

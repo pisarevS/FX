@@ -5,6 +5,7 @@ import com.sergey.pisarev.interfaces.IDraw;
 import com.sergey.pisarev.model.base.BaseDraw;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+
 import java.util.List;
 
 public class DrawVerticalTurning extends BaseDraw implements Drawing {
@@ -18,17 +19,18 @@ public class DrawVerticalTurning extends BaseDraw implements Drawing {
         List<Frame> frameList = data.getFrameList();
         boolean isLine = false;
         boolean isRadius = false;
-        boolean isDrawPoint=false;
+        boolean isDrawPoint = false;
         Point pStart = new Point();
         Point pEnd = new Point();
-        Point point=new Point();
+        Point point = new Point();
         pStart.setX(650f);
         pStart.setZ(250f);
         pEnd.setX(650f);
         pEnd.setZ(250f);
         float radius = 0;
         for (int i = 0; i < index; i++) {
-            isG17 = isG17(frameList.get(i).getGCode());
+            if (frameList.get(i).getGCode().contains("G17") || frameList.get(i).getGCode().contains("G18"))
+                isG17 = isG17(frameList.get(i).getGCode());
             checkGCode(frameList.get(i).getGCode());
             if (data.getErrorListMap().containsKey(frameList.get(i).getId())) {
                 draw.showError(data.getErrorListMap().get(frameList.get(i).getId()));
@@ -59,12 +61,12 @@ public class DrawVerticalTurning extends BaseDraw implements Drawing {
                 if (isNumberLine && frameList.get(i).getId() == numberLIne) {
                     point.setX(frameList.get(i).getX());
                     point.setZ(frameList.get(i).getZ());
-                    isDrawPoint=true;
+                    isDrawPoint = true;
                 }
             }
         }
         drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.RED);
-        if(isDrawPoint) drawPoint(gc, pointCoordinateZero, point, zoom, Color.web("#3507EE"));
+        if (isDrawPoint) drawPoint(gc, pointCoordinateZero, point, zoom, Color.web("#3507EE"));
     }
 
     @Override

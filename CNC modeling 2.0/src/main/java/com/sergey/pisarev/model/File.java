@@ -3,14 +3,11 @@ package com.sergey.pisarev.model;
 import javafx.scene.input.DragEvent;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
 
 import static java.lang.System.out;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -25,7 +22,7 @@ public class File {
         StringBuilder sb = new StringBuilder();
         try {
             FileInputStream program = new FileInputStream(file.get(0));
-            BufferedReader br = new BufferedReader(new InputStreamReader(program, UTF_8.name()));
+            BufferedReader br = new BufferedReader(new InputStreamReader(program, UTF_8));
 
             String line;
             while ((line = br.readLine()) != null) {
@@ -44,7 +41,7 @@ public class File {
         StringBuilder sb = new StringBuilder();
         try {
             FileInputStream program = new FileInputStream(file);
-            BufferedReader br = new BufferedReader(new InputStreamReader(program, UTF_8.name()));
+            BufferedReader br = new BufferedReader(new InputStreamReader(program, UTF_8));
 
             String line;
             while ((line = br.readLine()) != null) {
@@ -61,7 +58,7 @@ public class File {
     public static void setFileContent(java.io.File file, String text) {
         Writer writer;
         try {
-            writer = Files.newBufferedWriter(file.toPath(), StandardCharsets.UTF_8);
+            writer = Files.newBufferedWriter(file.toPath(), UTF_8);
             List<String>list = Arrays.stream(text.split("\n")).collect(Collectors.toList());
             for (String line:list) {
                 writer.write(line);
@@ -80,12 +77,8 @@ public class File {
         for (java.io.File listOfFile : listOfFiles) {
             if (listOfFile.isFile()) {
                 if (listOfFile.getName().contains("PAR")) {
-                    try {
-                        return  Files.lines(Paths.get(listOfFile.getPath())).map(StringBuffer::new).collect(Collectors.toList());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        return new ArrayList<>();
-                    }
+                    String text=getFileContent(listOfFile);
+                    return  Arrays.stream(text.split("\n")).map(StringBuffer::new).collect(Collectors.toList());
                 }
             }
         }
