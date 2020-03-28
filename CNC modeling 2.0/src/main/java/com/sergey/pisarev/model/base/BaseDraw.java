@@ -2,6 +2,7 @@ package com.sergey.pisarev.model.base;
 
 import com.sergey.pisarev.interfaces.IDraw;
 import com.sergey.pisarev.model.Point;
+import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
@@ -16,10 +17,10 @@ public abstract class BaseDraw {
     private double lineWidth = 1.5;
     private double lineWidthDashes = 1;
     protected boolean isNumberLine;
-    private Color colorLine=Color.GREEN;
-    private Color colorLineDashes=Color.BLACK;
+    private Color colorLine = Color.GREEN;
+    private Color colorLineDashes = Color.BLACK;
     protected int numberLIne;
-    protected boolean isG17=false;
+    protected boolean isG17 = false;
 
     protected BaseDraw(IDraw draw) {
         this.draw = draw;
@@ -129,7 +130,7 @@ public abstract class BaseDraw {
     }
 
     protected void drawPoint(GraphicsContext gc, Point pointSystemCoordinate, Point pointEnd, double zoom, Color color) {
-        double radiusPoint=4;
+        double radiusPoint = 4;
         Point pEnd = new Point(pointEnd.getX(), pointEnd.getZ());
         pEnd.setX(pEnd.getX() * zoom);
         pEnd.setZ(pEnd.getZ() * zoom);
@@ -140,12 +141,25 @@ public abstract class BaseDraw {
         gc.setStroke(color);
         gc.setLineDashes();
         gc.setLineWidth(lineWidth);
-        radiusPoint+=2.5;
+        radiusPoint += 2.5;
         gc.strokeOval(pointSystemCoordinate.getX() + pEnd.getX() - radiusPoint, pEnd.getZ() - radiusPoint, radiusPoint * 2, radiusPoint * 2);
     }
 
+    protected void drawRND(GraphicsContext gc, boolean isRapidFeed, Point pointSystemCoordinate, Point pointStart, Point pointEnd, Point pointF, double radiusRND, double zoom) {
+        double cathet;
+        double angle = new Point2D(pointEnd.getX() - pointStart.getX(), pointEnd.getZ() - pointStart.getZ()).angle(pointEnd.getX() - pointF.getX(), pointEnd.getZ() - pointF.getZ());
+        if (angle == 90) {
+            cathet = radiusRND;
+        } else {
+            cathet = (180 - angle) / 2 * (Math.PI / 180) * radiusRND;
+        }
+        System.out.println(cathet);
+
+        //drawArc(gc,isRapidFeed,pointSystemCoordinate,pointStart,pointEnd,radiusRND,zoom,clockwise);
+    }
+
     protected boolean isG17(List<String> gCodes) {
-        for (String gCode:gCodes) {
+        for (String gCode : gCodes) {
             return gCode.contains("G17");
         }
         return false;

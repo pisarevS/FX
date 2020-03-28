@@ -59,11 +59,7 @@ public class File {
         Writer writer;
         try {
             writer = Files.newBufferedWriter(file.toPath(), UTF_8);
-            List<String>list = Arrays.stream(text.split("\n")).collect(Collectors.toList());
-            for (String line:list) {
-                writer.write(line);
-                writer.write("\n");
-            }
+            writer.write(text);
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -77,8 +73,8 @@ public class File {
         for (java.io.File listOfFile : listOfFiles) {
             if (listOfFile.isFile()) {
                 if (listOfFile.getName().contains("PAR")) {
-                    String text=getFileContent(listOfFile);
-                    return  Arrays.stream(text.split("\n")).map(StringBuffer::new).collect(Collectors.toList());
+                    String text = getFileContent(listOfFile);
+                    return Arrays.stream(text.split("\n")).map(StringBuffer::new).collect(Collectors.toList());
                 }
             }
         }

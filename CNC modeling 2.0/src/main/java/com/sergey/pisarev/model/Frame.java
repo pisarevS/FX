@@ -6,15 +6,33 @@ import java.util.List;
 public class Frame {
 
     private int id;
-    private float x;
-    private float z;
-    private float cr;
+    private double x;
+    private double z;
+    private double cr;
+    private double rnd;
     private boolean isCR = false;
+    private boolean isRND = false;
     private boolean isAxisContains = false;
     private List<String> gCode = new ArrayList<>();
 
     public boolean isAxisContains() {
         return isAxisContains;
+    }
+
+    public double getRnd() {
+        return rnd;
+    }
+
+    public void setRnd(double rnd) {
+        this.rnd = rnd;
+    }
+
+    public boolean isRND() {
+        return isRND;
+    }
+
+    public void setRND(boolean RND) {
+        isRND = RND;
     }
 
     public void setAxisContains(boolean axisContains) {
@@ -45,27 +63,27 @@ public class Frame {
         return id;
     }
 
-    public void setX(float x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public float getX() {
+    public double getX() {
         return x;
     }
 
-    public void setZ(float z) {
+    public void setZ(double z) {
         this.z = z;
     }
 
-    public float getZ() {
+    public double getZ() {
         return z;
     }
 
-    public void setCr(float cr) {
+    public void setCr(double cr) {
         this.cr = cr;
     }
 
-    public float getCr() {
+    public double getCr() {
         return cr;
     }
 

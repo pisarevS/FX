@@ -101,10 +101,12 @@ public class Program implements Runnable {
         StringBuffer strFrame;
         boolean isHorizontalAxis = false;
         boolean isVerticalAxis = false;
-        float tempHorizontal = 650;
-        float tempVertical = 250;
-        float tempCR = 0;
+        double tempHorizontal = 650;
+        double tempVertical = 250;
+        double tempCR = 0;
+        double tempRND = 0;
         boolean isCR = false;
+        boolean isRND = false;
         boolean isRadius = false;
         for (int i = 0; i < programList.size(); i++) {
             strFrame = programList.get(i);
@@ -168,6 +170,18 @@ public class Program implements Runnable {
                 errorListMap.put(i, strFrame.toString());
             }
 
+            String rnd = "RND=";
+            try {
+                if (contains(strFrame, rnd)&&isHorizontalAxis||contains(strFrame, rnd)&&isVerticalAxis) {
+                    tempRND = coordinateSearch(strFrame, rnd);
+                    if (tempRND != FIBO) {
+                        isRND = true;
+                    }
+                }
+            } catch (Exception e) {
+                errorListMap.put(i, strFrame.toString());
+            }
+
             if (isCR) {
                 frame.setX(tempHorizontal);
                 frame.setZ(tempVertical);
@@ -179,6 +193,19 @@ public class Program implements Runnable {
                 isHorizontalAxis = false;
                 isVerticalAxis = false;
                 isCR = false;
+            }
+
+            if (isRND) {
+                frame.setX(tempHorizontal);
+                frame.setZ(tempVertical);
+                frame.setRnd(tempRND);
+                frame.setRND(true);
+                frame.setAxisContains(true);
+                frame.setId(i);
+                frameList.add(frame);
+                isHorizontalAxis = false;
+                isVerticalAxis = false;
+                isRND = false;
             }
 
             if (isHorizontalAxis || isVerticalAxis) {

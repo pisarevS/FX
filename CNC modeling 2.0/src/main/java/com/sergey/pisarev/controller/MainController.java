@@ -6,12 +6,15 @@ import com.sergey.pisarev.model.File;
 import com.sergey.pisarev.model.ResizableCanvas;
 import com.sergey.pisarev.model.TableUtils;
 import com.sergey.pisarev.presenter.Presenter;
+import com.sun.javafx.geometry.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point2D;
+import javafx.geometry.Point3D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -130,6 +133,7 @@ public class MainController implements IController {
         TableUtils.installKeyHandler(codeAreaProgram);
         setOnChangesText(codeAreaProgram);
         exit();
+
     }
 
     private EventHandler<InputEvent> codeAreaChangeCaretListener() {

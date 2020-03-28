@@ -6,6 +6,7 @@ import com.sergey.pisarev.model.base.BaseDraw;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+import java.awt.*;
 import java.util.List;
 
 public class DrawVerticalTurning extends BaseDraw implements Drawing {
@@ -17,8 +18,6 @@ public class DrawVerticalTurning extends BaseDraw implements Drawing {
     @Override
     public void drawContour(MyData data, GraphicsContext gc, Point pointCoordinateZero, double zoom, int index) {
         List<Frame> frameList = data.getFrameList();
-        boolean isLine = false;
-        boolean isRadius = false;
         boolean isDrawPoint = false;
         Point pStart = new Point();
         Point pEnd = new Point();
@@ -27,7 +26,8 @@ public class DrawVerticalTurning extends BaseDraw implements Drawing {
         pStart.setZ(250f);
         pEnd.setX(650f);
         pEnd.setZ(250f);
-        float radius = 0;
+        double radius;
+        double radiusRND;
         for (int i = 0; i < index; i++) {
             if (frameList.get(i).getGCode().contains("G17") || frameList.get(i).getGCode().contains("G18"))
                 isG17 = isG17(frameList.get(i).getGCode());
@@ -36,29 +36,33 @@ public class DrawVerticalTurning extends BaseDraw implements Drawing {
                 draw.showError(data.getErrorListMap().get(frameList.get(i).getId()));
                 break;
             } else {
-                if (frameList.get(i).getIsCR()) {
+                if (frameList.get(i).getIsCR() && frameList.get(i).isAxisContains()) {                                  //draw Arc
                     pEnd.setX(frameList.get(i).getX());
                     pEnd.setZ(frameList.get(i).getZ());
                     radius = frameList.get(i).getCr();
-                    isRadius = true;
-                } else {
-                    pEnd.setX(frameList.get(i).getX());
-                    pEnd.setZ(frameList.get(i).getZ());
-                    isLine = true;
-                }
-                if (isRadius && frameList.get(i).isAxisContains()) {
                     drawArc(gc, isRapidFeed, pointCoordinateZero, pStart, pEnd, radius, zoom, clockwise);
                     pStart.setX(pEnd.getX());
                     pStart.setZ(pEnd.getZ());
-                    isLine = false;
-                    isRadius = false;
                 }
-                if (isLine && frameList.get(i).isAxisContains()) {
+                if (!frameList.get(i).getIsCR() && !frameList.get(i).isRND() && frameList.get(i).isAxisContains()) {    //draw line
+                    pEnd.setX(frameList.get(i).getX());
+                    pEnd.setZ(frameList.get(i).getZ());
                     drawLine(gc, isRapidFeed, pointCoordinateZero, pStart, pEnd, zoom);
                     pStart.setX(pEnd.getX());
                     pStart.setZ(pEnd.getZ());
                 }
-                if (isNumberLine && frameList.get(i).getId() == numberLIne) {
+                if (frameList.get(i).isRND() && frameList.get(i).isAxisContains()) {                                    //draw RND
+                    pEnd.setX(frameList.get(i).getX());
+                    pEnd.setZ(frameList.get(i).getZ());
+                    radiusRND = frameList.get(i).getRnd();
+                    Point pointF = new Point();
+                    pointF.setX(frameList.get(i + 1).getX());
+                    pointF.setZ(frameList.get(i + 1).getZ());
+                    drawRND(gc, isRapidFeed, pointCoordinateZero, pStart, pEnd, pointF, radiusRND, zoom);
+                    pStart.setX(pEnd.getX());
+                    pStart.setZ(pEnd.getZ());
+                }
+                if (isNumberLine && frameList.get(i).getId() == numberLIne) {                                           //draw point
                     point.setX(frameList.get(i).getX());
                     point.setZ(frameList.get(i).getZ());
                     isDrawPoint = true;
