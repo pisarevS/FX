@@ -12,6 +12,7 @@ import java.util.List;
 public abstract class BaseDraw {
 
     protected boolean clockwise;
+    protected boolean clockwiseRND;
     protected IDraw draw;
     protected boolean isRapidFeed;
     private double lineWidth = 1.5;
@@ -146,16 +147,49 @@ public abstract class BaseDraw {
     }
 
     protected void drawRND(GraphicsContext gc, boolean isRapidFeed, Point pointSystemCoordinate, Point pointStart, Point pointEnd, Point pointF, double radiusRND, double zoom) {
+        Point pointStartCR = new Point();
+        Point pointEndCR = new Point();
+        double differenceX;
+        double differenceZ;
         double cathet;
+        boolean clockwiseRND = false;
         double angle = new Point2D(pointEnd.getX() - pointStart.getX(), pointEnd.getZ() - pointStart.getZ()).angle(pointEnd.getX() - pointF.getX(), pointEnd.getZ() - pointF.getZ());
+        double firstDistance = new Point2D(pointStart.getX(), pointStart.getZ()).distance(pointEnd.getX(), pointEnd.getZ());
+        double secondDistance = new Point2D(pointEnd.getX(), pointEnd.getZ()).distance(pointF.getX(), pointF.getZ());
         if (angle == 90) {
             cathet = radiusRND;
         } else {
             cathet = (180 - angle) / 2 * (Math.PI / 180) * radiusRND;
         }
-        System.out.println(cathet);
+        differenceX = pointStart.getX() - pointEnd.getX();
+        differenceZ = pointStart.getZ() - pointEnd.getZ();
 
-        //drawArc(gc,isRapidFeed,pointSystemCoordinate,pointStart,pointEnd,radiusRND,zoom,clockwise);
+        pointStartCR.setX(differenceX * cathet / firstDistance);
+        pointStartCR.setZ(differenceZ * cathet / firstDistance);
+        pointStartCR.setX(pointEnd.getX() + pointStartCR.getX());
+        pointStartCR.setZ(pointEnd.getZ() + pointStartCR.getZ());
+
+        differenceX = pointF.getX() - pointEnd.getX();
+        differenceZ = pointF.getZ() - pointEnd.getZ();
+
+        pointEndCR.setX(differenceX * cathet / secondDistance);
+        pointEndCR.setZ(differenceZ * cathet / secondDistance);
+        pointEndCR.setX(pointEnd.getX() + pointEndCR.getX());
+        pointEndCR.setZ(pointEnd.getZ() + pointEndCR.getZ());
+
+        if (pointStart.getX()>pointF.getX()&&(pointStart.getZ()+pointF.getZ())/2>pointEnd.getZ()) {
+            clockwiseRND = true;
+        }
+        if(pointStart.getX()>pointF.getX()&&(pointStart.getZ()+pointF.getZ())/2<pointEnd.getZ()){
+            clockwiseRND=false;
+        }
+        if(pointStart.getX()<pointF.getX()&&(pointStart.getZ()+pointF.getZ())/2<pointEnd.getZ()){
+            clockwiseRND=true;
+        }
+        drawLine(gc, isRapidFeed, pointSystemCoordinate, pointStart, pointStartCR, zoom);
+        drawArc(gc, isRapidFeed, pointSystemCoordinate, pointStartCR, pointEndCR, radiusRND, zoom, clockwiseRND);
+        pointEnd.setX(pointEndCR.getX());
+        pointEnd.setZ(pointEndCR.getZ());
     }
 
     protected boolean isG17(List<String> gCodes) {

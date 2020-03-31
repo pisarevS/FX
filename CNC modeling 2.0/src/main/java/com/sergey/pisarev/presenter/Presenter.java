@@ -36,7 +36,6 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     private boolean isDrawPoint = false;
     private Map<String, String> variablesList;
 
-
     public Presenter(IController controller, ResizableCanvas resizableCanvas) {
         this.canvas = resizableCanvas;
         this.controller = controller;

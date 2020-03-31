@@ -6,15 +6,12 @@ import com.sergey.pisarev.model.File;
 import com.sergey.pisarev.model.ResizableCanvas;
 import com.sergey.pisarev.model.TableUtils;
 import com.sergey.pisarev.presenter.Presenter;
-import com.sun.javafx.geometry.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Point2D;
-import javafx.geometry.Point3D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -32,7 +29,7 @@ import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.TwoDimensional;
 import com.sergey.pisarev.model.StyleText;
-;
+
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Objects;
@@ -43,9 +40,10 @@ public class MainController implements IController {
     private int countClick = 2;
     private boolean isDownSingleBlock = false;
     private boolean isCycleStart = false;
-    public static Stage STAGE;
     private ContextMenu contextMenu;
     private CodeArea codeAreaProgram = new CodeArea();
+    public static MainController mainController;
+    public static Stage STAGE;
 
     @FXML
     Text textZooming = new Text();
@@ -74,8 +72,6 @@ public class MainController implements IController {
     @FXML
     Button buttonReset = new Button();
 
-    public static MainController mainController;
-
     public String getTextCodeArea() {
         return codeAreaProgram.getText();
     }
@@ -91,9 +87,7 @@ public class MainController implements IController {
         ResizableCanvas visualizerCanvas = new ResizableCanvas();
         paneCanvas.setStyle("-fx-background-color: #F5F5F5");
         paneCanvas.getChildren().add(visualizerCanvas);
-
         codeAreaProgram.addEventHandler(KeyEvent.KEY_RELEASED, codeAreaChangeCaretListener());
-
         presenter = new Presenter(this, visualizerCanvas);
         StyleText.setStyle(codeAreaProgram);
         codeAreaProgram.setParagraphGraphicFactory(LineNumberFactory.get(codeAreaProgram));
@@ -103,14 +97,11 @@ public class MainController implements IController {
         AnchorPane.setLeftAnchor(stackPaneProgram, 0.0);
         AnchorPane.setRightAnchor(stackPaneProgram, 0.0);
         anchorPaneProgram.getChildren().add(stackPaneProgram);
-
         buttonStart.setTextFill(Color.BLACK);
         buttonCycleStart.setTextFill(Color.BLACK);
         buttonSingleBlock.setTextFill(Color.BLACK);
         buttonReset.setTextFill(Color.BLACK);
-
         contextMenu = new ContextMenu();
-
         MenuItem menuItemCopy = new MenuItem("Copy");
         MenuItem menuItemPaste = new MenuItem("Paste");
         MenuItem menuItemCut = new MenuItem("Cut");
@@ -129,11 +120,9 @@ public class MainController implements IController {
             contextMenu.show(codeAreaProgram, event.getScreenX(), event.getScreenY());
             event.consume();
         });
-
         TableUtils.installKeyHandler(codeAreaProgram);
         setOnChangesText(codeAreaProgram);
         exit();
-
     }
 
     private EventHandler<InputEvent> codeAreaChangeCaretListener() {

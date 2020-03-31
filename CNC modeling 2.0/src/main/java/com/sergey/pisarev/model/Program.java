@@ -23,7 +23,7 @@ public class Program implements Runnable {
     private ArrayList<Frame> frameList;
     private Map<Integer, String> errorListMap;
     private final float FIBO = 1123581220;
-    private String[] gCodes = {"G0", "G00", "G1", "G01", "G2", "G02", "G3", "G03", "G17", "G18"};
+    private String[] gCodes = {"G0", "G00", "G1", "G01", "G2", "G02", "G3", "G03", "G17", "G18","G41","G42"};
 
     public Program(String program, Map<String, String> variablesList, Callback callback) {
         this.program = program;
@@ -97,7 +97,9 @@ public class Program implements Runnable {
     }
 
     private void addFrameList() {
-        selectCoordinateSystem(programList);
+        String CR = "CR=";
+        String RND = "RND=";
+        String IC = "=IC";
         StringBuffer strFrame;
         boolean isHorizontalAxis = false;
         boolean isVerticalAxis = false;
@@ -108,10 +110,10 @@ public class Program implements Runnable {
         boolean isCR = false;
         boolean isRND = false;
         boolean isRadius = false;
+        selectCoordinateSystem(programList);
         for (int i = 0; i < programList.size(); i++) {
             strFrame = programList.get(i);
             Frame frame = new Frame();
-
             try {
                 if (containsGCode(strFrame)) {
                     List<String> gCode = searchGCog(strFrame.toString());
@@ -125,10 +127,9 @@ public class Program implements Runnable {
             } catch (Exception e) {
                 errorListMap.put(i, strFrame.toString());
             }
-
             try {
-                if (contains(strFrame, horizontalAxis + "=IC")) {
-                    tempHorizontal = tempHorizontal + incrementSearch(strFrame, horizontalAxis + "=IC");
+                if (contains(strFrame, horizontalAxis + IC)) {
+                    tempHorizontal = tempHorizontal + incrementSearch(strFrame, horizontalAxis + IC);
                     isHorizontalAxis = true;
                 } else if (containsAxis(strFrame, horizontalAxis)) {
                     tempHorizontal = coordinateSearch(strFrame, horizontalAxis);
@@ -141,10 +142,9 @@ public class Program implements Runnable {
             } catch (Exception e) {
                 errorListMap.put(i, strFrame.toString());
             }
-
             try {
-                if (contains(strFrame, verticalAxis + "=IC")) {
-                    tempVertical = tempVertical + incrementSearch(strFrame, verticalAxis + "=IC");
+                if (contains(strFrame, verticalAxis + IC)) {
+                    tempVertical = tempVertical + incrementSearch(strFrame, verticalAxis + IC);
                     isVerticalAxis = true;
                 } else if (containsAxis(strFrame, verticalAxis)) {
                     tempVertical = coordinateSearch(strFrame, verticalAxis);
@@ -157,11 +157,9 @@ public class Program implements Runnable {
             } catch (Exception e) {
                 errorListMap.put(i, strFrame.toString());
             }
-
-            String radiusCR = "CR=";
             try {
-                if (contains(strFrame, radiusCR) && isRadius) {
-                    tempCR = coordinateSearch(strFrame, radiusCR);
+                if (contains(strFrame, CR) && isRadius) {
+                    tempCR = coordinateSearch(strFrame, CR);
                     if (tempCR != FIBO) {
                         isCR = true;
                     }
@@ -169,11 +167,9 @@ public class Program implements Runnable {
             } catch (Exception e) {
                 errorListMap.put(i, strFrame.toString());
             }
-
-            String rnd = "RND=";
             try {
-                if (contains(strFrame, rnd)&&isHorizontalAxis||contains(strFrame, rnd)&&isVerticalAxis) {
-                    tempRND = coordinateSearch(strFrame, rnd);
+                if (contains(strFrame, RND)&&isHorizontalAxis||contains(strFrame, RND)&&isVerticalAxis) {
+                    tempRND = coordinateSearch(strFrame, RND);
                     if (tempRND != FIBO) {
                         isRND = true;
                     }
@@ -181,7 +177,6 @@ public class Program implements Runnable {
             } catch (Exception e) {
                 errorListMap.put(i, strFrame.toString());
             }
-
             if (isCR) {
                 frame.setX(tempHorizontal);
                 frame.setZ(tempVertical);
@@ -194,7 +189,6 @@ public class Program implements Runnable {
                 isVerticalAxis = false;
                 isCR = false;
             }
-
             if (isRND) {
                 frame.setX(tempHorizontal);
                 frame.setZ(tempVertical);
@@ -207,7 +201,6 @@ public class Program implements Runnable {
                 isVerticalAxis = false;
                 isRND = false;
             }
-
             if (isHorizontalAxis || isVerticalAxis) {
                 frame.setX(tempHorizontal);
                 frame.setZ(tempVertical);

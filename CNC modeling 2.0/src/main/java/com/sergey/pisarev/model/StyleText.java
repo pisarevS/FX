@@ -39,6 +39,9 @@ public class StyleText {
             "YABLOKO_VNUT", "YABLOKO_NAR", "WHEEL_HEIGHT", "N_GANTRYPOS_X", "N_GANTRYPOS_Z",
             "N_WHEEL_UNMACHINED", "N_WHEEL_MACHINED", "N_SYM_FACTOR");
 
+    public static final List<String> WAITM = Arrays.asList("N_WAITM","SETM");
+
+    public static final List<String> LIMS = Arrays.asList("LIMS");
 
     private static final String[] AXIS = new String[]{
             "X", "Z", "U", "W", "CR", "F"

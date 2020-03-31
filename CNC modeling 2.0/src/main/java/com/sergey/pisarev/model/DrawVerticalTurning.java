@@ -6,7 +6,6 @@ import com.sergey.pisarev.model.base.BaseDraw;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-import java.awt.*;
 import java.util.List;
 
 public class DrawVerticalTurning extends BaseDraw implements Drawing {
