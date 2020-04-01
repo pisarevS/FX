@@ -1,6 +1,7 @@
 package com.sergey.pisarev.model.base;
 
 import com.sergey.pisarev.interfaces.IDraw;
+import com.sergey.pisarev.model.Frame;
 import com.sergey.pisarev.model.Point;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -12,7 +13,6 @@ import java.util.List;
 public abstract class BaseDraw {
 
     protected boolean clockwise;
-    protected boolean clockwiseRND;
     protected IDraw draw;
     protected boolean isRapidFeed;
     private double lineWidth = 1.5;

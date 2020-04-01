@@ -60,6 +60,8 @@ public class DrawVerticalTurning extends BaseDraw implements Drawing {
                     drawRND(gc, isRapidFeed, pointCoordinateZero, pStart, pEnd, pointF, radiusRND, zoom);
                     pStart.setX(pEnd.getX());
                     pStart.setZ(pEnd.getZ());
+                    pEnd.setX(frameList.get(i).getX());
+                    pEnd.setZ(frameList.get(i).getZ());
                 }
                 if (isNumberLine && frameList.get(i).getId() == numberLIne) {                                           //draw point
                     point.setX(frameList.get(i).getX());
