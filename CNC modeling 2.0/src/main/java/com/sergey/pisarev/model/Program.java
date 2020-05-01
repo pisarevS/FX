@@ -97,8 +97,8 @@ public class Program implements Runnable {
     }
 
     private void addFrameList() {
-        String CR = "CR=";
-        String RND = "RND=";
+        String CR = "CR";
+        String RND = "RND";
         String IC = "=IC";
         StringBuffer strFrame;
         boolean isHorizontalAxis = false;

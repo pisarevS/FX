@@ -53,9 +53,9 @@
                                  <children>
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                        <children>
-                                          <Text fx:id="textCoordinateX" layoutX="666.0" layoutY="379.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X" wrappingWidth="70.0" AnchorPane.bottomAnchor="92.98828125" AnchorPane.rightAnchor="17.0" />
-                                          <Text fx:id="textCoordinateZ" layoutX="666.0" layoutY="420.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Z " wrappingWidth="70.0" AnchorPane.bottomAnchor="51.0" AnchorPane.rightAnchor="17.0" />
-                                          <Text fx:id="textZooming" layoutX="656.0" layoutY="456.0" strokeType="OUTSIDE" strokeWidth="0.0" text="100%" AnchorPane.bottomAnchor="15.2353515625" AnchorPane.rightAnchor="50.466796875">
+                                           <Text fx:id="textCoordinateX" layoutX="666.0" layoutY="379.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X" wrappingWidth="70.0" AnchorPane.bottomAnchor="92.98828125" AnchorPane.rightAnchor="17.0" />
+                                           <Text fx:id="textCoordinateZ" layoutX="666.0" layoutY="420.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Z " wrappingWidth="70.0" AnchorPane.bottomAnchor="51.0" AnchorPane.rightAnchor="17.0" />
+                                           <Text fx:id="textZooming" layoutX="656.0" layoutY="456.0" strokeType="OUTSIDE" strokeWidth="0.0" text="100%" AnchorPane.bottomAnchor="15.2353515625" AnchorPane.rightAnchor="50.466796875">
                                              <font>
                                                 <Font size="15.0" />
                                              </font>

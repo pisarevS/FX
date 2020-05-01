@@ -2,9 +2,7 @@ package com.sergey.pisarev.controller;
 
 import com.sergey.pisarev.interfaces.IController;
 import com.sergey.pisarev.interfaces.PresenterImpl;
-import com.sergey.pisarev.model.File;
-import com.sergey.pisarev.model.ResizableCanvas;
-import com.sergey.pisarev.model.TableUtils;
+import com.sergey.pisarev.model.*;
 import com.sergey.pisarev.presenter.Presenter;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -28,7 +26,6 @@ import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.TwoDimensional;
-import com.sergey.pisarev.model.StyleText;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -102,24 +99,7 @@ public class MainController implements IController {
         buttonSingleBlock.setTextFill(Color.BLACK);
         buttonReset.setTextFill(Color.BLACK);
         contextMenu = new ContextMenu();
-        MenuItem menuItemCopy = new MenuItem("Copy");
-        MenuItem menuItemPaste = new MenuItem("Paste");
-        MenuItem menuItemCut = new MenuItem("Cut");
-        menuItemCopy.setOnAction(event -> codeAreaProgram.copy());
-        menuItemPaste.setOnAction(event -> codeAreaProgram.paste());
-        menuItemCut.setOnAction(event -> codeAreaProgram.cut());
-        contextMenu.getItems().addAll(menuItemCut, menuItemCopy, menuItemPaste);
-        codeAreaProgram.setOnContextMenuRequested(event -> {
-            Clipboard clipboard = Clipboard.getSystemClipboard();
-            String text = clipboard.getString();
-            if (text == null) {
-                menuItemPaste.setDisable(true);
-            } else {
-                menuItemPaste.setDisable(false);
-            }
-            contextMenu.show(codeAreaProgram, event.getScreenX(), event.getScreenY());
-            event.consume();
-        });
+        ContextMenuCodeArea.installContextMenu(contextMenu,codeAreaProgram);
         TableUtils.installKeyHandler(codeAreaProgram);
         setOnChangesText(codeAreaProgram);
         exit();
