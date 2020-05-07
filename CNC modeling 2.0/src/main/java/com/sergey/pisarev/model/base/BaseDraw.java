@@ -15,11 +15,11 @@ public abstract class BaseDraw {
     protected boolean clockwise;
     protected IDraw draw;
     protected boolean isRapidFeed;
-    private double lineWidth = 1.5;
-    private double lineWidthDashes = 1;
+    private final double lineWidth = 1.5;
+    private final double lineWidthDashes = 1;
     protected boolean isNumberLine;
-    private Color colorLine = Color.GREEN;
-    private Color colorLineDashes = Color.BLACK;
+    private final Color colorLine = Color.GREEN;
+    private final Color colorLineDashes = Color.BLACK;
     protected int numberLIne;
     protected boolean isG17 = false;
 

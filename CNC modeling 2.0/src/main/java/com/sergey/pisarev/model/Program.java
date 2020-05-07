@@ -9,21 +9,21 @@ import java.util.stream.Collectors;
 
 public class Program implements Runnable {
 
-    private List<StringBuffer> programList;
-    private String[] defs = {"DEF REAL", "DEF INT"};
-    private MyData data = new MyData();
-    private Callback callback;
+    private MyData data;
+    private final Callback callback;
     private int x;
     private int u;
     private String horizontalAxis;
     private String verticalAxis;
-    private String program;
+    private final String program;
+    private List<StringBuffer> programList;
     private ArrayList<String> listIgnore;
-    private Map<String, String> variablesList;
+    private final Map<String, String> variablesList;
     private ArrayList<Frame> frameList;
     private Map<Integer, String> errorListMap;
     private final float FIBO = 1123581220;
-    private String[] gCodes = {"G0", "G00", "G1", "G01", "G2", "G02", "G3", "G03", "G17", "G18","G41","G42"};
+    private final String[] defs = {"DEF REAL", "DEF INT"};
+    private final String[] gCodes = {"G0", "G00", "G1", "G01", "G2", "G02", "G3", "G03", "G17", "G18","G41","G42"};
 
     public Program(String program, Map<String, String> variablesList, Callback callback) {
         this.program = program;
@@ -33,7 +33,7 @@ public class Program implements Runnable {
     }
 
     private void initLists() {
-
+        data = new MyData();
         listIgnore = new ArrayList<>();
         frameList = new ArrayList<>();
         errorListMap = new HashMap<>();
@@ -168,7 +168,7 @@ public class Program implements Runnable {
                 errorListMap.put(i, strFrame.toString());
             }
             try {
-                if (contains(strFrame, RND)&&isHorizontalAxis||contains(strFrame, RND)&&isVerticalAxis) {
+                if (contains(strFrame, RND)&&isHorizontalAxis&&!contains(strFrame, CR)||contains(strFrame, RND)&&isVerticalAxis&&!contains(strFrame, CR)) {
                     tempRND = coordinateSearch(strFrame, RND);
                     if (tempRND != FIBO) {
                         isRND = true;

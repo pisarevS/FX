@@ -18,11 +18,7 @@ public class ContextMenuCodeArea {
         codeAreaProgram.setOnContextMenuRequested(event -> {
             Clipboard clipboard = Clipboard.getSystemClipboard();
             String text = clipboard.getString();
-            if (text == null) {
-                menuItemPaste.setDisable(true);
-            } else {
-                menuItemPaste.setDisable(false);
-            }
+            menuItemPaste.setDisable(text == null);
             contextMenu.show(codeAreaProgram, event.getScreenX(), event.getScreenY());
             event.consume();
         });

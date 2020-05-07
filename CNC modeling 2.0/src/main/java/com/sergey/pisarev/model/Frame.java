@@ -89,7 +89,6 @@ public class Frame {
 
     @Override
     public String toString() {
-        String frame = id + " " + gCode + " " + x + " " + z + " " + cr;
-        return frame;
+        return id + " " + gCode + " " + x + " " + z + " " + cr;
     }
 }

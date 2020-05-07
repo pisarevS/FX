@@ -27,7 +27,7 @@ import org.fxmisc.richtext.model.TwoDimensional;
 
 public class TableUtils {
 
-    private static NumberFormat numberFormatter = NumberFormat.getNumberInstance();
+    private static final NumberFormat numberFormatter = NumberFormat.getNumberInstance();
 
 
     /**

@@ -16,10 +16,10 @@ import java.util.*;
 
 public class Presenter implements PresenterImpl, IDraw, Callback {
 
-    private IController controller;
+    private final IController controller;
     private double canvasWidth, canvasHeight, moveX, moveZ;
-    private GraphicsContext gc;
-    private ResizableCanvas canvas;
+    private final GraphicsContext gc;
+    private final ResizableCanvas canvas;
     private Point pointSystemCoordinate;
     private MyData data;
     private Drawing drawing;
@@ -27,14 +27,14 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     private Timeline timeline;
     private final double defZoom = 2;
     private double zooming = defZoom;
-    private ArrayList<String> errorList;
+    private final ArrayList<String> errorList;
     private boolean isStart = false;
     private boolean isCycleStart = false;
     private boolean isSingleBlock = false;
     private boolean isReset = false;    
     private boolean isChangesText = false;
     private boolean isDrawPoint = false;
-    private Map<String, String> variablesList;
+    private final Map<String, String> variablesList;
 
     public Presenter(IController controller, ResizableCanvas resizableCanvas) {
         this.canvas = resizableCanvas;
