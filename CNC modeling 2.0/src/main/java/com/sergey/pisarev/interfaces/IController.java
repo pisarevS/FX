@@ -5,6 +5,8 @@ public interface IController {
 
     void showProgram(String text);
 
+    void showFrame(String frame);
+
     void showError(String error);
 
     void showCaretBoxOnCycleStart(int number, StringBuffer frame);

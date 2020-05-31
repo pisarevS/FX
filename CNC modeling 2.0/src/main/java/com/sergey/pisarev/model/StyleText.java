@@ -1,6 +1,8 @@
 package com.sergey.pisarev.model;
 
 import com.sergey.pisarev.controller.MainController;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;

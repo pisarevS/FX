@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 public class Presenter implements PresenterImpl, IDraw, Callback {
 
@@ -223,8 +224,14 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     public void getCaretPosition(int numberLine) {
         if (isStart || isCycleStart) {
             isChangesText = true;
-            if (drawing != null)
+            if (drawing != null) {
+                data.getFrameList().forEach(frame -> {
+                    if(frame.getId()==numberLine){
+                        controller.showFrame(data.getProgramList().get(numberLine).toString());
+                    }
+                });
                 drawing.setNumberLine(numberLine);
+            }
             startDraw(index);
             isChangesText = false;
         }

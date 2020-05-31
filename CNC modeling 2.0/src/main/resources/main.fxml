@@ -33,11 +33,11 @@
         </Menu>
       </menus>
     </MenuBar>
-    <SplitPane dividerPositions="0.25" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <SplitPane fx:id="splitPane" dividerPositions="0.25" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>
       <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="551.0" prefWidth="224.0">
         <children>
-              <AnchorPane fx:id="anchorPaneProgram" minHeight="0.0" minWidth="200.0" onDragDropped="#handleDragProgram" onDragOver="#handleDragOverProgram" onMouseClicked="#onMouseClickedProgram" prefHeight="180.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+              <AnchorPane fx:id="anchorPaneProgram" minHeight="0.0" minWidth="0.0" onDragDropped="#handleDragProgram" onDragOver="#handleDragOverProgram" onMouseClicked="#onMouseClickedProgram" prefHeight="180.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
         </children>
       </AnchorPane>
         <AnchorPane minWidth="600.0">
@@ -55,8 +55,9 @@
                                        <children>
                                            <Text fx:id="textCoordinateX" layoutX="666.0" layoutY="379.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X" wrappingWidth="70.0" AnchorPane.bottomAnchor="92.98828125" AnchorPane.rightAnchor="17.0" />
                                            <Text fx:id="textCoordinateZ" layoutX="666.0" layoutY="420.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Z " wrappingWidth="70.0" AnchorPane.bottomAnchor="51.0" AnchorPane.rightAnchor="17.0" />
-                                           <Text fx:id="textZooming" layoutX="656.0" layoutY="456.0" strokeType="OUTSIDE" strokeWidth="0.0" text="100%" AnchorPane.bottomAnchor="15.2353515625" AnchorPane.rightAnchor="50.466796875">
-                                             <font>
+                                           <Text fx:id="textZooming" layoutX="656.0" layoutY="456.0" strokeType="OUTSIDE" strokeWidth="0.0" text="100%" AnchorPane.bottomAnchor="15.2353515625" AnchorPane.rightAnchor="50.466796875" />
+                                           <Text fx:id="textFrame" layoutX="656.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" AnchorPane.bottomAnchor="15.2" AnchorPane.leftAnchor="20.0">
+                                           <font>
                                                 <Font size="15.0" />
                                              </font>
                                           </Text>

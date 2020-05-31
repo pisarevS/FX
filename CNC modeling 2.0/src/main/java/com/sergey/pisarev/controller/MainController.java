@@ -52,6 +52,9 @@ public class MainController implements IController {
     Text textCoordinateZ = new Text();
 
     @FXML
+    Text textFrame = new Text();
+
+    @FXML
     StackPane paneCanvas = new StackPane();
 
     @FXML
@@ -68,6 +71,9 @@ public class MainController implements IController {
 
     @FXML
     Button buttonReset = new Button();
+
+    @FXML
+    SplitPane splitPane=new SplitPane();
 
     public String getTextCodeArea() {
         return codeAreaProgram.getText();
@@ -108,6 +114,7 @@ public class MainController implements IController {
     private EventHandler<InputEvent> codeAreaChangeCaretListener() {
         return event -> {
             CodeArea codeArea = (CodeArea) event.getSource();
+            textFrame.setText("");
             presenter.getCaretPosition(codeArea.offsetToPosition(codeArea.getCaretPosition(), TwoDimensional.Bias.Forward).getMajor());
         };
     }
@@ -126,6 +133,7 @@ public class MainController implements IController {
 
     @FXML
     public void onMouseClickedProgram(Event event) {
+        textFrame.setText("");
         presenter.getCaretPosition(codeAreaProgram.offsetToPosition(codeAreaProgram.getCaretPosition(), TwoDimensional.Bias.Forward).getMajor());
         contextMenu.hide();
     }
@@ -171,6 +179,7 @@ public class MainController implements IController {
 
     @FXML
     public void onReset(ActionEvent actionEvent) {
+        textFrame.setText("");
         buttonReset.setDisable(true);
         buttonStart.setDisable(false);
         buttonCycleStart.setDisable(false);
@@ -197,6 +206,11 @@ public class MainController implements IController {
         buttonStart.setDisable(false);
         buttonCycleStart.setDisable(false);
         buttonReset.setDisable(true);
+    }
+
+    @Override
+    public void showFrame(String frame) {
+        textFrame.setText(frame);
     }
 
     @Override
@@ -310,6 +324,7 @@ public class MainController implements IController {
     }
 
     private void showCaretBox(int number, StringBuffer frame) {
+        textFrame.setText(frame.toString());
         int end;
         try {
             end = codeAreaProgram.position(number + 1, 0).toOffset() - 1;
