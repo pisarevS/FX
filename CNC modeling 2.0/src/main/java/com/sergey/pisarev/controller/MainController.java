@@ -129,6 +129,7 @@ public class MainController implements IController {
     public void handleDragProgram(DragEvent event) {
         presenter.openDragProgram(event);
         STAGE.setTitle(File.fileProgram.toString());
+        textFrame.setText("");
     }
 
     @FXML
