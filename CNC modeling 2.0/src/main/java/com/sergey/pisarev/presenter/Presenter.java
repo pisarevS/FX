@@ -13,7 +13,6 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 public class Presenter implements PresenterImpl, IDraw, Callback {
 
@@ -79,7 +78,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
             startDraw(index);
         });
     }
-
+    
     private void handleZooming() {
         canvas.setOnScroll((ScrollEvent event) -> {
             zooming += event.getDeltaY() / 600;
@@ -121,6 +120,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
                         drawing.setNumberLine(frame.get().getId());
                         startDraw(index);
                         controller.showCaretBoxOnCanvasClick(frame.get().getId(), data.getProgramList().get(frame.get().getId()));
+                        controller.getCoordinateFrame(frame.get().getX(),frame.get().getZ());
                         isDrawPoint = true;
                     } else if (isDrawPoint) {
                         drawing.setNumberLine(-1);
@@ -171,6 +171,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
                 index++;
                 startDraw(index);
                 controller.showCaretBoxOnCycleStart(data.getFrameList().get(index - 1).getId(), data.getProgramList().get(data.getFrameList().get(index - 1).getId()));
+                controller.getCoordinateFrame(data.getFrameList().get(index - 1).getX(),data.getFrameList().get(index - 1).getZ());
                 if (index == data.getFrameList().size())
                     controller.onReset();
             }));
@@ -183,6 +184,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
             if (index == data.getFrameList().size())
                 controller.onReset();
             controller.showCaretBoxOnCycleStart(data.getFrameList().get(index - 1).getId(), data.getProgramList().get(data.getFrameList().get(index - 1).getId()));
+            controller.getCoordinateFrame(data.getFrameList().get(index - 1).getX(),data.getFrameList().get(index - 1).getZ());
         }
         isReset = true;
     }
@@ -228,6 +230,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
                 data.getFrameList().forEach(frame -> {
                     if(frame.getId()==numberLine){
                         controller.showFrame(data.getProgramList().get(numberLine).toString());
+                        controller.getCoordinateFrame(frame.getX(),frame.getZ());
                     }
                 });
                 drawing.setNumberLine(numberLine);

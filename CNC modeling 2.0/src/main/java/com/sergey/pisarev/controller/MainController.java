@@ -52,6 +52,12 @@ public class MainController implements IController {
     Text textCoordinateZ = new Text();
 
     @FXML
+    Text textFrameCoordinateX = new Text();
+
+    @FXML
+    Text textFrameCoordinateZ = new Text();
+
+    @FXML
     Text textFrame = new Text();
 
     @FXML
@@ -115,6 +121,8 @@ public class MainController implements IController {
         return event -> {
             CodeArea codeArea = (CodeArea) event.getSource();
             textFrame.setText("");
+            textFrameCoordinateX.setText("");
+            textFrameCoordinateZ.setText("");
             presenter.getCaretPosition(codeArea.offsetToPosition(codeArea.getCaretPosition(), TwoDimensional.Bias.Forward).getMajor());
         };
     }
@@ -135,6 +143,8 @@ public class MainController implements IController {
     @FXML
     public void onMouseClickedProgram(Event event) {
         textFrame.setText("");
+        textFrameCoordinateX.setText("");
+        textFrameCoordinateZ.setText("");
         presenter.getCaretPosition(codeAreaProgram.offsetToPosition(codeAreaProgram.getCaretPosition(), TwoDimensional.Bias.Forward).getMajor());
         contextMenu.hide();
     }
@@ -181,6 +191,8 @@ public class MainController implements IController {
     @FXML
     public void onReset(ActionEvent actionEvent) {
         textFrame.setText("");
+        textFrameCoordinateX.setText("");
+        textFrameCoordinateZ.setText("");
         buttonReset.setDisable(true);
         buttonStart.setDisable(false);
         buttonCycleStart.setDisable(false);
@@ -238,12 +250,23 @@ public class MainController implements IController {
     }
 
     @Override
+    public void getCoordinateFrame(double x, double z) {
+        double scale = Math.pow(10, 3);
+        x = Math.round(x * scale) / scale;
+        z = Math.round(z * scale) / scale;
+        textFrameCoordinateX.setText("X=" + x);
+        textFrameCoordinateZ.setText("Z=" + z);
+    }
+
+    @Override
     public void showCaretBoxOnCycleStart(int number, StringBuffer frame) {
+        textFrame.setText(frame.toString());
         showCaretBox(number, frame);
     }
 
     @Override
     public void showCaretBoxOnCanvasClick(int number, StringBuffer frame) {
+        textFrame.setText(frame.toString());
         showCaretBox(number, frame);
     }
 
@@ -325,7 +348,6 @@ public class MainController implements IController {
     }
 
     private void showCaretBox(int number, StringBuffer frame) {
-        textFrame.setText(frame.toString());
         int end;
         try {
             end = codeAreaProgram.position(number + 1, 0).toOffset() - 1;

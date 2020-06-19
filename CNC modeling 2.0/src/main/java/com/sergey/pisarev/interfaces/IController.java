@@ -15,5 +15,7 @@ public interface IController {
 
     void getCoordinateCanvas(double x,double z);
 
+    void getCoordinateFrame(double x,double z);
+
     void showCaretBoxOnCanvasClick(int number, StringBuffer frame);
 }
