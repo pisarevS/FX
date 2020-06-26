@@ -38,9 +38,10 @@ public class MainController implements IController {
     private boolean isDownSingleBlock = false;
     private boolean isCycleStart = false;
     private ContextMenu contextMenu;
-    private CodeArea codeAreaProgram = new CodeArea();
+    private final CodeArea codeAreaProgram = new CodeArea();
     public static MainController mainController;
     public static Stage STAGE;
+    private ResizableCanvas visualizerCanvas;
 
     @FXML
     Text textZooming = new Text();
@@ -93,11 +94,11 @@ public class MainController implements IController {
     @FXML
     public void initialize() {
         mainController = this;
-        ResizableCanvas visualizerCanvas = new ResizableCanvas();
+        visualizerCanvas = new ResizableCanvas();
         paneCanvas.setStyle("-fx-background-color: #F5F5F5");
         paneCanvas.getChildren().add(visualizerCanvas);
         codeAreaProgram.addEventHandler(KeyEvent.KEY_RELEASED, codeAreaChangeCaretListener());
-        presenter = new Presenter(this, visualizerCanvas);
+        presenter = new Presenter(this, visualizerCanvas.getGraphicsContext2D());
         StyleText.setStyle(codeAreaProgram);
         codeAreaProgram.setParagraphGraphicFactory(LineNumberFactory.get(codeAreaProgram));
         StackPane stackPaneProgram = new StackPane(new VirtualizedScrollPane<>(codeAreaProgram));
@@ -114,7 +115,51 @@ public class MainController implements IController {
         ContextMenuCodeArea.installContextMenu(contextMenu,codeAreaProgram);
         TableUtils.installKeyHandler(codeAreaProgram);
         setOnChangesText(codeAreaProgram);
+
+        visualizerCanvas.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2){
+                if(visualizerCanvas.getHeight()-textFrameCoordinateX.getLayoutY()<=visualizerCanvas.getHeight()-event.getY()&&
+                        visualizerCanvas.getHeight()-textFrameCoordinateX.getLayoutY()+textFrameCoordinateX.getStrokeMiterLimit()>=visualizerCanvas.getHeight()-event.getY()&&
+                        event.getX()>=textFrameCoordinateX.getLayoutX()&&event.getX()<=textFrameCoordinateX.getLayoutX()+textFrameCoordinateX.getWrappingWidth()){
+                  setClipboardContent(textFrameCoordinateX.getText().replace("X=",""));
+                }else if(visualizerCanvas.getHeight()-textFrameCoordinateZ.getLayoutY()<=visualizerCanvas.getHeight()-event.getY()&&
+                        visualizerCanvas.getHeight()-textFrameCoordinateZ.getLayoutY()+textFrameCoordinateZ.getStrokeMiterLimit()>=visualizerCanvas.getHeight()-event.getY()&&
+                        event.getX()>=textFrameCoordinateZ.getLayoutX()&&event.getX()<=textFrameCoordinateZ.getLayoutX()+textFrameCoordinateZ.getWrappingWidth()){
+                    setClipboardContent(textFrameCoordinateZ.getText().replace("Z=",""));
+                }else {
+                    presenter.onMouseClickedCanvas(event);
+                }
+            }
+        });
+
+        visualizerCanvas.setOnMouseMoved(event -> {
+            presenter.onMouseMovedCanvas(event);
+        });
+
+        visualizerCanvas.setOnScroll((ScrollEvent event) -> {
+            presenter.handleZooming(event);
+        });
+
+        visualizerCanvas.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
+            presenter.handleMousePressed(event);
+        });
+
+        visualizerCanvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, event -> {
+            presenter.handleMouseDragged(event);
+        });
+
+        visualizerCanvas.widthProperty().addListener(observable -> presenter.initSystemCoordinate( visualizerCanvas.getWidth(),visualizerCanvas.getHeight()));
+        visualizerCanvas.heightProperty().addListener(observable -> presenter.initSystemCoordinate(visualizerCanvas.getWidth(),visualizerCanvas.getHeight()));
+
         exit();
+    }
+
+    private void setClipboardContent(String content){
+        final ClipboardContent clipboardContent = new ClipboardContent();
+        clipboardContent.putString(content);
+        clipboardContent.putHtml(content);
+        System.out.println(content);
+        Clipboard.getSystemClipboard().setContent(clipboardContent);
     }
 
     private EventHandler<InputEvent> codeAreaChangeCaretListener() {

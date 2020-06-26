@@ -1,6 +1,5 @@
 package com.sergey.pisarev.presenter;
 
-import com.sergey.pisarev.model.ResizableCanvas;
 import com.sergey.pisarev.interfaces.*;
 import com.sergey.pisarev.model.*;
 import javafx.animation.KeyFrame;
@@ -19,7 +18,6 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     private final IController controller;
     private double canvasWidth, canvasHeight, moveX, moveZ;
     private final GraphicsContext gc;
-    private final ResizableCanvas canvas;
     private Point pointSystemCoordinate;
     private MyData data;
     private Drawing drawing;
@@ -31,28 +29,22 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     private boolean isStart = false;
     private boolean isCycleStart = false;
     private boolean isSingleBlock = false;
-    private boolean isReset = false;    
+    private boolean isReset = false;
     private boolean isChangesText = false;
     private boolean isDrawPoint = false;
     private final Map<String, String> variablesList;
 
-    public Presenter(IController controller, ResizableCanvas resizableCanvas) {
-        this.canvas = resizableCanvas;
+    public Presenter(IController controller, GraphicsContext gc) {
         this.controller = controller;
-        gc = canvas.getGraphicsContext2D();
-        canvas.widthProperty().addListener(observable -> initSystemCoordinate());
-        canvas.heightProperty().addListener(observable -> initSystemCoordinate());
-        handle();
-        handleZooming();
-        onMouseClickedCanvas();
-        onMouseMovedCanvas();
+        this.gc = gc;
         errorList = new ArrayList<>();
         variablesList = new LinkedHashMap<>();
     }
 
-    private void initSystemCoordinate() {
-        canvasWidth = canvas.getWidth();
-        canvasHeight = canvas.getHeight();
+    @Override
+    public void initSystemCoordinate(double canvasWidth,double canvasHeight) {
+        this.canvasWidth=canvasWidth;
+        this.canvasHeight=canvasHeight;
         pointSystemCoordinate = new Point(canvasWidth / 2, canvasHeight / 2);
         gc.clearRect(0, 0, canvasWidth, canvasHeight);
         gc.setStroke(Color.BLACK);
@@ -64,72 +56,71 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         startDraw(index);
     }
 
-    private void handle() {
-        canvas.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
-            double downX = event.getX();
-            double downZ = event.getY();
-            moveX = pointSystemCoordinate.getX() - downX;
-            moveZ = pointSystemCoordinate.getZ() - downZ;
-        });
-        canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, event -> {
-            pointSystemCoordinate.setX(event.getX() + moveX);
-            pointSystemCoordinate.setZ(event.getY() + moveZ);
-            drawSysCoordinate();
+
+    @Override
+    public void handleMousePressed(MouseEvent event) {
+        double downX = event.getX();
+        double downZ = event.getY();
+        moveX = pointSystemCoordinate.getX() - downX;
+        moveZ = pointSystemCoordinate.getZ() - downZ;
+    }
+
+    @Override
+    public void handleMouseDragged(MouseEvent event) {
+        pointSystemCoordinate.setX(event.getX() + moveX);
+        pointSystemCoordinate.setZ(event.getY() + moveZ);
+        drawSysCoordinate();
+        startDraw(index);
+    }
+
+    @Override
+    public void handleZooming(ScrollEvent event) {
+        zooming += event.getDeltaY() / 600;
+        if (zooming > 0) {
             startDraw(index);
-        });
-    }
-    
-    private void handleZooming() {
-        canvas.setOnScroll((ScrollEvent event) -> {
-            zooming += event.getDeltaY() / 600;
-            if (zooming > 0) {
-                startDraw(index);
-            } else {
-                zooming = 0;
-            }
-            controller.setZooming((zooming - defZoom) / defZoom * 100 + 100);
-        });
+        } else {
+            zooming = 0;
+        }
+        controller.setZooming((zooming - defZoom) / defZoom * 100 + 100);
     }
 
-    private void onMouseMovedCanvas() {
-        canvas.setOnMouseMoved(event -> {
-            Point point = new Point();
-            point.setX((pointSystemCoordinate.getX() - event.getX()) * -1);
-            point.setZ(event.getY());
-            if (point.getZ() > 0) point.setZ(pointSystemCoordinate.getZ() - point.getZ());
-            else point.setZ(pointSystemCoordinate.getZ() + Math.abs(point.getZ()));
-            point.setX(point.getX() / zooming);
-            point.setZ(point.getZ() / zooming);
-            controller.getCoordinateCanvas(point.getX(), point.getZ());
-        });
+    @Override
+    public void onMouseMovedCanvas(MouseEvent event) {
+        Point point = new Point();
+        point.setX((pointSystemCoordinate.getX() - event.getX()) * -1);
+        point.setZ(event.getY());
+        if (point.getZ() > 0) point.setZ(pointSystemCoordinate.getZ() - point.getZ());
+        else point.setZ(pointSystemCoordinate.getZ() + Math.abs(point.getZ()));
+        point.setX(point.getX() / zooming);
+        point.setZ(point.getZ() / zooming);
+        controller.getCoordinateCanvas(point.getX(), point.getZ());
     }
 
-    private void onMouseClickedCanvas() {
-        canvas.setOnMouseClicked(event -> {
-            if (isStart || isCycleStart) {
-                if (event.getClickCount() == 2) {
-                    Point point = new Point();
-                    point.setX((pointSystemCoordinate.getX() - event.getX()) * -1);
-                    point.setZ(event.getY());
-                    if (point.getZ() > 0) point.setZ(pointSystemCoordinate.getZ() - point.getZ());
-                    else point.setZ(pointSystemCoordinate.getZ() + Math.abs(point.getZ()));
-                    point.setX(point.getX() / zooming);
-                    point.setZ(point.getZ() / zooming);
-                    Optional<Frame> frame = getFrame(point);
-                    if (frame.isPresent()) {
-                        drawing.setNumberLine(frame.get().getId());
-                        startDraw(index);
-                        controller.showCaretBoxOnCanvasClick(frame.get().getId(), data.getProgramList().get(frame.get().getId()));
-                        controller.getCoordinateFrame(frame.get().getX(),frame.get().getZ());
-                        isDrawPoint = true;
-                    } else if (isDrawPoint) {
-                        drawing.setNumberLine(-1);
-                        startDraw(index);
-                        isDrawPoint = false;
-                    }
+    @Override
+    public void onMouseClickedCanvas(MouseEvent event) {
+        if (isStart || isCycleStart) {
+            if (event.getClickCount() == 2) {
+                Point point = new Point();
+                point.setX((pointSystemCoordinate.getX() - event.getX()) * -1);
+                point.setZ(event.getY());
+                if (point.getZ() > 0) point.setZ(pointSystemCoordinate.getZ() - point.getZ());
+                else point.setZ(pointSystemCoordinate.getZ() + Math.abs(point.getZ()));
+                point.setX(point.getX() / zooming);
+                point.setZ(point.getZ() / zooming);
+                Optional<Frame> frame = getFrame(point);
+                if (frame.isPresent()) {
+                    drawing.setNumberLine(frame.get().getId());
+                    startDraw(index);
+                    controller.showCaretBoxOnCanvasClick(frame.get().getId(), data.getProgramList().get(frame.get().getId()));
+                    controller.getCoordinateFrame(frame.get().getX(), frame.get().getZ());
+                    isDrawPoint = true;
+                } else if (isDrawPoint) {
+                    drawing.setNumberLine(-1);
+                    startDraw(index);
+                    isDrawPoint = false;
                 }
             }
-        });
+        }
     }
 
     private Optional<Frame> getFrame(Point point) {
@@ -171,7 +162,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
                 index++;
                 startDraw(index);
                 controller.showCaretBoxOnCycleStart(data.getFrameList().get(index - 1).getId(), data.getProgramList().get(data.getFrameList().get(index - 1).getId()));
-                controller.getCoordinateFrame(data.getFrameList().get(index - 1).getX(),data.getFrameList().get(index - 1).getZ());
+                controller.getCoordinateFrame(data.getFrameList().get(index - 1).getX(), data.getFrameList().get(index - 1).getZ());
                 if (index == data.getFrameList().size())
                     controller.onReset();
             }));
@@ -184,7 +175,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
             if (index == data.getFrameList().size())
                 controller.onReset();
             controller.showCaretBoxOnCycleStart(data.getFrameList().get(index - 1).getId(), data.getProgramList().get(data.getFrameList().get(index - 1).getId()));
-            controller.getCoordinateFrame(data.getFrameList().get(index - 1).getX(),data.getFrameList().get(index - 1).getZ());
+            controller.getCoordinateFrame(data.getFrameList().get(index - 1).getX(), data.getFrameList().get(index - 1).getZ());
         }
         isReset = true;
     }
@@ -215,7 +206,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         zooming = defZoom;
         errorList.clear();
         drawing = null;
-        initSystemCoordinate();
+        initSystemCoordinate(canvasWidth,canvasHeight);
         if (timeline != null) {
             timeline.stop();
         }
@@ -228,9 +219,9 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
             isChangesText = true;
             if (drawing != null) {
                 data.getFrameList().forEach(frame -> {
-                    if(frame.getId()==numberLine){
+                    if (frame.getId() == numberLine) {
                         controller.showFrame(data.getProgramList().get(numberLine).toString());
-                        controller.getCoordinateFrame(frame.getX(),frame.getZ());
+                        controller.getCoordinateFrame(frame.getX(), frame.getZ());
                     }
                 });
                 drawing.setNumberLine(numberLine);
@@ -298,20 +289,20 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     private void readParameterVariables(List<StringBuffer> parameterList) {
         variablesList.clear();
         parameterList.forEach(p -> {
-                    if (p.toString().contains(";")) p.delete(p.indexOf(";"), p.length());
-                    if (p.toString().contains("=")) {
-                        int key = 0;
-                        for (int j = p.indexOf("=") - 1; j >= 0; j--) {
-                            char c = p.charAt(j);
-                            if (c == ' ') {
-                                key = j;
-                                break;
-                            }
-                        }
-                        variablesList.put(
-                                p.substring(key, p.indexOf("=")).replace(" ", "")
-                                , p.substring(p.indexOf("=") + 1, p.length()).replace(" ", ""));
+            if (p.toString().contains(";")) p.delete(p.indexOf(";"), p.length());
+            if (p.toString().contains("=")) {
+                int key = 0;
+                for (int j = p.indexOf("=") - 1; j >= 0; j--) {
+                    char c = p.charAt(j);
+                    if (c == ' ') {
+                        key = j;
+                        break;
                     }
-                });
+                }
+                variablesList.put(
+                        p.substring(key, p.indexOf("=")).replace(" ", "")
+                        , p.substring(p.indexOf("=") + 1, p.length()).replace(" ", ""));
+            }
+        });
     }
 }
