@@ -35,7 +35,7 @@ public class StyleText {
         codeArea.setStyleSpans(0, computeHighlighting(codeArea.getText()));
     }
 
-    public static final List<String> KEYWORDS = Arrays.asList("BORE_DIAM", "WHEEL_UNMACHINED", "WHEEL_MACHINED", "SYM_FACTOR", "TREAD_HEIGHT_S1",
+    public static final List<String> KEYWORDS = Arrays.asList("DIAM_KANAV","BORE_DIAM", "WHEEL_UNMACHINED", "WHEEL_MACHINED", "SYM_FACTOR", "TREAD_HEIGHT_S1",
             "TREAD_HEIGHT_S2", "GLOBAL_ALLOWANCE", "TREAD_ALLOWANCE", "TREAD_DIAM", "VYLET_ST",
             "STUPICA_VNUT", "STUPICA_NAR", "DISK_VNUT", "DISK_NAR",
             "YABLOKO_VNUT", "YABLOKO_NAR", "WHEEL_HEIGHT", "N_GANTRYPOS_X", "N_GANTRYPOS_Z",
@@ -46,10 +46,12 @@ public class StyleText {
     public static final List<String> LIMS = Arrays.asList("LIMS");
 
     private static final String[] AXIS = new String[]{
-            "X", "Z", "U", "W", "CR", "F"
+            "X", "Z", "U", "W", "CR", "F","RND"
     };
 
     private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+    private static final String WAITM_PATTERN = "\\b(" + String.join("|", WAITM) + ")\\b";
+    private static final String LIMS_PATTERN = "\\b(" + String.join("|", LIMS) + ")\\b";
     private static final String R_PARAMETER = "R(\\d+)";
     private static final String AXIS_PATTERN = "\\b(" + String.join("|", AXIS) + ")\\b";
     private static final String GCODE_PATTERN = "G(\\d+)";
@@ -63,6 +65,8 @@ public class StyleText {
 
     private static final Pattern PATTERN = Pattern.compile(
             "(?<KEYWORD>" + KEYWORD_PATTERN + ")"
+                    + "|(?<WAITM>" + WAITM_PATTERN + ")"
+                    + "|(?<LIMS>" + LIMS_PATTERN + ")"
                     + "|(?<RPARAMETER>" + R_PARAMETER + ")"
                     + "|(?<PAREN>" + PAREN_PATTERN + ")"
                     + "|(?<BRACE>" + BRACE_PATTERN + ")"
@@ -84,7 +88,9 @@ public class StyleText {
         while (matcher.find()) {
             String styleClass =
                     matcher.group("KEYWORD") != null ? "keyword" :
-                            matcher.group("RPARAMETER") != null ? "rparameter" :
+                            matcher.group("WAITM") != null ? "waitm" :
+                            matcher.group("LIMS") != null ? "lims" :
+                               matcher.group("RPARAMETER") != null ? "rparameter" :
                                  matcher.group("PAREN") != null ? "paren" :
                                     matcher.group("BRACE") != null ? "brace" :
                                             matcher.group("NUMBERFRAME") != null ? "number_frame" :

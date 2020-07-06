@@ -15,9 +15,11 @@
 .keyword {
     -fx-fill: #00FFFF !important;
 }
-
 .waitm {
-    -fx-fill: #00FFFF !important;
+    -fx-fill: #B266FF !important;
+}
+.lims {
+    -fx-fill: #5375FA !important;
 }
 
 .rparameter {
