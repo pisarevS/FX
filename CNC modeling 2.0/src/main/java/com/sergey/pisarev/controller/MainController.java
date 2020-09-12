@@ -241,7 +241,7 @@ public class MainController implements IController {
         buttonReset.setDisable(true);
         buttonStart.setDisable(false);
         buttonCycleStart.setDisable(false);
-        buttonSingleBlock.setDisable(true);
+        buttonSingleBlock.setDisable(false);
         buttonSingleBlock.setStyle("-fx-background-color: ");
         countClick = 2;
         presenter.onReset();
@@ -263,6 +263,7 @@ public class MainController implements IController {
         codeAreaProgram.appendText(text);
         buttonStart.setDisable(false);
         buttonCycleStart.setDisable(false);
+        buttonSingleBlock.setDisable(false);
         buttonReset.setDisable(true);
     }
 

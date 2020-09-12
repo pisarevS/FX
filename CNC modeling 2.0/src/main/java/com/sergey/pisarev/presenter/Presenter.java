@@ -33,6 +33,8 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     private boolean isChangesText = false;
     private boolean isDrawPoint = false;
     private final Map<String, String> variablesList;
+    private double coordinateSystemProportionsX;
+    private double coordinateSystemProportionsZ;
 
     public Presenter(IController controller, GraphicsContext gc) {
         this.controller = controller;
@@ -45,7 +47,11 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     public void initSystemCoordinate(double canvasWidth,double canvasHeight) {
         this.canvasWidth=canvasWidth;
         this.canvasHeight=canvasHeight;
-        pointSystemCoordinate = new Point(canvasWidth / 2, canvasHeight / 2);
+        if(coordinateSystemProportionsX!=0&&coordinateSystemProportionsZ!=0){
+            pointSystemCoordinate = new Point(canvasWidth *coordinateSystemProportionsX, canvasHeight * coordinateSystemProportionsZ);
+        }else {
+            pointSystemCoordinate = new Point(canvasWidth *0.5, canvasHeight * 0.5);
+        }
         gc.clearRect(0, 0, canvasWidth, canvasHeight);
         gc.setStroke(Color.BLACK);
         gc.setLineDashes(5, 5);
@@ -69,6 +75,8 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     public void handleMouseDragged(MouseEvent event) {
         pointSystemCoordinate.setX(event.getX() + moveX);
         pointSystemCoordinate.setZ(event.getY() + moveZ);
+        coordinateSystemProportionsX=pointSystemCoordinate.getX()/canvasWidth;
+        coordinateSystemProportionsZ=pointSystemCoordinate.getZ()/canvasHeight;
         drawSysCoordinate();
         startDraw(index);
     }
@@ -155,7 +163,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     @Override
     public void onCycleStart(String program) {
         isCycleStart = true;
-        if (!isReset && !program.equals("") && !isSingleBlock) {
+        if (!isReset && !program.equals("") ) {
             startThread(program);
             assert data != null;
             timeline = new Timeline(new KeyFrame(Duration.millis(200), event -> {
@@ -168,7 +176,10 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
             }));
             timeline.setCycleCount(data.getFrameList().size());
             timeline.play();
-        } else if (isSingleBlock) {
+            if(isSingleBlock){
+                timeline.stop();
+            }
+        } if (isSingleBlock) {
             index++;
             if (index <= data.getFrameList().size())
                 startDraw(index);
@@ -183,11 +194,11 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     @Override
     public void onSingleBlock(boolean isClick) {
         if (isClick) {
-            timeline.stop();
             isSingleBlock = true;
+            if(timeline!=null) timeline.stop();
         } else {
             isSingleBlock = false;
-            timeline.play();
+            if(timeline!=null) timeline.play();
         }
     }
 

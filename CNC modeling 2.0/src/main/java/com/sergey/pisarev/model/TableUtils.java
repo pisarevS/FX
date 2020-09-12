@@ -61,6 +61,18 @@ public class TableUtils {
                 List<String>list = Arrays.stream(text.split("\n"))
                         .collect(Collectors.toList());
                 int position = codeArea.getCaretPosition();
+
+
+                /*int end =codeArea.position(row + 1, 0).toOffset() - 1;
+                codeArea.moveSelectedText(position-1);
+                row = codeArea.offsetToPosition(codeArea.getCaretPosition(), TwoDimensional.Bias.Forward).getMajor();
+                System.out.println(row);
+                position = codeArea.getCaretPosition();
+                System.out.println(Math.abs(codeArea.getCaretPosition()-position-list.get(row-1).length()-1));
+                int start=Math.abs(codeArea.getCaretPosition()-position-list.get(row-1).length()-1);
+                codeArea.moveTo(start );
+                codeArea.selectRange(start-end,start);*/
+
                 codeArea.insertText(row - 1, 0, list.get(row) + "\n");
                 codeArea.replaceText(row+1,0,row+1,list.get(row).length()+1,"");
                 codeArea.moveTo(position - list.get(row-1).length()-1 );
