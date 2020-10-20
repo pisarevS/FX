@@ -30,4 +30,6 @@ public interface PresenterImpl {
     void handleMouseDragged(MouseEvent event);
 
     void initSystemCoordinate(double canvasWidth,double canvasHeight);
+
+    void convertProgram(String aviaProgram);
 }

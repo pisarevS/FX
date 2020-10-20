@@ -415,4 +415,11 @@ public class MainController implements IController {
             Platform.exit();
         });
     }
+
+
+    public void menuConvertProgram(ActionEvent actionEvent) {
+        presenter.convertProgram(codeAreaProgram.getText());
+    }
+
+
 }

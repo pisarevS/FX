@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Presenter implements PresenterImpl, IDraw, Callback {
 
@@ -35,6 +36,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     private final Map<String, String> variablesList;
     private double coordinateSystemProportionsX;
     private double coordinateSystemProportionsZ;
+
 
     public Presenter(IController controller, GraphicsContext gc) {
         this.controller = controller;
@@ -62,6 +64,10 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         startDraw(index);
     }
 
+    @Override
+    public void convertProgram(String aviaProgram) {
+    controller.showProgram(new Convert().convertAviaProgram(aviaProgram));
+    }
 
     @Override
     public void handleMousePressed(MouseEvent event) {

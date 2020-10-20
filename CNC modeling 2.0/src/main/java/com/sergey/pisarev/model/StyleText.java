@@ -39,11 +39,11 @@ public class StyleText {
             "TREAD_HEIGHT_S2", "GLOBAL_ALLOWANCE", "TREAD_ALLOWANCE", "TREAD_DIAM", "VYLET_ST",
             "STUPICA_VNUT", "STUPICA_NAR", "DISK_VNUT", "DISK_NAR",
             "YABLOKO_VNUT", "YABLOKO_NAR", "WHEEL_HEIGHT", "N_GANTRYPOS_X", "N_GANTRYPOS_Z",
-            "N_WHEEL_UNMACHINED", "N_WHEEL_MACHINED", "N_SYM_FACTOR");
+            "N_WHEEL_UNMACHINED", "N_WHEEL_MACHINED", "N_SYM_FACTOR","UGOL","Y_0","Z_0","START_SHNEK");
 
     public static final List<String> WAITM = Arrays.asList("N_WAITM","SETM");
 
-    public static final List<String> LIMS = Arrays.asList("LIMS");
+    public static final List<String> LIMS = Arrays.asList("LIMS","E_TCARR");
 
     private static final String[] AXIS = new String[]{
             "X", "Z", "U", "W", "CR", "F","RND"
