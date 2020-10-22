@@ -27,7 +27,7 @@
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" onAction="#menuConvertProgram" text="Convert AVIA program" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuConvertAviaProgram" text="Convert AVIA program" />
                   <MenuItem mnemonicParsing="false" onAction="#menuRenameFrameNumbers" text="Rename frame numbers">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="UP" shortcut="UP" />

@@ -65,7 +65,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     }
 
     @Override
-    public void convertProgram(String aviaProgram) {
+    public void convertAviaProgram(String aviaProgram) {
     controller.showProgram(new Convert().convertAviaProgram(aviaProgram));
     }
 

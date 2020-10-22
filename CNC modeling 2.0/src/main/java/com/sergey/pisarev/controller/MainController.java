@@ -417,8 +417,8 @@ public class MainController implements IController {
     }
 
 
-    public void menuConvertProgram(ActionEvent actionEvent) {
-        presenter.convertProgram(codeAreaProgram.getText());
+    public void menuConvertAviaProgram(ActionEvent actionEvent) {
+        presenter.convertAviaProgram(codeAreaProgram.getText());
     }
 
 

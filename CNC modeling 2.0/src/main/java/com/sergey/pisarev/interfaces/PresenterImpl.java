@@ -31,5 +31,5 @@ public interface PresenterImpl {
 
     void initSystemCoordinate(double canvasWidth,double canvasHeight);
 
-    void convertProgram(String aviaProgram);
+    void convertAviaProgram(String aviaProgram);
 }
