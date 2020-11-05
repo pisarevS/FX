@@ -9,16 +9,20 @@ public class Frame {
     private double x;
     private double z;
     private double cr;
+
+    private double offn;
+
     private double rnd;
     private boolean isCR = false;
+    private boolean isOffn = false;
     private boolean isRND = false;
-    private boolean isAxisContains = false;
-    private List<String> gCode = new ArrayList<>();
 
+    private boolean isAxisContains = false;
+
+    private List<String> gCode = new ArrayList<>();
     public boolean isAxisContains() {
         return isAxisContains;
     }
-
     public double getRnd() {
         return rnd;
     }
@@ -33,6 +37,22 @@ public class Frame {
 
     public void setRND(boolean RND) {
         isRND = RND;
+    }
+
+    public double getOffn() {
+        return offn;
+    }
+
+    public void setOffn(double offn) {
+        this.offn = offn;
+    }
+
+    public boolean isOffn() {
+        return isOffn;
+    }
+
+    public void setOffn(boolean offn) {
+        isOffn = offn;
     }
 
     public void setAxisContains(boolean axisContains) {

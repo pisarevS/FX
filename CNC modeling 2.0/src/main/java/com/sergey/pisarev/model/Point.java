@@ -2,9 +2,9 @@ package com.sergey.pisarev.model;
 
 public class Point {
 
-    protected double x;
+    protected double x = 650f;
 
-    protected double z;
+    protected double z = 250f;
 
     public Point() {
 

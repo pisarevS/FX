@@ -35,18 +35,18 @@ public class StyleText {
         codeArea.setStyleSpans(0, computeHighlighting(codeArea.getText()));
     }
 
-    public static final List<String> KEYWORDS = Arrays.asList("DIAM_KANAV","BORE_DIAM", "WHEEL_UNMACHINED", "WHEEL_MACHINED", "SYM_FACTOR", "TREAD_HEIGHT_S1",
+    public static final List<String> KEYWORDS = Arrays.asList("DIAM_KANAV", "BORE_DIAM", "WHEEL_UNMACHINED", "WHEEL_MACHINED", "SYM_FACTOR", "TREAD_HEIGHT_S1",
             "TREAD_HEIGHT_S2", "GLOBAL_ALLOWANCE", "TREAD_ALLOWANCE", "TREAD_DIAM", "VYLET_ST",
             "STUPICA_VNUT", "STUPICA_NAR", "DISK_VNUT", "DISK_NAR",
             "YABLOKO_VNUT", "YABLOKO_NAR", "WHEEL_HEIGHT", "N_GANTRYPOS_X", "N_GANTRYPOS_Z",
-            "N_WHEEL_UNMACHINED", "N_WHEEL_MACHINED", "N_SYM_FACTOR","UGOL","Y_0","Z_0","START_SHNEK");
+            "N_WHEEL_UNMACHINED", "N_WHEEL_MACHINED", "N_SYM_FACTOR", "UGOL", "Y_0", "Z_0", "START_SHNEK");
 
-    public static final List<String> WAITM = Arrays.asList("N_WAITM","SETM");
+    public static final List<String> WAITM = Arrays.asList("N_WAITM", "SETM");
 
-    public static final List<String> LIMS = Arrays.asList("LIMS","E_TCARR");
+    public static final List<String> LIMS = Arrays.asList("LIMS", "E_TCARR");
 
     private static final String[] AXIS = new String[]{
-            "X", "Z", "U", "W", "CR", "F","RND"
+            "X", "Z", "U", "W", "CR", "F", "RND"
     };
 
     private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
@@ -89,18 +89,18 @@ public class StyleText {
             String styleClass =
                     matcher.group("KEYWORD") != null ? "keyword" :
                             matcher.group("WAITM") != null ? "waitm" :
-                            matcher.group("LIMS") != null ? "lims" :
-                               matcher.group("RPARAMETER") != null ? "rparameter" :
-                                 matcher.group("PAREN") != null ? "paren" :
-                                    matcher.group("BRACE") != null ? "brace" :
-                                            matcher.group("NUMBERFRAME") != null ? "number_frame" :
-                                                    matcher.group("SEMICOLON") != null ? "semicolon" :
-                                                            matcher.group("STRING") != null ? "string" :
-                                                                    matcher.group("COMMENT") != null ? "comment" :
-                                                                            matcher.group("AXIS") != null ? "axis" :
-                                                                                    matcher.group("GCODE") != null ? "g_code" :
-                                                                                            matcher.group("FIGURES") != null ? "figures" :
-                                                                                                    null; /* never happens */
+                                    matcher.group("LIMS") != null ? "lims" :
+                                            matcher.group("RPARAMETER") != null ? "rparameter" :
+                                                    matcher.group("PAREN") != null ? "paren" :
+                                                            matcher.group("BRACE") != null ? "brace" :
+                                                                    matcher.group("NUMBERFRAME") != null ? "number_frame" :
+                                                                            matcher.group("SEMICOLON") != null ? "semicolon" :
+                                                                                    matcher.group("STRING") != null ? "string" :
+                                                                                            matcher.group("COMMENT") != null ? "comment" :
+                                                                                                    matcher.group("AXIS") != null ? "axis" :
+                                                                                                            matcher.group("GCODE") != null ? "g_code" :
+                                                                                                                    matcher.group("FIGURES") != null ? "figures" :
+                                                                                                                            null; /* never happens */
             assert styleClass != null;
             spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
             spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());

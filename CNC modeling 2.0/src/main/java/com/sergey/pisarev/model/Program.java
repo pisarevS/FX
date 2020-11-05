@@ -1,13 +1,15 @@
 package com.sergey.pisarev.model;
 
 import com.sergey.pisarev.interfaces.Callback;
+import com.sergey.pisarev.model.base.BaseDraw;
+import javafx.geometry.Point2D;
 
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class Program implements Runnable {
+public class Program extends BaseDraw implements Runnable {
 
     private MyData data;
     private final Callback callback;
@@ -23,9 +25,10 @@ public class Program implements Runnable {
     private Map<Integer, String> errorListMap;
     private final float FIBO = 1123581220;
     private final String[] defs = {"DEF REAL", "DEF INT"};
-    private final String[] gCodes = {"G0", "G00", "G1", "G01", "G2", "G02", "G3", "G03", "G17", "G18","G41","G42"};
+    private final String[] gCodes = {"G0", "G00", "G1", "G01", "G2", "G02", "G3", "G03", "G17", "G18", "G41", "G42","G40","G60"};
 
     public Program(String program, Map<String, String> variablesList, Callback callback) {
+        super();
         this.program = program;
         this.variablesList = variablesList;
         this.callback = callback;
@@ -97,9 +100,10 @@ public class Program implements Runnable {
     }
 
     private void addFrameList() {
-        String CR = "CR";
-        String RND = "RND";
-        String IC = "=IC";
+        final String CR = "CR";
+        final String RND = "RND";
+        final String IC = "=IC";
+        final String OFFN = "OFFN";
         StringBuffer strFrame;
         boolean isHorizontalAxis = false;
         boolean isVerticalAxis = false;
@@ -107,8 +111,10 @@ public class Program implements Runnable {
         double tempVertical = 250;
         double tempCR = 0;
         double tempRND = 0;
+        double tempOFFN = 0;
         boolean isCR = false;
         boolean isRND = false;
+        boolean isOFFN = false;
         boolean isRadius = false;
         selectCoordinateSystem(programList);
         for (int i = 0; i < programList.size(); i++) {
@@ -168,7 +174,7 @@ public class Program implements Runnable {
                 errorListMap.put(i, strFrame.toString());
             }
             try {
-                if (contains(strFrame, RND)&&isHorizontalAxis&&!contains(strFrame, CR)||contains(strFrame, RND)&&isVerticalAxis&&!contains(strFrame, CR)) {
+                if (contains(strFrame, RND) && isHorizontalAxis && !contains(strFrame, CR) || contains(strFrame, RND) && isVerticalAxis && !contains(strFrame, CR)) {
                     tempRND = coordinateSearch(strFrame, RND);
                     if (tempRND != FIBO) {
                         isRND = true;
@@ -177,9 +183,21 @@ public class Program implements Runnable {
             } catch (Exception e) {
                 errorListMap.put(i, strFrame.toString());
             }
+            try {
+                if (contains(strFrame, OFFN)) {
+                    tempOFFN = coordinateSearch(strFrame, OFFN);
+                    if (tempOFFN != FIBO) {
+                        isOFFN = true;
+                    }
+                }
+            } catch (Exception e) {
+                errorListMap.put(i, strFrame.toString());
+            }
             if (isCR) {
                 frame.setX(tempHorizontal);
                 frame.setZ(tempVertical);
+                frame.setOffn(tempOFFN);
+                frame.setOffn(isOFFN);
                 frame.setCr(tempCR);
                 frame.setIsCR(true);
                 frame.setAxisContains(true);
@@ -192,6 +210,8 @@ public class Program implements Runnable {
             if (isRND) {
                 frame.setX(tempHorizontal);
                 frame.setZ(tempVertical);
+                frame.setOffn(tempOFFN);
+                frame.setOffn(isOFFN);
                 frame.setRnd(tempRND);
                 frame.setRND(true);
                 frame.setAxisContains(true);
@@ -204,6 +224,8 @@ public class Program implements Runnable {
             if (isHorizontalAxis || isVerticalAxis) {
                 frame.setX(tempHorizontal);
                 frame.setZ(tempVertical);
+                frame.setOffn(tempOFFN);
+                frame.setOffn(isOFFN);
                 frame.setAxisContains(true);
                 frame.setId(i);
                 frameList.add(frame);
@@ -215,6 +237,7 @@ public class Program implements Runnable {
         Set<Frame> s = new LinkedHashSet<>(frameList);
         frameList.clear();
         frameList.addAll(s);
+        correctionForOffn(frameList);
         data.setFrameList(frameList);
     }
 
@@ -362,13 +385,13 @@ public class Program implements Runnable {
                 break;
             }
         }
-        if (isSymbol(temp.toString())&&temp.indexOf("=")==0) {
-            if (temp.indexOf("=")!=-1) {
+        if (isSymbol(temp.toString()) && temp.indexOf("=") == 0) {
+            if (temp.indexOf("=") != -1) {
                 int index = temp.indexOf("=");
                 temp.replace(index, index + 1, "");
             }
             return Expression.calculate(temp.toString());
-        } else if (!isSymbol(temp.toString())||temp.indexOf("-")==0) {
+        } else if (!isSymbol(temp.toString()) || temp.indexOf("-") == 0) {
             return Float.parseFloat(temp.toString());
         }
         return FIBO;

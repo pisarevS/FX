@@ -7,6 +7,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 import java.util.List;
+import java.util.Map;
 
 public class DrawVerticalTurning extends BaseDraw implements Drawing {
 
@@ -17,36 +18,33 @@ public class DrawVerticalTurning extends BaseDraw implements Drawing {
     @Override
     public void drawContour(MyData data, GraphicsContext gc, Point pointCoordinateZero, double zoom, int index) {
         List<Frame> frameList = data.getFrameList();
-        boolean isDrawPoint = false;
+        Map<Integer,String> errorListMap=data.getErrorListMap();
         Point pStart = new Point();
         Point pEnd = new Point();
         Point point = new Point();
-        pStart.setX(650f);
-        pStart.setZ(250f);
-        pEnd.setX(650f);
-        pEnd.setZ(250f);
+        boolean isDrawPoint = false;
         double radius;
         double radiusRND;
         for (int i = 0; i < index; i++) {
             if (frameList.get(i).getGCode().contains("G17") || frameList.get(i).getGCode().contains("G18"))
                 isG17 = isG17(frameList.get(i).getGCode());
             checkGCode(frameList.get(i).getGCode());
-            if (data.getErrorListMap().containsKey(frameList.get(i).getId())) {
-                draw.showError(data.getErrorListMap().get(frameList.get(i).getId()));
+            if (errorListMap.containsKey(frameList.get(i).getId())) {
+                draw.showError(errorListMap.get(frameList.get(i).getId()));
                 break;
             } else {
                 if (frameList.get(i).getIsCR() && frameList.get(i).isAxisContains()) {                                  //draw Arc
                     pEnd.setX(frameList.get(i).getX());
                     pEnd.setZ(frameList.get(i).getZ());
                     radius = frameList.get(i).getCr();
-                    drawArc(gc, isRapidFeed, pointCoordinateZero, pStart, pEnd, radius, zoom, clockwise);
+                    drawArc(gc,isRapidFeed,pointCoordinateZero,pStart,pEnd,radius,zoom,clockwise);
                     pStart.setX(pEnd.getX());
                     pStart.setZ(pEnd.getZ());
                 }
                 if (!frameList.get(i).getIsCR() && !frameList.get(i).isRND() && frameList.get(i).isAxisContains()) {    //draw line
                     pEnd.setX(frameList.get(i).getX());
                     pEnd.setZ(frameList.get(i).getZ());
-                    drawLine(gc, isRapidFeed, pointCoordinateZero, pStart, pEnd, zoom);
+                    drawLine(gc,isRapidFeed,pointCoordinateZero,pStart,pEnd,zoom);
                     pStart.setX(pEnd.getX());
                     pStart.setZ(pEnd.getZ());
                 }
@@ -69,8 +67,11 @@ public class DrawVerticalTurning extends BaseDraw implements Drawing {
                     isDrawPoint = true;
                 }
             }
+        }if(isToolRadiusCompensation!=0&&!containsG41G42(frameList.get(index-1).getGCode())){
+            drawPoint(gc, pointCoordinateZero, frameList, zoom, Color.web("#D2BF44"),index);
+        }else {
+            drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.RED);
         }
-        drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.RED);
         if (isDrawPoint) drawPoint(gc, pointCoordinateZero, point, zoom, Color.web("#3507EE"));
     }
 

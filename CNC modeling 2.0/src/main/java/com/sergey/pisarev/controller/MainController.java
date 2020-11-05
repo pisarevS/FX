@@ -182,7 +182,7 @@ public class MainController implements IController {
     public void handleDragProgram(DragEvent event) {
         presenter.openDragProgram(event);
         STAGE.setTitle(File.fileProgram.toString());
-        textFrame.setText("");
+        reset();
     }
 
     @FXML
@@ -235,6 +235,10 @@ public class MainController implements IController {
 
     @FXML
     public void onReset(ActionEvent actionEvent) {
+        reset();
+    }
+
+    private void reset(){
         textFrame.setText("");
         textFrameCoordinateX.setText("");
         textFrameCoordinateZ.setText("");
