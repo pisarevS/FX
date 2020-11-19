@@ -255,7 +255,7 @@ public class MainController implements IController {
     }
 
     @Override
-    public void onReset() {
+    public void onStop() {
         buttonCycleStart.setDisable(true);
         buttonSingleBlock.setStyle("-fx-background-color: ");
         buttonSingleBlock.setDisable(true);
@@ -420,10 +420,7 @@ public class MainController implements IController {
         });
     }
 
-
     public void menuConvertAviaProgram(ActionEvent actionEvent) {
         presenter.convertAviaProgram(codeAreaProgram.getText());
     }
-
-
 }

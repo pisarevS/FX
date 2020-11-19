@@ -12,7 +12,6 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Presenter implements PresenterImpl, IDraw, Callback {
 
@@ -178,7 +177,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
                 controller.showCaretBoxOnCycleStart(data.getFrameList().get(index - 1).getId(), data.getProgramList().get(data.getFrameList().get(index - 1).getId()));
                 controller.getCoordinateFrame(data.getFrameList().get(index - 1).getX(), data.getFrameList().get(index - 1).getZ());
                 if (index == data.getFrameList().size())
-                    controller.onReset();
+                    controller.onStop();
             }));
             timeline.setCycleCount(data.getFrameList().size());
             timeline.play();
@@ -190,7 +189,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
             if (index <= data.getFrameList().size())
                 startDraw(index);
             if (index == data.getFrameList().size())
-                controller.onReset();
+                controller.onStop();
             controller.showCaretBoxOnCycleStart(data.getFrameList().get(index - 1).getId(), data.getProgramList().get(data.getFrameList().get(index - 1).getId()));
             controller.getCoordinateFrame(data.getFrameList().get(index - 1).getX(), data.getFrameList().get(index - 1).getZ());
         }

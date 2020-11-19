@@ -2,7 +2,6 @@ package com.sergey.pisarev.model;
 
 import com.sergey.pisarev.interfaces.Callback;
 import com.sergey.pisarev.model.base.BaseDraw;
-import javafx.geometry.Point2D;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -25,7 +24,7 @@ public class Program extends BaseDraw implements Runnable {
     private Map<Integer, String> errorListMap;
     private final float FIBO = 1123581220;
     private final String[] defs = {"DEF REAL", "DEF INT"};
-    private final String[] gCodes = {"G0", "G00", "G1", "G01", "G2", "G02", "G3", "G03", "G17", "G18", "G41", "G42","G40","G60"};
+    private final String[] gCodes = {"G0", "G00", "G1", "G01", "G2", "G02", "G3", "G03", "G17", "G18", "G41", "G42","G40"};
 
     public Program(String program, Map<String, String> variablesList, Callback callback) {
         super();
@@ -88,8 +87,8 @@ public class Program extends BaseDraw implements Runnable {
                 .map(StringBuffer::new)
                 .peek(this::removeLockedFrame)
                 .peek(this::removeIgnore)
-                .peek(this::addDefVariables)
-                .peek(this::addRVariables)
+                .peek(this::readDefVariables)
+                .peek(this::readRVariables)
                 .peek(this::initVariables)
                 .peek(this::replaceProgramVariables)
                 .collect(Collectors.toList());
@@ -104,18 +103,21 @@ public class Program extends BaseDraw implements Runnable {
         final String RND = "RND";
         final String IC = "=IC";
         final String OFFN = "OFFN";
-        StringBuffer strFrame;
+        final String TOOL = "T";
         boolean isHorizontalAxis = false;
         boolean isVerticalAxis = false;
-        double tempHorizontal = 650;
-        double tempVertical = 250;
+        double tempHorizontal = new Point().getX();
+        double tempVertical = new Point().getZ();
         double tempCR = 0;
         double tempRND = 0;
         double tempOFFN = 0;
+        String tempTOOL="";
         boolean isCR = false;
         boolean isRND = false;
         boolean isOFFN = false;
+        boolean isTOOL = false;
         boolean isRadius = false;
+        StringBuffer strFrame;
         selectCoordinateSystem(programList);
         for (int i = 0; i < programList.size(); i++) {
             strFrame = programList.get(i);
@@ -193,6 +195,18 @@ public class Program extends BaseDraw implements Runnable {
             } catch (Exception e) {
                 errorListMap.put(i, strFrame.toString());
             }
+
+            if (containsTool(strFrame)) {
+                tempTOOL=readTool(strFrame);
+                isTOOL=true;
+                frame.setId(i);
+                frame.setTool(tempTOOL);
+                frame.setTool(isTOOL);
+                frame.setX(new Point().getX());
+                frame.setZ(new Point().getZ());
+                frame.setAxisContains(true);
+                frameList.add(frame);
+            }
             if (isCR) {
                 frame.setX(tempHorizontal);
                 frame.setZ(tempVertical);
@@ -239,6 +253,13 @@ public class Program extends BaseDraw implements Runnable {
         frameList.addAll(s);
         correctionForOffn(frameList);
         data.setFrameList(frameList);
+    }
+
+    private String readTool(StringBuffer strFrame) {
+        for(String tool:toolsMap.keySet()){
+            if(strFrame.indexOf(tool)>-1) return tool;
+        }
+        return "";
     }
 
     private void removeLockedFrame(StringBuffer frame) {
@@ -299,7 +320,7 @@ public class Program extends BaseDraw implements Runnable {
         }
     }
 
-    private void addDefVariables(StringBuffer frame) {
+    private void readDefVariables(StringBuffer frame) {
         for (String def : defs) {
             if (frame.toString().contains(def)) {
                 frame.delete(0, frame.indexOf(def) + def.length());
@@ -316,7 +337,7 @@ public class Program extends BaseDraw implements Runnable {
         }
     }
 
-    private void addRVariables(StringBuffer frame) {
+    private void readRVariables(StringBuffer frame) {
         Pattern pattern = Pattern.compile("R(\\d+)" + "=");
         Matcher matcher = pattern.matcher(frame);
         while (matcher.find()) {
@@ -482,6 +503,13 @@ public class Program extends BaseDraw implements Runnable {
     private boolean containsGCode(StringBuffer sb) {
         for (String g : gCodes) {
             if (sb.indexOf(g) > -1) return true;
+        }
+        return false;
+    }
+
+    private boolean containsTool(StringBuffer sb) {
+        for (String tool : toolsMap.keySet()) {
+            if (sb.indexOf(tool) > -1) return true;
         }
         return false;
     }

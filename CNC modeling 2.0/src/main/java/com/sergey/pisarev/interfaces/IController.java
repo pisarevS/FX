@@ -1,7 +1,7 @@
 package com.sergey.pisarev.interfaces;
 
 public interface IController {
-    void onReset();
+    void onStop();
 
     void showProgram(String text);
 

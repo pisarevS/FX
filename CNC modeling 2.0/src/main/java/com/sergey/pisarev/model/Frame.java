@@ -9,20 +9,20 @@ public class Frame {
     private double x;
     private double z;
     private double cr;
-
     private double offn;
-
     private double rnd;
     private boolean isCR = false;
     private boolean isOffn = false;
     private boolean isRND = false;
-
     private boolean isAxisContains = false;
-
+    private boolean isTool=false;
+    private String tool;
     private List<String> gCode = new ArrayList<>();
+
     public boolean isAxisContains() {
         return isAxisContains;
     }
+
     public double getRnd() {
         return rnd;
     }
@@ -105,6 +105,22 @@ public class Frame {
 
     public double getCr() {
         return cr;
+    }
+
+    public String getTool() {
+        return tool;
+    }
+
+    public void setTool(String tool) {
+        this.tool = tool;
+    }
+
+    public boolean isTool() {
+        return isTool;
+    }
+
+    public void setTool(boolean tool) {
+        isTool = tool;
     }
 
     @Override

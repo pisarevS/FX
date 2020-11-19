@@ -32,18 +32,19 @@ public class TableUtils {
 
     /**
      * Install the keyboard handler:
-     *   + CTRL + C = copy to clipboard
-     *   + CTRL + V = paste to clipboard
+     * + CTRL + C = copy to clipboard
+     * + CTRL + V = paste to clipboard
+     *
      * @param codeArea
      */
     public static void installKeyHandler(CodeArea codeArea) {
 
         codeArea.setOnKeyPressed(new TableKeyEventHandler());
 
-        codeArea.addEventHandler(KeyEvent.KEY_PRESSED,event -> {
+        codeArea.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             KeyCodeCombination copyRowKey = new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN);
             KeyCodeCombination moveRowUpKey = new KeyCodeCombination(KeyCode.UP, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN);
-            KeyCodeCombination moveRowDownKey = new KeyCodeCombination(KeyCode.DOWN, KeyCombination.CONTROL_DOWN,KeyCombination.SHIFT_DOWN);
+            KeyCodeCombination moveRowDownKey = new KeyCodeCombination(KeyCode.DOWN, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN);
             if (copyRowKey.match(event)) {
                 int row = codeArea.offsetToPosition(codeArea.getCaretPosition(), TwoDimensional.Bias.Forward).getMajor();
                 String text = codeArea.getText();
@@ -58,34 +59,22 @@ public class TableUtils {
             if (moveRowUpKey.match(event)) {
                 int row = codeArea.offsetToPosition(codeArea.getCaretPosition(), TwoDimensional.Bias.Forward).getMajor();
                 String text = codeArea.getText();
-                List<String>list = Arrays.stream(text.split("\n"))
+                List<String> list = Arrays.stream(text.split("\n"))
                         .collect(Collectors.toList());
                 int position = codeArea.getCaretPosition();
-
-
-                /*int end =codeArea.position(row + 1, 0).toOffset() - 1;
-                codeArea.moveSelectedText(position-1);
-                row = codeArea.offsetToPosition(codeArea.getCaretPosition(), TwoDimensional.Bias.Forward).getMajor();
-                System.out.println(row);
-                position = codeArea.getCaretPosition();
-                System.out.println(Math.abs(codeArea.getCaretPosition()-position-list.get(row-1).length()-1));
-                int start=Math.abs(codeArea.getCaretPosition()-position-list.get(row-1).length()-1);
-                codeArea.moveTo(start );
-                codeArea.selectRange(start-end,start);*/
-
                 codeArea.insertText(row - 1, 0, list.get(row) + "\n");
-                codeArea.replaceText(row+1,0,row+1,list.get(row).length()+1,"");
-                codeArea.moveTo(position - list.get(row-1).length()-1 );
+                codeArea.replaceText(row + 1, 0, row + 1, list.get(row).length() + 1, "");
+                codeArea.moveTo(position - list.get(row - 1).length() - 1);
             }
             if (moveRowDownKey.match(event)) {
                 int row = codeArea.offsetToPosition(codeArea.getCaretPosition(), TwoDimensional.Bias.Forward).getMajor();
                 String text = codeArea.getText();
-                List<String>list = Arrays.stream(text.split("\n"))
+                List<String> list = Arrays.stream(text.split("\n"))
                         .collect(Collectors.toList());
                 int position = codeArea.getCaretPosition();
                 codeArea.insertText(row + 2, 0, list.get(row) + "\n");
-                codeArea.replaceText(row,0,row,list.get(row).length()+1,"");
-                codeArea.moveTo(position + list.get(row+1).length()+1 );
+                codeArea.replaceText(row, 0, row, list.get(row).length() + 1, "");
+                codeArea.moveTo(position + list.get(row + 1).length() + 1);
             }
         });
     }
@@ -103,24 +92,17 @@ public class TableUtils {
 
             if (copyKeyCodeCompination.match(keyEvent)) {
 
-                if( keyEvent.getSource() instanceof TableView) {
+                if (keyEvent.getSource() instanceof TableView) {
                     System.out.println("copy");
                     // copy to clipboard
-                    copySelectionToClipboard( (TableView<?>) keyEvent.getSource());
-
+                    copySelectionToClipboard((TableView<?>) keyEvent.getSource());
                     // event is handled, consume it
                     keyEvent.consume();
-
                 }
-
-            }
-            else if (pasteKeyCodeCompination.match(keyEvent)) {
-
-                if( keyEvent.getSource() instanceof TableView) {
-
+            } else if (pasteKeyCodeCompination.match(keyEvent)) {
+                if (keyEvent.getSource() instanceof TableView) {
                     // copy to clipboard
-                    pasteFromClipboard( (TableView<?>) keyEvent.getSource());
-
+                    pasteFromClipboard((TableView<?>) keyEvent.getSource());
                     // event is handled, consume it
                     keyEvent.consume();
                 }
@@ -130,6 +112,7 @@ public class TableUtils {
 
     /**
      * Get table selection and copy it to the clipboard.
+     *
      * @param table
      */
     public static void copySelectionToClipboard(TableView<?> table) {
@@ -141,9 +124,9 @@ public class TableUtils {
 
         int prevRow = -1;
 
-        htmlBuffer.append( "<html>\n<body>\n<table>\n");
+        htmlBuffer.append("<html>\n<body>\n<table>\n");
 
-        htmlBuffer.append( " <tr>\n");
+        htmlBuffer.append(" <tr>\n");
 
         for (TablePosition position : positionList) {
 
@@ -159,47 +142,43 @@ public class TableUtils {
             } else if (prevRow != -1) {
 
                 plainBuffer.append('\n');
-                htmlBuffer.append( " </tr>\n <tr>\n");
+                htmlBuffer.append(" </tr>\n <tr>\n");
             }
 
             // create string from cell
             String text = "";
 
-            Object observableValue = (Object) table.getVisibleLeafColumn(viewCol).getCellObservableValue( viewRow); // table position gives the view index => we need to operate on the view columns
+            Object observableValue = (Object) table.getVisibleLeafColumn(viewCol).getCellObservableValue(viewRow); // table position gives the view index => we need to operate on the view columns
 
             // null-check: provide empty string for nulls
             if (observableValue == null) {
                 text = "";
-            }
-            else if( observableValue instanceof DoubleProperty) { // TODO: handle boolean etc
+            } else if (observableValue instanceof DoubleProperty) { // TODO: handle boolean etc
 
-                text = numberFormatter.format( ((DoubleProperty) observableValue).get());
+                text = numberFormatter.format(((DoubleProperty) observableValue).get());
 
-            }
-            else if( observableValue instanceof IntegerProperty) {
+            } else if (observableValue instanceof IntegerProperty) {
 
-                text = numberFormatter.format( ((IntegerProperty) observableValue).get());
+                text = numberFormatter.format(((IntegerProperty) observableValue).get());
 
-            }
-            else if( observableValue instanceof StringProperty) {
+            } else if (observableValue instanceof StringProperty) {
 
                 text = ((StringProperty) observableValue).get();
 
-            }
-            else {
+            } else {
                 System.out.println("Unsupported observable value: " + observableValue);
             }
 
             // add new item to clipboard
             plainBuffer.append(text);
-            htmlBuffer.append( "  <td>" + text + "</td>\n");
+            htmlBuffer.append("  <td>" + text + "</td>\n");
 
             // remember previous
             prevRow = viewRow;
         }
 
-        htmlBuffer.append( " </tr>\n");
-        htmlBuffer.append( "</table>\n</body>\n</html>");
+        htmlBuffer.append(" </tr>\n");
+        htmlBuffer.append("</table>\n</body>\n</html>");
 
         // create clipboard content
         final ClipboardContent clipboardContent = new ClipboardContent();
@@ -214,10 +193,10 @@ public class TableUtils {
 
     }
 
-    public static void pasteFromClipboard( TableView<?> table) {
+    public static void pasteFromClipboard(TableView<?> table) {
 
         // abort if there's not cell selected to start with
-        if( table.getSelectionModel().getSelectedCells().size() == 0) {
+        if (table.getSelectionModel().getSelectedCells().size() == 0) {
             return;
         }
 
@@ -232,18 +211,18 @@ public class TableUtils {
 
         int rowClipboard = -1;
 
-        StringTokenizer rowTokenizer = new StringTokenizer( pasteString, "\n");
-        while( rowTokenizer.hasMoreTokens()) {
+        StringTokenizer rowTokenizer = new StringTokenizer(pasteString, "\n");
+        while (rowTokenizer.hasMoreTokens()) {
 
             rowClipboard++;
 
             String rowString = rowTokenizer.nextToken();
 
-            StringTokenizer columnTokenizer = new StringTokenizer( rowString, "\t");
+            StringTokenizer columnTokenizer = new StringTokenizer(rowString, "\t");
 
             int colClipboard = -1;
 
-            while( columnTokenizer.hasMoreTokens()) {
+            while (columnTokenizer.hasMoreTokens()) {
 
                 colClipboard++;
 
@@ -255,10 +234,10 @@ public class TableUtils {
                 int colTable = pasteCellPosition.getColumn() + colClipboard;
 
                 // skip if we reached the end of the table
-                if( rowTable >= table.getItems().size()) {
+                if (rowTable >= table.getItems().size()) {
                     continue;
                 }
-                if( colTable >= table.getColumns().size()) {
+                if (colTable >= table.getColumns().size()) {
                     continue;
                 }
 
@@ -268,10 +247,10 @@ public class TableUtils {
                 TableColumn tableColumn = table.getVisibleLeafColumn(colTable);  // table position gives the view index => we need to operate on the view columns
                 ObservableValue observableValue = tableColumn.getCellObservableValue(rowTable);
 
-                System.out.println( rowTable + "/" + colTable + ": " +observableValue);
+                System.out.println(rowTable + "/" + colTable + ": " + observableValue);
 
                 // TODO: handle boolean, etc
-                if( observableValue instanceof DoubleProperty) {
+                if (observableValue instanceof DoubleProperty) {
 
                     try {
 
@@ -282,8 +261,7 @@ public class TableUtils {
                         e.printStackTrace();
                     }
 
-                }
-                else if( observableValue instanceof IntegerProperty) {
+                } else if (observableValue instanceof IntegerProperty) {
 
                     try {
 
@@ -294,8 +272,7 @@ public class TableUtils {
                         e.printStackTrace();
                     }
 
-                }
-                else if( observableValue instanceof StringProperty) {
+                } else if (observableValue instanceof StringProperty) {
 
                     ((StringProperty) observableValue).set(clipboardCellContent);
 
