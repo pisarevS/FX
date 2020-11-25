@@ -14,9 +14,9 @@ import java.util.Map;
 
 public abstract class BaseDraw {
 
-    protected boolean clockwise;
+    protected int clockwise=0;
     protected IDraw draw;
-    protected boolean isRapidFeed;
+    protected int isRapidFeed=3;
     protected int isToolRadiusCompensation = 0;
     private final double lineWidth = 1.5;
     private final double lineWidthDashes = 1;
@@ -63,12 +63,12 @@ public abstract class BaseDraw {
         initToolMap();
     }
 
-    protected void drawArc(GraphicsContext gc, boolean isRapidFeed, Point pointSystemCoordinate, Point pointStart, Point pointEnd, double radius, double zoom, boolean clockwise) {
-        if (isRapidFeed) {
+    protected void drawArc(GraphicsContext gc, int isRapidFeed, Point pointSystemCoordinate, Point pointStart, Point pointEnd, double radius, double zoom, int clockwise) {
+        if (isRapidFeed==0) {
             gc.setStroke(colorLineDashes);
             gc.setLineDashes(3, 5);
             gc.setLineWidth(lineWidthDashes);
-        } else {
+        } else if(isRapidFeed==1) {
             gc.setStroke(colorLine);
             gc.setLineDashes();
             gc.setLineWidth(lineWidth);
@@ -84,7 +84,7 @@ public abstract class BaseDraw {
         double chord = Math.sqrt(Math.pow(pStart.getX() - pEnd.getX(), 2) + Math.pow(pStart.getZ() - pEnd.getZ(), 2));
         double sweetAngle = 2 * Math.asin(chord / (2 * radius)) * (180 / Math.PI);
         float h = (float) Math.sqrt(radius * radius - (chord / 2) * (chord / 2));
-        if (clockwise) {
+        if (clockwise==2) {
             double x01 = (pStart.getX() + (pEnd.getX() - pStart.getX()) / 2 + h * (pEnd.getZ() - pStart.getZ()) / chord);
             double z01 = (pStart.getZ() + (pEnd.getZ() - pStart.getZ()) / 2 - h * (pEnd.getX() - pStart.getX()) / chord);
             if (pStart.getX() > x01 && pStart.getZ() >= z01) {
@@ -112,7 +112,7 @@ public abstract class BaseDraw {
                 else startAngle = (180 + Math.acos(cathet / radius) * (180 / Math.PI));
             }
             gc.strokeArc(pointSystemCoordinate.getX() + x01 - radius, pointSystemCoordinate.getZ() - z01 - radius, radius * 2, radius * 2, 360 - startAngle - sweetAngle, sweetAngle, ArcType.OPEN);
-        } else {
+        }  if(clockwise==3) {
             double x02 = pStart.getX() + (pEnd.getX() - pStart.getX()) / 2 - h * (pEnd.getZ() - pStart.getZ()) / chord;
             double z02 = pStart.getZ() + (pEnd.getZ() - pStart.getZ()) / 2 + h * (pEnd.getX() - pStart.getX()) / chord;
             if (pEnd.getX() > x02 && pEnd.getZ() >= z02) {
@@ -143,12 +143,12 @@ public abstract class BaseDraw {
         }
     }
 
-    protected void drawLine(GraphicsContext gc, boolean isRapidFeed, Point pointSystemCoordinate, Point pointStart, Point pointEnd, double zoom) {
-        if (isRapidFeed) {
+    protected void drawLine(GraphicsContext gc, int isRapidFeed, Point pointSystemCoordinate, Point pointStart, Point pointEnd, double zoom) {
+        if (isRapidFeed==0) {
             gc.setStroke(colorLineDashes);
             gc.setLineDashes(3, 5);
             gc.setLineWidth(lineWidthDashes);
-        } else {
+        } else if(isRapidFeed==1) {
             gc.setStroke(colorLine);
             gc.setLineDashes();
             gc.setLineWidth(lineWidth);
@@ -289,13 +289,13 @@ public abstract class BaseDraw {
         }
     }
 
-    protected void drawRND(GraphicsContext gc, boolean isRapidFeed, Point pointSystemCoordinate, Point pointStart, Point pointEnd, Point pointF, double radiusRND, double zoom) {
+    protected void drawRND(GraphicsContext gc, int isRapidFeed, Point pointSystemCoordinate, Point pointStart, Point pointEnd, Point pointF, double radiusRND, double zoom) {
         Point pointStartCR = new Point();
         Point pointEndCR = new Point();
         double differenceX;
         double differenceZ;
         double cathet;
-        boolean clockwiseRND = false;
+        int clockwiseRND = 3;
         double angle = new Point2D(pointEnd.getX() - pointStart.getX(), pointEnd.getZ() - pointStart.getZ()).angle(pointEnd.getX() - pointF.getX(), pointEnd.getZ() - pointF.getZ());
         double firstDistance = new Point2D(pointStart.getX(), pointStart.getZ()).distance(pointEnd.getX(), pointEnd.getZ());
         double secondDistance = new Point2D(pointEnd.getX(), pointEnd.getZ()).distance(pointF.getX(), pointF.getZ());
@@ -321,13 +321,13 @@ public abstract class BaseDraw {
         pointEndCR.setZ(pointEnd.getZ() + pointEndCR.getZ());
 
         if (pointStart.getX() > pointF.getX() && (pointStart.getZ() + pointF.getZ()) / 2 > pointEnd.getZ()) {
-            clockwiseRND = true;
+            clockwiseRND = 2;
         }
         if (pointStart.getX() > pointF.getX() && (pointStart.getZ() + pointF.getZ()) / 2 < pointEnd.getZ()) {
-            clockwiseRND = false;
+            clockwiseRND = 3;
         }
         if (pointStart.getX() < pointF.getX() && (pointStart.getZ() + pointF.getZ()) / 2 < pointEnd.getZ()) {
-            clockwiseRND = true;
+            clockwiseRND = 2;
         }
         drawLine(gc, isRapidFeed, pointSystemCoordinate, pointStart, pointStartCR, zoom);
         drawArc(gc, isRapidFeed, pointSystemCoordinate, pointStartCR, pointEndCR, radiusRND, zoom, clockwiseRND);
@@ -348,20 +348,24 @@ public abstract class BaseDraw {
                 case "G0":
                 case "G00":
                 case "G40":
-                    isRapidFeed = true;
+                    isRapidFeed = 0;
                     isToolRadiusCompensation = 0;
+                    clockwise=0;
                     break;
                 case "G1":
                 case "G01":
-                    isRapidFeed = false;
+                    isRapidFeed = 1;
+                    clockwise=0;
                     break;
                 case "G2":
                 case "G02":
-                    clockwise = isG17;
+                    if(isG17) clockwise =2;
+                    else clockwise=3;
                     break;
                 case "G3":
                 case "G03":
-                    clockwise = !isG17;
+                    if(isG17) clockwise = 3;
+                    else clockwise=2;
                     break;
                 case "G41":
                     if (!isG17) isToolRadiusCompensation = 1;
@@ -396,14 +400,14 @@ public abstract class BaseDraw {
         }
     }
 
-    protected void toolRadiusCompensationArcOffn(List<Frame> frameList, int numberLIne, int isToolRadiusCompensation, boolean clockwise) {
+    protected void toolRadiusCompensationArcOffn(List<Frame> frameList, int numberLIne, int isToolRadiusCompensation, int clockwise) {
         pEnd.setX(frameList.get(numberLIne).getX());
         pEnd.setZ(frameList.get(numberLIne).getZ());
         double radius = frameList.get(numberLIne).getCr();
         double offn = frameList.get(numberLIne).getOffn();
         double chord = Math.sqrt(Math.pow(pStart.getX() - pEnd.getX(), 2) + Math.pow(pStart.getZ() - pEnd.getZ(), 2));
         float h = (float) Math.sqrt(radius * radius - (chord / 2) * (chord / 2));
-        if (clockwise && frameList.get(numberLIne).getOffn() > 0) {
+        if (clockwise==2 && frameList.get(numberLIne).getOffn() > 0) {
             double x01 = (pStart.getX() + (pEnd.getX() - pStart.getX()) / 2 + h * (pEnd.getZ() - pStart.getZ()) / chord);
             double z01 = (pStart.getZ() + (pEnd.getZ() - pStart.getZ()) / 2 - h * (pEnd.getX() - pStart.getX()) / chord);
             if (isToolRadiusCompensation == 1) {
@@ -429,7 +433,7 @@ public abstract class BaseDraw {
                 frameList.get(numberLIne).setCr(radius + offn);
             }  //G42
         }
-        if (!clockwise && frameList.get(numberLIne).getOffn() > 0) {
+        if (clockwise==3 && frameList.get(numberLIne).getOffn() > 0) {
             double x02 = pStart.getX() + (pEnd.getX() - pStart.getX()) / 2 - h * (pEnd.getZ() - pStart.getZ()) / chord;
             double z02 = pStart.getZ() + (pEnd.getZ() - pStart.getZ()) / 2 + h * (pEnd.getX() - pStart.getX()) / chord;
             if (isToolRadiusCompensation == 1) {
@@ -666,7 +670,7 @@ public abstract class BaseDraw {
             double radius = frameList.get(index).getCr();
             double chord = Math.sqrt(Math.pow(pStart.getX() - pEnd.getX(), 2) + Math.pow(pStart.getZ() - pEnd.getZ(), 2));
             float h = (float) Math.sqrt(radius * radius - (chord / 2) * (chord / 2));
-            if (clockwise) {
+            if (clockwise==2) {
                 double x01 = (pStart.getX() + (pEnd.getX() - pStart.getX()) / 2 + h * (pEnd.getZ() - pStart.getZ()) / chord);
                 double z01 = (pStart.getZ() + (pEnd.getZ() - pStart.getZ()) / 2 - h * (pEnd.getX() - pStart.getX()) / chord);
                 if (isToolRadiusCompensation == 1) {
@@ -682,7 +686,7 @@ public abstract class BaseDraw {
                     pEnd.setZ(pStart.getZ() + (z01 - pStart.getZ() - tempStartZ));
                 }  //G42
             }
-            if (!clockwise) {
+            if (clockwise==3) {
                 double x02 = pStart.getX() + (pEnd.getX() - pStart.getX()) / 2 - h * (pEnd.getZ() - pStart.getZ()) / chord;
                 double z02 = pStart.getZ() + (pEnd.getZ() - pStart.getZ()) / 2 + h * (pEnd.getX() - pStart.getX()) / chord;
                 if (isToolRadiusCompensation == 1) {
@@ -702,7 +706,7 @@ public abstract class BaseDraw {
             double radius = frameList.get(index - 1).getCr();
             double chord = Math.sqrt(Math.pow(pStart.getX() - pEnd.getX(), 2) + Math.pow(pStart.getZ() - pEnd.getZ(), 2));
             float h = (float) Math.sqrt(radius * radius - (chord / 2) * (chord / 2));
-            if (clockwise) {
+            if (clockwise==2) {
                 double x01 = (pStart.getX() + (pEnd.getX() - pStart.getX()) / 2 + h * (pEnd.getZ() - pStart.getZ()) / chord);
                 double z01 = (pStart.getZ() + (pEnd.getZ() - pStart.getZ()) / 2 - h * (pEnd.getX() - pStart.getX()) / chord);
                 if (isToolRadiusCompensation == 1) {
@@ -718,7 +722,7 @@ public abstract class BaseDraw {
                     pEnd.setZ(pEnd.getZ() + (z01 - pEnd.getZ() - tempEndZ));
                 }  //G42
             }
-            if (!clockwise) {
+            if (clockwise==3) {
                 double x02 = pStart.getX() + (pEnd.getX() - pStart.getX()) / 2 - h * (pEnd.getZ() - pStart.getZ()) / chord;
                 double z02 = pStart.getZ() + (pEnd.getZ() - pStart.getZ()) / 2 + h * (pEnd.getX() - pStart.getX()) / chord;
                 if (isToolRadiusCompensation == 1) {
@@ -934,8 +938,13 @@ public abstract class BaseDraw {
                     pStart.setZ(pStart.getZ() - radiusPoint);
                 }  //Z==Z -X
                 if (pStart.getZ() == pEnd.getZ() && pStart.getX() < pEnd.getX()) {
-                    pEnd.setZ(pEnd.getZ() + radiusPoint);
-                    pStart.setZ(pStart.getZ() + radiusPoint);
+                    if (frameList.get(index-1).getX()==frameList.get(index).getX()) {
+                        pEnd.setX(pEnd.getX() - radiusPoint);
+                        pStart.setZ(pEnd.getZ()+radiusPoint);
+                    }else {
+                        pEnd.setZ(pEnd.getZ() + radiusPoint);
+                        pStart.setZ(pStart.getZ() + radiusPoint);
+                    }
                 }  //Z==Z +X
                 if (pStart.getX() == pEnd.getX() && pStart.getZ() > pEnd.getZ()) {
                     pEnd.setX(pEnd.getX() + radiusPoint);

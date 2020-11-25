@@ -212,6 +212,15 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         reset();
     }
 
+    @Override
+    public void onZoomDefault() {
+        zooming = defZoom;
+        coordinateSystemProportionsX=0;
+        coordinateSystemProportionsZ=0;
+        initSystemCoordinate(canvasWidth,canvasHeight);
+        controller.setZooming(100);
+    }
+
     private void reset() {
         isStart = false;
         isReset = false;
@@ -219,14 +228,12 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         isCycleStart = false;
         data = null;
         index = 0;
-        zooming = defZoom;
         errorList.clear();
         drawing = null;
         initSystemCoordinate(canvasWidth,canvasHeight);
         if (timeline != null) {
             timeline.stop();
         }
-        controller.setZooming(100);
     }
 
     @Override

@@ -80,6 +80,9 @@ public class MainController implements IController {
     Button buttonReset = new Button();
 
     @FXML
+    Button buttonZoomDefault = new Button();
+
+    @FXML
     SplitPane splitPane=new SplitPane();
 
     public String getTextCodeArea() {
@@ -236,6 +239,11 @@ public class MainController implements IController {
     @FXML
     public void onReset(ActionEvent actionEvent) {
         reset();
+    }
+
+    @FXML
+    public void onZoomDefault(ActionEvent actionEvent){
+        presenter.onZoomDefault();
     }
 
     private void reset(){

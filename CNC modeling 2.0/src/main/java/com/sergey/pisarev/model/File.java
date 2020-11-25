@@ -16,7 +16,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class File {
 
     public static java.io.File fileProgram;
-    private static String encoding= String.valueOf(UTF_8);
+    private static String encoding = String.valueOf(UTF_8);
 
     public static String getFileContent(DragEvent event) {
 

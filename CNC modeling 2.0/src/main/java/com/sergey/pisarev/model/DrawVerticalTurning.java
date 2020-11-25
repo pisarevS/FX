@@ -34,7 +34,7 @@ public class DrawVerticalTurning extends BaseDraw implements Drawing {
                 draw.showError(errorListMap.get(frameList.get(i).getId()));
                 break;
             } else {
-                if (frameList.get(i).getIsCR() && frameList.get(i).isAxisContains()) {                                  //draw Arc
+                if (frameList.get(i).getIsCR() && frameList.get(i).isAxisContains()&&isRapidFeed!=3&&clockwise!=0) {                                  //draw Arc
                     pEnd.setX(frameList.get(i).getX());
                     pEnd.setZ(frameList.get(i).getZ());
                     radius = frameList.get(i).getCr();
@@ -42,14 +42,14 @@ public class DrawVerticalTurning extends BaseDraw implements Drawing {
                     pStart.setX(pEnd.getX());
                     pStart.setZ(pEnd.getZ());
                 }
-                if (!frameList.get(i).getIsCR() && !frameList.get(i).isRND() && frameList.get(i).isAxisContains()) {    //draw line
+                if (!frameList.get(i).getIsCR() && !frameList.get(i).isRND() && frameList.get(i).isAxisContains()&&clockwise==0) {    //draw line
                     pEnd.setX(frameList.get(i).getX());
                     pEnd.setZ(frameList.get(i).getZ());
                     drawLine(gc, isRapidFeed, pointCoordinateZero, pStart, pEnd, zoom);
                     pStart.setX(pEnd.getX());
                     pStart.setZ(pEnd.getZ());
                 }
-                if (frameList.get(i).isRND() && frameList.get(i).isAxisContains()) {                                    //draw RND
+                if (frameList.get(i).isRND() && frameList.get(i).isAxisContains()&&isRapidFeed!=3&&clockwise==0) {                                    //draw RND
                     pEnd.setX(frameList.get(i).getX());
                     pEnd.setZ(frameList.get(i).getZ());
                     radiusRND = frameList.get(i).getRnd();

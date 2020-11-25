@@ -549,6 +549,11 @@ public class Program extends BaseDraw implements Runnable {
                 case "G3":
                 case "G03":
                     return true;
+                case "G01":
+                case "G1":
+                case "G0":
+                case "G00":
+                    return false;
             }
         }
         return false;
