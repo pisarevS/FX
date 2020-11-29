@@ -69,12 +69,12 @@ public class DrawVerticalTurning extends BaseDraw implements Drawing {
                 }
             }
         }
-        if (isToolRadiusCompensation != 0 ) {
+        /*if (isToolRadiusCompensation != 0 ) {
             drawPoint(gc, pointCoordinateZero, frameList, zoom, Color.web("#D2BF44"), index,tool);
         } else {
             drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.RED);
-        }
-        //drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.RED);
+        }*/
+        drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.RED);
         if (isDrawPoint) drawPoint(gc, pointCoordinateZero, point, zoom, Color.web("#3507EE"));
     }
 

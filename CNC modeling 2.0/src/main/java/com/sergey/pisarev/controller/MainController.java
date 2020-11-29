@@ -83,7 +83,7 @@ public class MainController implements IController {
     Button buttonZoomDefault = new Button();
 
     @FXML
-    SplitPane splitPane=new SplitPane();
+    SplitPane splitPane = new SplitPane();
 
     public String getTextCodeArea() {
         return codeAreaProgram.getText();
@@ -115,21 +115,21 @@ public class MainController implements IController {
         buttonSingleBlock.setTextFill(Color.BLACK);
         buttonReset.setTextFill(Color.BLACK);
         contextMenu = new ContextMenu();
-        ContextMenuCodeArea.installContextMenu(contextMenu,codeAreaProgram);
+        ContextMenuCodeArea.installContextMenu(contextMenu, codeAreaProgram);
         TableUtils.installKeyHandler(codeAreaProgram);
         setOnChangesText(codeAreaProgram);
 
         visualizerCanvas.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2){
-                if(visualizerCanvas.getHeight()-textFrameCoordinateX.getLayoutY()<=visualizerCanvas.getHeight()-event.getY()&&
-                        visualizerCanvas.getHeight()-textFrameCoordinateX.getLayoutY()+textFrameCoordinateX.getStrokeMiterLimit()>=visualizerCanvas.getHeight()-event.getY()&&
-                        event.getX()>=textFrameCoordinateX.getLayoutX()&&event.getX()<=textFrameCoordinateX.getLayoutX()+textFrameCoordinateX.getWrappingWidth()){
-                  setClipboardContent(textFrameCoordinateX.getText().replace("X=",""));
-                }else if(visualizerCanvas.getHeight()-textFrameCoordinateZ.getLayoutY()<=visualizerCanvas.getHeight()-event.getY()&&
-                        visualizerCanvas.getHeight()-textFrameCoordinateZ.getLayoutY()+textFrameCoordinateZ.getStrokeMiterLimit()>=visualizerCanvas.getHeight()-event.getY()&&
-                        event.getX()>=textFrameCoordinateZ.getLayoutX()&&event.getX()<=textFrameCoordinateZ.getLayoutX()+textFrameCoordinateZ.getWrappingWidth()){
-                    setClipboardContent(textFrameCoordinateZ.getText().replace("Z=",""));
-                }else {
+            if (event.getClickCount() == 2) {
+                if (visualizerCanvas.getHeight() - textFrameCoordinateX.getLayoutY() <= visualizerCanvas.getHeight() - event.getY() &&
+                        visualizerCanvas.getHeight() - textFrameCoordinateX.getLayoutY() + textFrameCoordinateX.getStrokeMiterLimit() >= visualizerCanvas.getHeight() - event.getY() &&
+                        event.getX() >= textFrameCoordinateX.getLayoutX() && event.getX() <= textFrameCoordinateX.getLayoutX() + textFrameCoordinateX.getWrappingWidth()) {
+                    setClipboardContent(textFrameCoordinateX.getText().replace("X=", ""));
+                } else if (visualizerCanvas.getHeight() - textFrameCoordinateZ.getLayoutY() <= visualizerCanvas.getHeight() - event.getY() &&
+                        visualizerCanvas.getHeight() - textFrameCoordinateZ.getLayoutY() + textFrameCoordinateZ.getStrokeMiterLimit() >= visualizerCanvas.getHeight() - event.getY() &&
+                        event.getX() >= textFrameCoordinateZ.getLayoutX() && event.getX() <= textFrameCoordinateZ.getLayoutX() + textFrameCoordinateZ.getWrappingWidth()) {
+                    setClipboardContent(textFrameCoordinateZ.getText().replace("Z=", ""));
+                } else {
                     presenter.onMouseClickedCanvas(event);
                 }
             }
@@ -151,17 +151,16 @@ public class MainController implements IController {
             presenter.handleMouseDragged(event);
         });
 
-        visualizerCanvas.widthProperty().addListener(observable -> presenter.initSystemCoordinate( visualizerCanvas.getWidth(),visualizerCanvas.getHeight()));
-        visualizerCanvas.heightProperty().addListener(observable -> presenter.initSystemCoordinate(visualizerCanvas.getWidth(),visualizerCanvas.getHeight()));
+        visualizerCanvas.widthProperty().addListener(observable -> presenter.initSystemCoordinate(visualizerCanvas.getWidth(), visualizerCanvas.getHeight()));
+        visualizerCanvas.heightProperty().addListener(observable -> presenter.initSystemCoordinate(visualizerCanvas.getWidth(), visualizerCanvas.getHeight()));
 
         exit();
     }
 
-    private void setClipboardContent(String content){
+    private void setClipboardContent(String content) {
         final ClipboardContent clipboardContent = new ClipboardContent();
         clipboardContent.putString(content);
         clipboardContent.putHtml(content);
-        System.out.println(content);
         Clipboard.getSystemClipboard().setContent(clipboardContent);
     }
 
@@ -184,7 +183,7 @@ public class MainController implements IController {
     @FXML
     public void handleDragProgram(DragEvent event) {
         presenter.openDragProgram(event);
-        STAGE.setTitle(File.fileProgram.toString());
+        STAGE.setTitle(File.filePath.toString());
         reset();
     }
 
@@ -242,11 +241,11 @@ public class MainController implements IController {
     }
 
     @FXML
-    public void onZoomDefault(ActionEvent actionEvent){
+    public void onZoomDefault(ActionEvent actionEvent) {
         presenter.onZoomDefault();
     }
 
-    private void reset(){
+    private void reset() {
         textFrame.setText("");
         textFrameCoordinateX.setText("");
         textFrameCoordinateZ.setText("");
@@ -328,15 +327,27 @@ public class MainController implements IController {
         showCaretBox(number, frame);
     }
 
+    @Override
+    public void showSaveAlert() {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setAlertType(AlertType.INFORMATION);
+        alert.setContentText("Do you want to save file changes?");
+        alert.getButtonTypes().clear();
+        alert.getButtonTypes().addAll(ButtonType.YES, ButtonType.NO);
+        Button yesButton = (Button) alert.getDialogPane().lookupButton(ButtonType.YES);
+        yesButton.setOnAction(event -> {
+            presenter.saveProgram(codeAreaProgram.getText());
+        });
+        alert.showAndWait();
+    }
+
     @FXML
     public void menuSaveProgram(ActionEvent actionEvent) {
-        if (File.fileProgram != null) {
-            File.setFileContent(File.fileProgram, codeAreaProgram.getText());
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setAlertType(AlertType.INFORMATION);
-            alert.setContentText("File saved!");
-            alert.showAndWait();
-        }
+        presenter.saveProgram(codeAreaProgram.getText());
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setAlertType(AlertType.INFORMATION);
+        alert.setContentText("File saved!");
+        alert.showAndWait();
     }
 
     @FXML
@@ -372,7 +383,7 @@ public class MainController implements IController {
 
     @FXML
     public void menuQuit(ActionEvent actionEvent) {
-        saveChanges();
+        presenter.checkChangesProgram(codeAreaProgram.getText());
         Platform.exit();
     }
 
@@ -381,28 +392,6 @@ public class MainController implements IController {
                 .multiPlainChanges()
                 .successionEnds(Duration.ofMillis(1))
                 .subscribe(ignore -> presenter.setOnChangesTextProgram(codeAreaProgram.getText()));
-    }
-
-    private void alertSaveChanges(java.io.File file, String text) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setAlertType(AlertType.INFORMATION);
-        alert.setContentText("Do you want to save file changes?");
-        alert.getButtonTypes().clear();
-        alert.getButtonTypes().addAll(ButtonType.YES, ButtonType.NO);
-        Button yesButton = (Button) alert.getDialogPane().lookupButton(ButtonType.YES);
-        yesButton.setOnAction(event -> {
-            File.setFileContent(file, text);
-        });
-        alert.showAndWait();
-    }
-
-    private void saveChanges() {
-        if (File.fileProgram != null) {
-            String programFile = File.getFileContent(File.fileProgram);
-            if (!programFile.equals(codeAreaProgram.getText())) {
-                alertSaveChanges(File.fileProgram, codeAreaProgram.getText());
-            }
-        }
     }
 
     private void showCaretBox(int number, StringBuffer frame) {
@@ -423,9 +412,10 @@ public class MainController implements IController {
 
     private void exit() {
         STAGE.setOnCloseRequest(event -> {
-            saveChanges();
+            presenter.checkChangesProgram(codeAreaProgram.getText());
             Platform.exit();
         });
+
     }
 
     public void menuConvertAviaProgram(ActionEvent actionEvent) {

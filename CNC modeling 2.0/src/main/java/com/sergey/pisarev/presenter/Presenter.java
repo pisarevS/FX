@@ -19,6 +19,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     private double canvasWidth, canvasHeight, moveX, moveZ;
     private final GraphicsContext gc;
     private Point pointSystemCoordinate;
+    private Point pointStopCanvas;
     private MyData data;
     private Drawing drawing;
     private int index;
@@ -45,13 +46,13 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     }
 
     @Override
-    public void initSystemCoordinate(double canvasWidth,double canvasHeight) {
-        this.canvasWidth=canvasWidth;
-        this.canvasHeight=canvasHeight;
-        if(coordinateSystemProportionsX!=0&&coordinateSystemProportionsZ!=0){
-            pointSystemCoordinate = new Point(canvasWidth *coordinateSystemProportionsX, canvasHeight * coordinateSystemProportionsZ);
-        }else {
-            pointSystemCoordinate = new Point(canvasWidth *0.5, canvasHeight * 0.5);
+    public void initSystemCoordinate(double canvasWidth, double canvasHeight) {
+        this.canvasWidth = canvasWidth;
+        this.canvasHeight = canvasHeight;
+        if (coordinateSystemProportionsX != 0 && coordinateSystemProportionsZ != 0) {
+            pointSystemCoordinate = new Point(canvasWidth * coordinateSystemProportionsX, canvasHeight * coordinateSystemProportionsZ);
+        } else {
+            pointSystemCoordinate = new Point(canvasWidth * 0.5, canvasHeight * 0.5);
         }
         gc.clearRect(0, 0, canvasWidth, canvasHeight);
         gc.setStroke(Color.BLACK);
@@ -65,7 +66,22 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
 
     @Override
     public void convertAviaProgram(String aviaProgram) {
-    controller.showProgram(new Convert().convertAviaProgram(aviaProgram));
+        controller.showProgram(new Convert().convertAviaProgram(aviaProgram));
+    }
+
+    @Override
+    public void checkChangesProgram(String program) {
+        if(File.filePath!=null){
+            if (!program.equals(File.getFileContent()))
+                controller.showSaveAlert();
+        }
+    }
+
+    @Override
+    public void saveProgram(String program) {
+        if (File.filePath != null)
+            File.setFileContent(File.filePath, program);
+
     }
 
     @Override
@@ -80,15 +96,35 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     public void handleMouseDragged(MouseEvent event) {
         pointSystemCoordinate.setX(event.getX() + moveX);
         pointSystemCoordinate.setZ(event.getY() + moveZ);
-        coordinateSystemProportionsX=pointSystemCoordinate.getX()/canvasWidth;
-        coordinateSystemProportionsZ=pointSystemCoordinate.getZ()/canvasHeight;
+        coordinateSystemProportionsX = pointSystemCoordinate.getX() / canvasWidth;
+        coordinateSystemProportionsZ = pointSystemCoordinate.getZ() / canvasHeight;
         drawSysCoordinate();
         startDraw(index);
     }
 
     @Override
     public void handleZooming(ScrollEvent event) {
-        zooming += event.getDeltaY() / 600;
+        Point point=new Point();
+        if(event.getDeltaY()>0){
+            double zoomUp = 1.2;
+            zooming *= zoomUp;
+            point.setX(pointStopCanvas.getX()* zoomUp);
+            point.setZ(pointStopCanvas.getZ()* zoomUp);
+            pointSystemCoordinate.setX(pointSystemCoordinate.getX()+ pointStopCanvas.getX()-point.getX());
+            pointSystemCoordinate.setZ(pointSystemCoordinate.getZ()+ point.getZ()-pointStopCanvas.getZ());
+            pointStopCanvas.setX(pointStopCanvas.getX()* zoomUp);
+            pointStopCanvas.setZ(pointStopCanvas.getZ()* zoomUp);
+        }
+        if(event.getDeltaY()<0){
+            double zoomDown = 1 - 0.1666654;
+            zooming *= zoomDown;
+            point.setX(pointStopCanvas.getX()* zoomDown);
+            point.setZ(pointStopCanvas.getZ()* zoomDown);
+            pointSystemCoordinate.setX(pointSystemCoordinate.getX()+ pointStopCanvas.getX()-point.getX());
+            pointSystemCoordinate.setZ(pointSystemCoordinate.getZ()+ point.getZ()-pointStopCanvas.getZ());
+            pointStopCanvas.setX(pointStopCanvas.getX()* zoomDown);
+            pointStopCanvas.setZ(pointStopCanvas.getZ()* zoomDown);
+        }
         if (zooming > 0) {
             startDraw(index);
         } else {
@@ -97,6 +133,8 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         controller.setZooming((zooming - defZoom) / defZoom * 100 + 100);
     }
 
+
+
     @Override
     public void onMouseMovedCanvas(MouseEvent event) {
         Point point = new Point();
@@ -104,6 +142,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         point.setZ(event.getY());
         if (point.getZ() > 0) point.setZ(pointSystemCoordinate.getZ() - point.getZ());
         else point.setZ(pointSystemCoordinate.getZ() + Math.abs(point.getZ()));
+        pointStopCanvas=new Point(point.getX(),point.getZ());
         point.setX(point.getX() / zooming);
         point.setZ(point.getZ() / zooming);
         controller.getCoordinateCanvas(point.getX(), point.getZ());
@@ -168,7 +207,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     @Override
     public void onCycleStart(String program) {
         isCycleStart = true;
-        if (!isReset && !program.equals("") ) {
+        if (!isReset && !program.equals("")) {
             startThread(program);
             assert data != null;
             timeline = new Timeline(new KeyFrame(Duration.millis(200), event -> {
@@ -181,10 +220,11 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
             }));
             timeline.setCycleCount(data.getFrameList().size());
             timeline.play();
-            if(isSingleBlock){
+            if (isSingleBlock) {
                 timeline.stop();
             }
-        } if (isSingleBlock) {
+        }
+        if (isSingleBlock) {
             index++;
             if (index <= data.getFrameList().size())
                 startDraw(index);
@@ -200,10 +240,10 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     public void onSingleBlock(boolean isClick) {
         if (isClick) {
             isSingleBlock = true;
-            if(timeline!=null) timeline.stop();
+            if (timeline != null) timeline.stop();
         } else {
             isSingleBlock = false;
-            if(timeline!=null) timeline.play();
+            if (timeline != null) timeline.play();
         }
     }
 
@@ -215,9 +255,9 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     @Override
     public void onZoomDefault() {
         zooming = defZoom;
-        coordinateSystemProportionsX=0;
-        coordinateSystemProportionsZ=0;
-        initSystemCoordinate(canvasWidth,canvasHeight);
+        coordinateSystemProportionsX = 0;
+        coordinateSystemProportionsZ = 0;
+        initSystemCoordinate(canvasWidth, canvasHeight);
         controller.setZooming(100);
     }
 
@@ -230,7 +270,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         index = 0;
         errorList.clear();
         drawing = null;
-        initSystemCoordinate(canvasWidth,canvasHeight);
+        initSystemCoordinate(canvasWidth, canvasHeight);
         if (timeline != null) {
             timeline.stop();
         }
@@ -299,7 +339,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     }
 
     private void startThread(String program) {
-        readParameterVariables(Objects.requireNonNull(File.getParameter(File.fileProgram)));
+        readParameterVariables(Objects.requireNonNull(File.getParameter(File.filePath)));
         Thread thread = new Thread(new Program(program, variablesList, this));
         thread.start();
         try {

@@ -18,4 +18,6 @@ public interface IController {
     void getCoordinateFrame(double x,double z);
 
     void showCaretBoxOnCanvasClick(int number, StringBuffer frame);
+
+    void showSaveAlert();
 }
