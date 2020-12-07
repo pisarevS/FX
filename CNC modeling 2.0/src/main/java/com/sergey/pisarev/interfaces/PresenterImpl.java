@@ -13,8 +13,6 @@ public interface PresenterImpl {
 
     void onReset();
 
-    void onZoomDefault();
-
     void getCaretPosition(int numberLine);
 
     void openDragProgram(DragEvent event);

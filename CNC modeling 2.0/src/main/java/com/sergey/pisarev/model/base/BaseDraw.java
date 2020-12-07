@@ -41,13 +41,6 @@ public abstract class BaseDraw {
         toolsMap.put("T=\"T20\"",10D);     //20мм прямой чистовой
         toolsMap.put("T=\"T99\"",1D);      //канавка фасон
         toolsMap.put("T=\"T77\"",1.6D);    //канавка сопля
-        //LPO
-        toolsMap.put("T120",1.6);          //ромб поясок
-        toolsMap.put("T1",16D);            //32мм черновой кривой
-        toolsMap.put("T2",10D);            //20мм кривой чистовой
-        toolsMap.put("T5",1.2);            //ромб канавка
-        toolsMap.put("T103",16D);          //32мм прямой черновой
-        toolsMap.put("T203",10D);          //20мм прямой чистовой
         //KNUTH
         toolsMap.put("T125",12.5);         //25мм прямой черновой
         toolsMap.put("T20",10D);           //20мм кривой чистовой
@@ -938,7 +931,7 @@ public abstract class BaseDraw {
                     pStart.setZ(pStart.getZ() - radiusPoint);
                 }  //Z==Z -X
                 if (pStart.getZ() == pEnd.getZ() && pStart.getX() < pEnd.getX()) {
-                    if (frameList.get(index-1).getX()==frameList.get(index).getX()) {
+                    if (frameList.get(index-1).getX()==frameList.get(index).getX()&&!frameList.get(index).getGCode().contains("G0")) {
                         pEnd.setX(pEnd.getX() - radiusPoint);
                         pStart.setZ(pEnd.getZ()+radiusPoint);
                     }else {

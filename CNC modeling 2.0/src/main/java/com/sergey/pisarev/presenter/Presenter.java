@@ -49,11 +49,9 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     public void initSystemCoordinate(double canvasWidth, double canvasHeight) {
         this.canvasWidth = canvasWidth;
         this.canvasHeight = canvasHeight;
-        if (coordinateSystemProportionsX != 0 && coordinateSystemProportionsZ != 0) {
+        if (coordinateSystemProportionsX != 0 && coordinateSystemProportionsZ != 0)
             pointSystemCoordinate = new Point(canvasWidth * coordinateSystemProportionsX, canvasHeight * coordinateSystemProportionsZ);
-        } else {
-            pointSystemCoordinate = new Point(canvasWidth * 0.5, canvasHeight * 0.5);
-        }
+        else pointSystemCoordinate = new Point(canvasWidth * 0.5, canvasHeight * 0.5);
         gc.clearRect(0, 0, canvasWidth, canvasHeight);
         gc.setStroke(Color.BLACK);
         gc.setLineDashes(5, 5);
@@ -71,69 +69,56 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
 
     @Override
     public void checkChangesProgram(String program) {
-        if(File.filePath!=null){
-            if (!program.equals(File.getFileContent()))
-                controller.showSaveAlert();
-        }
+        if (File.filePath != null) if (!program.equals(File.getFileContent())) controller.showSaveAlert();
     }
 
     @Override
     public void saveProgram(String program) {
-        if (File.filePath != null)
-            File.setFileContent(File.filePath, program);
-
+        if (File.filePath != null) File.setFileContent(File.filePath, program);
     }
 
     @Override
     public void handleMousePressed(MouseEvent event) {
-        double downX = event.getX();
-        double downZ = event.getY();
-        moveX = pointSystemCoordinate.getX() - downX;
-        moveZ = pointSystemCoordinate.getZ() - downZ;
+        moveX = pointSystemCoordinate.getX() - event.getX();
+        moveZ = pointSystemCoordinate.getZ() - event.getY();
     }
 
     @Override
     public void handleMouseDragged(MouseEvent event) {
         pointSystemCoordinate.setX(event.getX() + moveX);
         pointSystemCoordinate.setZ(event.getY() + moveZ);
-        coordinateSystemProportionsX = pointSystemCoordinate.getX() / canvasWidth;
-        coordinateSystemProportionsZ = pointSystemCoordinate.getZ() / canvasHeight;
+        setProportionCoordinateSystem(pointSystemCoordinate.getX() / canvasWidth, pointSystemCoordinate.getZ() / canvasHeight);
         drawSysCoordinate();
         startDraw(index);
     }
 
     @Override
     public void handleZooming(ScrollEvent event) {
-        Point point=new Point();
-        if(event.getDeltaY()>0){
+        Point point = new Point();
+        if (event.getDeltaY() > 0) {
             double zoomUp = 1.2;
             zooming *= zoomUp;
-            point.setX(pointStopCanvas.getX()* zoomUp);
-            point.setZ(pointStopCanvas.getZ()* zoomUp);
-            pointSystemCoordinate.setX(pointSystemCoordinate.getX()+ pointStopCanvas.getX()-point.getX());
-            pointSystemCoordinate.setZ(pointSystemCoordinate.getZ()+ point.getZ()-pointStopCanvas.getZ());
-            pointStopCanvas.setX(pointStopCanvas.getX()* zoomUp);
-            pointStopCanvas.setZ(pointStopCanvas.getZ()* zoomUp);
+            point.setX(pointStopCanvas.getX() * zoomUp);
+            point.setZ(pointStopCanvas.getZ() * zoomUp);
+            pointSystemCoordinate.setX(pointSystemCoordinate.getX() + pointStopCanvas.getX() - point.getX());
+            pointSystemCoordinate.setZ(pointSystemCoordinate.getZ() + point.getZ() - pointStopCanvas.getZ());
+            pointStopCanvas.setX(pointStopCanvas.getX() * zoomUp);
+            pointStopCanvas.setZ(pointStopCanvas.getZ() * zoomUp);
         }
-        if(event.getDeltaY()<0){
+        if (event.getDeltaY() < 0) {
             double zoomDown = 1 - 0.1666654;
             zooming *= zoomDown;
-            point.setX(pointStopCanvas.getX()* zoomDown);
-            point.setZ(pointStopCanvas.getZ()* zoomDown);
-            pointSystemCoordinate.setX(pointSystemCoordinate.getX()+ pointStopCanvas.getX()-point.getX());
-            pointSystemCoordinate.setZ(pointSystemCoordinate.getZ()+ point.getZ()-pointStopCanvas.getZ());
-            pointStopCanvas.setX(pointStopCanvas.getX()* zoomDown);
-            pointStopCanvas.setZ(pointStopCanvas.getZ()* zoomDown);
+            point.setX(pointStopCanvas.getX() * zoomDown);
+            point.setZ(pointStopCanvas.getZ() * zoomDown);
+            pointSystemCoordinate.setX(pointSystemCoordinate.getX() + pointStopCanvas.getX() - point.getX());
+            pointSystemCoordinate.setZ(pointSystemCoordinate.getZ() + point.getZ() - pointStopCanvas.getZ());
+            pointStopCanvas.setX(pointStopCanvas.getX() * zoomDown);
+            pointStopCanvas.setZ(pointStopCanvas.getZ() * zoomDown);
         }
-        if (zooming > 0) {
-            startDraw(index);
-        } else {
-            zooming = 0;
-        }
+        if (zooming > 0) startDraw(index);
+        else zooming = 0;
         controller.setZooming((zooming - defZoom) / defZoom * 100 + 100);
     }
-
-
 
     @Override
     public void onMouseMovedCanvas(MouseEvent event) {
@@ -142,7 +127,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         point.setZ(event.getY());
         if (point.getZ() > 0) point.setZ(pointSystemCoordinate.getZ() - point.getZ());
         else point.setZ(pointSystemCoordinate.getZ() + Math.abs(point.getZ()));
-        pointStopCanvas=new Point(point.getX(),point.getZ());
+        pointStopCanvas = new Point(point.getX(), point.getZ());
         point.setX(point.getX() / zooming);
         point.setZ(point.getZ() / zooming);
         controller.getCoordinateCanvas(point.getX(), point.getZ());
@@ -215,21 +200,16 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
                 startDraw(index);
                 controller.showCaretBoxOnCycleStart(data.getFrameList().get(index - 1).getId(), data.getProgramList().get(data.getFrameList().get(index - 1).getId()));
                 controller.getCoordinateFrame(data.getFrameList().get(index - 1).getX(), data.getFrameList().get(index - 1).getZ());
-                if (index == data.getFrameList().size())
-                    controller.onStop();
+                if (index == data.getFrameList().size()) controller.onStop();
             }));
             timeline.setCycleCount(data.getFrameList().size());
             timeline.play();
-            if (isSingleBlock) {
-                timeline.stop();
-            }
+            if (isSingleBlock) timeline.stop();
         }
         if (isSingleBlock) {
             index++;
-            if (index <= data.getFrameList().size())
-                startDraw(index);
-            if (index == data.getFrameList().size())
-                controller.onStop();
+            if (index <= data.getFrameList().size()) startDraw(index);
+            if (index == data.getFrameList().size()) controller.onStop();
             controller.showCaretBoxOnCycleStart(data.getFrameList().get(index - 1).getId(), data.getProgramList().get(data.getFrameList().get(index - 1).getId()));
             controller.getCoordinateFrame(data.getFrameList().get(index - 1).getX(), data.getFrameList().get(index - 1).getZ());
         }
@@ -252,15 +232,6 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         reset();
     }
 
-    @Override
-    public void onZoomDefault() {
-        zooming = defZoom;
-        coordinateSystemProportionsX = 0;
-        coordinateSystemProportionsZ = 0;
-        initSystemCoordinate(canvasWidth, canvasHeight);
-        controller.setZooming(100);
-    }
-
     private void reset() {
         isStart = false;
         isReset = false;
@@ -270,10 +241,9 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         index = 0;
         errorList.clear();
         drawing = null;
+        setProportionCoordinateSystem(pointSystemCoordinate.getX() / canvasWidth, pointSystemCoordinate.getZ() / canvasHeight);
         initSystemCoordinate(canvasWidth, canvasHeight);
-        if (timeline != null) {
-            timeline.stop();
-        }
+        if (timeline != null) timeline.stop();
     }
 
     @Override
@@ -317,8 +287,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
                 errorList.add(error);
                 controller.showError(error);
             }
-            if (timeline != null)
-                timeline.stop();
+            if (timeline != null) timeline.stop();
         }
     }
 
@@ -326,9 +295,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     public void callingBack(MyData data) {
         this.data = data;
         drawing = new DrawVerticalTurning(this);
-        if (isStart) {
-            index = data.getFrameList().size();
-        }
+        if (isStart) index = data.getFrameList().size();
     }
 
     private void startDraw(int index) {
@@ -367,5 +334,10 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
                         , p.substring(p.indexOf("=") + 1, p.length()).replace(" ", ""));
             }
         });
+    }
+
+    private void setProportionCoordinateSystem(double width, double height) {
+        coordinateSystemProportionsX = width;
+        coordinateSystemProportionsZ = height;
     }
 }

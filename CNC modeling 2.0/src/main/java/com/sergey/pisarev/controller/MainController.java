@@ -80,9 +80,6 @@ public class MainController implements IController {
     Button buttonReset = new Button();
 
     @FXML
-    Button buttonZoomDefault = new Button();
-
-    @FXML
     SplitPane splitPane = new SplitPane();
 
     public String getTextCodeArea() {
@@ -129,31 +126,16 @@ public class MainController implements IController {
                         visualizerCanvas.getHeight() - textFrameCoordinateZ.getLayoutY() + textFrameCoordinateZ.getStrokeMiterLimit() >= visualizerCanvas.getHeight() - event.getY() &&
                         event.getX() >= textFrameCoordinateZ.getLayoutX() && event.getX() <= textFrameCoordinateZ.getLayoutX() + textFrameCoordinateZ.getWrappingWidth()) {
                     setClipboardContent(textFrameCoordinateZ.getText().replace("Z=", ""));
-                } else {
-                    presenter.onMouseClickedCanvas(event);
-                }
+                } else presenter.onMouseClickedCanvas(event);
             }
         });
 
-        visualizerCanvas.setOnMouseMoved(event -> {
-            presenter.onMouseMovedCanvas(event);
-        });
-
-        visualizerCanvas.setOnScroll((ScrollEvent event) -> {
-            presenter.handleZooming(event);
-        });
-
-        visualizerCanvas.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
-            presenter.handleMousePressed(event);
-        });
-
-        visualizerCanvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, event -> {
-            presenter.handleMouseDragged(event);
-        });
-
+        visualizerCanvas.setOnMouseMoved(event -> presenter.onMouseMovedCanvas(event));
+        visualizerCanvas.setOnScroll((ScrollEvent event) -> presenter.handleZooming(event));
+        visualizerCanvas.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> presenter.handleMousePressed(event));
+        visualizerCanvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, event -> presenter.handleMouseDragged(event));
         visualizerCanvas.widthProperty().addListener(observable -> presenter.initSystemCoordinate(visualizerCanvas.getWidth(), visualizerCanvas.getHeight()));
         visualizerCanvas.heightProperty().addListener(observable -> presenter.initSystemCoordinate(visualizerCanvas.getWidth(), visualizerCanvas.getHeight()));
-
         exit();
     }
 
@@ -176,8 +158,7 @@ public class MainController implements IController {
 
     @FXML
     public void handleDragOverProgram(DragEvent event) {
-        if (event.getDragboard().hasFiles())
-            event.acceptTransferModes(TransferMode.ANY);
+        if (event.getDragboard().hasFiles()) event.acceptTransferModes(TransferMode.ANY);
     }
 
     @FXML
@@ -212,9 +193,7 @@ public class MainController implements IController {
         buttonCycleStart.setDisable(true);
         buttonSingleBlock.setDisable(false);
         isCycleStart = true;
-        if (isDownSingleBlock) {
-            buttonCycleStart.setDisable(false);
-        }
+        if (isDownSingleBlock) buttonCycleStart.setDisable(false);
         presenter.onCycleStart(codeAreaProgram.getText());
     }
 
@@ -240,11 +219,6 @@ public class MainController implements IController {
         reset();
     }
 
-    @FXML
-    public void onZoomDefault(ActionEvent actionEvent) {
-        presenter.onZoomDefault();
-    }
-
     private void reset() {
         textFrame.setText("");
         textFrameCoordinateX.setText("");
@@ -256,9 +230,7 @@ public class MainController implements IController {
         buttonSingleBlock.setStyle("-fx-background-color: ");
         countClick = 2;
         presenter.onReset();
-        if (isCycleStart) {
-            StyleText.setStyleRefresh(codeAreaProgram);
-        }
+        if (isCycleStart) StyleText.setStyleRefresh(codeAreaProgram);
     }
 
     @Override
@@ -335,9 +307,7 @@ public class MainController implements IController {
         alert.getButtonTypes().clear();
         alert.getButtonTypes().addAll(ButtonType.YES, ButtonType.NO);
         Button yesButton = (Button) alert.getDialogPane().lookupButton(ButtonType.YES);
-        yesButton.setOnAction(event -> {
-            presenter.saveProgram(codeAreaProgram.getText());
-        });
+        yesButton.setOnAction(event -> presenter.saveProgram(codeAreaProgram.getText()));
         alert.showAndWait();
     }
 

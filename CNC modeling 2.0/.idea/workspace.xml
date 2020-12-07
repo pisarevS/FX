@@ -10,16 +10,18 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/controller/MainController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/controller/MainController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/interfaces/IController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/interfaces/IController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/interfaces/PresenterImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/interfaces/PresenterImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/File.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/File.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/DrawVerticalTurning.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/DrawVerticalTurning.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/base/BaseDraw.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/base/BaseDraw.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/presenter/Presenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/presenter/Presenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/main.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/main.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/src/main/resources/main.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/src/main/resources/main.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/controller/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/interfaces/IController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/interfaces/IController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/interfaces/PresenterImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/interfaces/PresenterImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/DrawVerticalTurning.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/DrawVerticalTurning.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/File.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/File.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/base/BaseDraw.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/base/BaseDraw.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/presenter/Presenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/presenter/Presenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/main.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/main.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,20 +142,20 @@
     <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
   <component name="RecentsManager">
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.sergey.pisarev.interfaces" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\GitHub\FX\CNC modeling 2.0\lib" />
-      <recent name="C:\GitHub\FX\CNC modeling 2.0\src\main\java\com\sergey\pisarev" />
-      <recent name="D:\GitHub\FX\CNC modeling 2.0\src\main\resources" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\GitHub\FX\CNC modeling 2.0\lib" />
       <recent name="D:\GitHub\FX\CNC modeling 2.0\src\main\resources" />
       <recent name="D:\GitHub\FX\CNC modeling 2.0\src\main\java\com\sergey\pisarev\resource" />
       <recent name="D:\GitHub\FX\CNC modeling 2.0\src\main" />
       <recent name="D:\GitHub\FX\CNC modeling 2.0\src\main\java" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitHub\FX\CNC modeling 2.0\lib" />
+      <recent name="C:\GitHub\FX\CNC modeling 2.0\src\main\java\com\sergey\pisarev" />
+      <recent name="D:\GitHub\FX\CNC modeling 2.0\src\main\resources" />
+    </key>
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.sergey.pisarev.interfaces" />
     </key>
   </component>
   <component name="RunManager">
@@ -422,46 +424,46 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="499" y="167" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog/0.0.1536.824@0.0.1536.824" timestamp="1605620754118" />
-    <state width="427" height="466" key="DebuggerActiveHint" timestamp="1606065435324">
+    <state width="446" height="466" key="DebuggerActiveHint" timestamp="1606741706038">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="427" height="466" key="DebuggerActiveHint/0.0.1536.824@0.0.1536.824" timestamp="1606065435324" />
+    <state width="446" height="466" key="DebuggerActiveHint/0.0.1536.824@0.0.1536.824" timestamp="1606741706038" />
     <state x="403" y="258" width="590" height="387" key="FileChooserDialogImpl" timestamp="1605710977888">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="403" y="258" width="590" height="387" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1605710977888" />
-    <state width="1493" height="215" key="GridCell.Tab.0.bottom" timestamp="1606637770054">
+    <state width="1493" height="215" key="GridCell.Tab.0.bottom" timestamp="1607323433507">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="215" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1606637770054" />
-    <state width="1493" height="215" key="GridCell.Tab.0.center" timestamp="1606637770054">
+    <state width="1493" height="215" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1607323433507" />
+    <state width="1493" height="215" key="GridCell.Tab.0.center" timestamp="1607323433506">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="215" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1606637770054" />
-    <state width="1493" height="215" key="GridCell.Tab.0.left" timestamp="1606637770054">
+    <state width="1493" height="215" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1607323433506" />
+    <state width="1493" height="215" key="GridCell.Tab.0.left" timestamp="1607323433506">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="215" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1606637770054" />
-    <state width="1493" height="215" key="GridCell.Tab.0.right" timestamp="1606637770054">
+    <state width="1493" height="215" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1607323433506" />
+    <state width="1493" height="215" key="GridCell.Tab.0.right" timestamp="1607323433507">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="215" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1606637770054" />
-    <state x="22" y="629" width="1493" height="264" key="GridCell.Tab.1.bottom" timestamp="1606299431723">
+    <state width="1493" height="215" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1607323433507" />
+    <state x="22" y="629" width="1493" height="263" key="GridCell.Tab.1.bottom" timestamp="1607323090666">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="264" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1606299431723" />
-    <state x="22" y="629" width="1493" height="264" key="GridCell.Tab.1.center" timestamp="1606299431723">
+    <state width="1493" height="263" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1607323090666" />
+    <state x="22" y="629" width="1493" height="263" key="GridCell.Tab.1.center" timestamp="1607323090666">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="264" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1606299431723" />
-    <state x="22" y="629" width="1493" height="264" key="GridCell.Tab.1.left" timestamp="1606299431723">
+    <state width="1493" height="263" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1607323090666" />
+    <state x="22" y="629" width="1493" height="263" key="GridCell.Tab.1.left" timestamp="1607323090666">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="264" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1606299431723" />
-    <state x="22" y="629" width="1493" height="264" key="GridCell.Tab.1.right" timestamp="1606299431723">
+    <state width="1493" height="263" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1607323090666" />
+    <state x="22" y="629" width="1493" height="263" key="GridCell.Tab.1.right" timestamp="1607323090666">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="264" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1606299431723" />
+    <state width="1493" height="263" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1607323090666" />
     <state x="382" y="0" key="SettingsEditor" timestamp="1605710982306">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

@@ -136,11 +136,6 @@
                                        </light>
                                     </Lighting>
                                  </effect></Button>
-                              <Button fx:id="buttonZoomDefault" cache="true" cancelButton="true" contentDisplay="TOP" layoutX="683.0" layoutY="11.0" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" onAction="#onZoomDefault" prefHeight="40.0" prefWidth="40.0" text="100%" textAlignment="CENTER" textFill="#1faee2" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="11.0">
-                                 <font>
-                                    <Font size="10.0" />
-                                 </font>
-                              </Button>
                            </children>
                         </AnchorPane>
                     </items>
