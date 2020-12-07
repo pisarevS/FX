@@ -16,7 +16,7 @@ public class DrawVerticalTurning extends BaseDraw implements Drawing {
     }
 
     @Override
-    public void drawContour(MyData data, GraphicsContext gc, Point pointCoordinateZero, double zoom, int index) {
+    public void drawContour(MyData data, GraphicsContext gc, Point pointCoordinateZero, double zoom, int index,boolean isSelectToolRadius) {
         List<Frame> frameList = data.getFrameList();
         Map<Integer, String> errorListMap = data.getErrorListMap();
         Point pStart = new Point();
@@ -70,10 +70,11 @@ public class DrawVerticalTurning extends BaseDraw implements Drawing {
                 }
             }
         }
-       /*if (isToolRadiusCompensation != 0)
-            drawPoint(gc, pointCoordinateZero, frameList, zoom, Color.web("#D2BF44"), index, tool);
-        else drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.RED);*/
-        drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.RED);
+        if(isSelectToolRadius){
+            if (isToolRadiusCompensation != 0)
+                drawPoint(gc, pointCoordinateZero, frameList, zoom, Color.web("#D2BF44"), index, tool);
+            else drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.RED);
+        }else drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.RED);
         if (isDrawPoint) drawPoint(gc, pointCoordinateZero, point, zoom, Color.web("#3507EE"));
     }
 

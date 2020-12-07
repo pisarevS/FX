@@ -36,6 +36,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     private final Map<String, String> variablesList;
     private double coordinateSystemProportionsX;
     private double coordinateSystemProportionsZ;
+    private boolean isSelectToolRadius=false;
 
 
     public Presenter(IController controller, GraphicsContext gc) {
@@ -190,7 +191,8 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     }
 
     @Override
-    public void onCycleStart(String program) {
+    public void onCycleStart(String program,boolean isSelectToolRadius) {
+        this.isSelectToolRadius=isSelectToolRadius;
         isCycleStart = true;
         if (!isReset && !program.equals("")) {
             startThread(program);
@@ -301,7 +303,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     private void startDraw(int index) {
         if (drawing != null) {
             drawSysCoordinate();
-            drawing.drawContour(data, gc, pointSystemCoordinate, zooming, index);
+            drawing.drawContour(data, gc, pointSystemCoordinate, zooming, index,isSelectToolRadius);
         }
     }
 

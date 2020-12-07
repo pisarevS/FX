@@ -82,6 +82,9 @@ public class MainController implements IController {
     @FXML
     SplitPane splitPane = new SplitPane();
 
+    @FXML
+    CheckBox checkBoxToolRadius=new CheckBox();
+
     public String getTextCodeArea() {
         return codeAreaProgram.getText();
     }
@@ -194,7 +197,7 @@ public class MainController implements IController {
         buttonSingleBlock.setDisable(false);
         isCycleStart = true;
         if (isDownSingleBlock) buttonCycleStart.setDisable(false);
-        presenter.onCycleStart(codeAreaProgram.getText());
+        presenter.onCycleStart(codeAreaProgram.getText(),checkBoxToolRadius.isSelected());
     }
 
     @FXML

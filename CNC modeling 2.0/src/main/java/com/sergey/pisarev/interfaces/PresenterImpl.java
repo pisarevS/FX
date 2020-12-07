@@ -7,7 +7,7 @@ import javafx.scene.input.ScrollEvent;
 public interface PresenterImpl {
     void onStart(String program);
 
-    void onCycleStart(String program);
+    void onCycleStart(String program, boolean isSelectToolRadius);
 
     void onSingleBlock(boolean isClick);
 

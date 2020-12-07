@@ -5,6 +5,6 @@ import com.sergey.pisarev.model.Point;
 import javafx.scene.canvas.GraphicsContext;
 
 public interface Drawing {
-     void drawContour(MyData data, GraphicsContext gc, Point pointCoordinateZero, double zoom, int index);
+     void drawContour(MyData data, GraphicsContext gc, Point pointCoordinateZero, double zoom, int index,boolean isSelectToolRadius);
      void setNumberLine(int numberLine);
 }

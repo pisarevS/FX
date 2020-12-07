@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -136,6 +137,7 @@
                                        </light>
                                     </Lighting>
                                  </effect></Button>
+                              <CheckBox fx:id="checkBoxToolRadius" layoutX="183.0" layoutY="14.0" mnemonicParsing="false" text="tool radius" AnchorPane.leftAnchor="183.0" AnchorPane.topAnchor="14.0" />
                            </children>
                         </AnchorPane>
                     </items>
