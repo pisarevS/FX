@@ -71,10 +71,10 @@ public class Program extends BaseDraw implements Runnable {
         listIgnore.add("N_ZERO_O(54,X2,WP_ZP_X2_S2,\"FI\")");
         listIgnore.add("N_ZERO_O(54,Z2,WP_ZP_Z2_S2,\"FI\")");
 
-        variablesList.put("N_GANTRYPOS_X", "650");
-        variablesList.put("N_GANTRYPOS_Z", "250");
-        variablesList.put("N_GANTRYPOS_U", "650");
-        variablesList.put("N_GANTRYPOS_W", "250");
+        variablesList.put("N_GANTRYPOS_X", String.valueOf(Constant.N_GANTRYPOS_X));
+        variablesList.put("N_GANTRYPOS_Z", String.valueOf(Constant.N_GANTRYPOS_Z));
+        variablesList.put("N_GANTRYPOS_U", String.valueOf(Constant.N_GANTRYPOS_X));
+        variablesList.put("N_GANTRYPOS_W", String.valueOf(Constant.N_GANTRYPOS_Z));
         variablesList.put("$P_TOOLR", "16");
     }
 

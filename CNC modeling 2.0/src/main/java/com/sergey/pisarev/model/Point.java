@@ -2,9 +2,9 @@ package com.sergey.pisarev.model;
 
 public class Point {
 
-    protected double x = 650f;
+    protected double x = Constant.N_GANTRYPOS_X;
 
-    protected double z = 250f;
+    protected double z = Constant.N_GANTRYPOS_Z;
 
     public Point() {
 

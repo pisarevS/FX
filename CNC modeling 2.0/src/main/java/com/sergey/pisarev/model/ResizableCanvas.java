@@ -19,11 +19,11 @@ public class ResizableCanvas extends Canvas {
 
         // Redraw canvas when size changes.
         widthProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("Entered WIDTH property");
+            //System.out.println("Entered WIDTH property");
             canvasWidth = (int) widthProperty().get();
         });
         heightProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("Entered HEIGHT property");
+            //System.out.println("Entered HEIGHT property");
 
             canvasHeight = (int) heightProperty().get();
             halfCanvasHeight = canvasHeight >> 1;

@@ -26,7 +26,8 @@ public abstract class BaseDraw {
     protected int numberLIne;
     protected boolean isG17 = false;
     protected Point pStart = new Point();
-    protected Point pEnd = new Point(); protected Map<String, Double> toolsMap=new HashMap<>();
+    protected Point pEnd = new Point();
+    protected Map<String, Double> toolsMap=new HashMap<>();
 
     private void initToolMap(){
         //RQQ
@@ -73,67 +74,48 @@ public abstract class BaseDraw {
         pEnd.setX(pEnd.getX() * zoom);
         pEnd.setZ(pEnd.getZ() * zoom);
         radius *= zoom;
-        double startAngle = 0, cathet;
         double chord = Math.sqrt(Math.pow(pStart.getX() - pEnd.getX(), 2) + Math.pow(pStart.getZ() - pEnd.getZ(), 2));
         double sweetAngle = 2 * Math.asin(chord / (2 * radius)) * (180 / Math.PI);
-        float h = (float) Math.sqrt(radius * radius - (chord / 2) * (chord / 2));
+        double h =  Math.sqrt(radius * radius - (chord / 2) * (chord / 2));
         if (clockwise==2) {
             double x01 = (pStart.getX() + (pEnd.getX() - pStart.getX()) / 2 + h * (pEnd.getZ() - pStart.getZ()) / chord);
             double z01 = (pStart.getZ() + (pEnd.getZ() - pStart.getZ()) / 2 - h * (pEnd.getX() - pStart.getX()) / chord);
-            if (pStart.getX() > x01 && pStart.getZ() >= z01) {
-                cathet = pStart.getX() - x01;
-                if (pStart.getZ() == z01)
-                    startAngle = 0;
-                else startAngle = (360 - Math.acos(cathet / radius) * (180 / Math.PI));
-            }
-            if (pStart.getX() >= x01 && pStart.getZ() < z01) {
-                cathet = pStart.getX() - x01;
-                if (pStart.getX() == x01)
-                    startAngle = 90;
-                else startAngle = (Math.acos(cathet / radius) * (180 / Math.PI));
-            }
-            if (pStart.getX() < x01 && pStart.getZ() <= z01) {
-                cathet = x01 - pStart.getX();
-                if (pStart.getZ() == z01)
-                    startAngle = 180;
-                else startAngle = (180 - Math.acos(cathet / radius) * (180 / Math.PI));
-            }
-            if (pStart.getX() <= x01 && pStart.getZ() > z01) {
-                cathet = x01 - pStart.getX();
-                if (pStart.getX() == x01)
-                    startAngle = 270;
-                else startAngle = (180 + Math.acos(cathet / radius) * (180 / Math.PI));
-            }
-            gc.strokeArc(pointSystemCoordinate.getX() + x01 - radius, pointSystemCoordinate.getZ() - z01 - radius, radius * 2, radius * 2, 360 - startAngle - sweetAngle, sweetAngle, ArcType.OPEN);
+            calculateStartAngle(gc, pointSystemCoordinate, radius, pStart, sweetAngle, x01, z01);
         }  if(clockwise==3) {
             double x02 = pStart.getX() + (pEnd.getX() - pStart.getX()) / 2 - h * (pEnd.getZ() - pStart.getZ()) / chord;
             double z02 = pStart.getZ() + (pEnd.getZ() - pStart.getZ()) / 2 + h * (pEnd.getX() - pStart.getX()) / chord;
-            if (pEnd.getX() > x02 && pEnd.getZ() >= z02) {
-                cathet = pEnd.getX() - x02;
-                if (pEnd.getZ() == z02)
-                    startAngle = 0;
-                else startAngle = (360 - Math.acos(cathet / radius) * (180 / Math.PI));
-            }
-            if (pEnd.getX() >= x02 && pEnd.getZ() < z02) {
-                cathet = pEnd.getX() - x02;
-                if (pEnd.getX() == x02)
-                    startAngle = 90;
-                else startAngle = (Math.acos(cathet / radius) * (180 / Math.PI));
-            }
-            if (pEnd.getX() < x02 && pEnd.getZ() <= z02) {
-                cathet = x02 - pEnd.getX();
-                if (pEnd.getZ() == z02)
-                    startAngle = 180;
-                else startAngle = (180 - Math.acos(cathet / radius) * (180 / Math.PI));
-            }
-            if (pEnd.getX() <= x02 && pEnd.getZ() > z02) {
-                cathet = x02 - pEnd.getX();
-                if (pEnd.getX() == x02)
-                    startAngle = 270;
-                else startAngle = (180 + Math.acos(cathet / radius) * (180 / Math.PI));
-            }
-            gc.strokeArc(pointSystemCoordinate.getX() + x02 - radius, pointSystemCoordinate.getZ() - z02 - radius, radius * 2, radius * 2, 360 - startAngle - sweetAngle, sweetAngle, ArcType.OPEN);
+            calculateStartAngle(gc, pointSystemCoordinate, radius, pEnd, sweetAngle, x02, z02);
         }
+    }
+
+    private void calculateStartAngle(GraphicsContext gc, Point pointSystemCoordinate, double radius, Point pStart, double sweetAngle, double x01, double z01) {
+        double cathet;
+        double startAngle=0;
+        if (pStart.getX() > x01 && pStart.getZ() >= z01) {
+            cathet = pStart.getX() - x01;
+            if (pStart.getZ() == z01)
+                startAngle = 0;
+            else startAngle = (360 - Math.acos(cathet / radius) * (180 / Math.PI));
+        }
+        if (pStart.getX() >= x01 && pStart.getZ() < z01) {
+            cathet = pStart.getX() - x01;
+            if (pStart.getX() == x01)
+                startAngle = 90;
+            else startAngle = (Math.acos(cathet / radius) * (180 / Math.PI));
+        }
+        if (pStart.getX() < x01 && pStart.getZ() <= z01) {
+            cathet = x01 - pStart.getX();
+            if (pStart.getZ() == z01)
+                startAngle = 180;
+            else startAngle = (180 - Math.acos(cathet / radius) * (180 / Math.PI));
+        }
+        if (pStart.getX() <= x01 && pStart.getZ() > z01) {
+            cathet = x01 - pStart.getX();
+            if (pStart.getX() == x01)
+                startAngle = 270;
+            else startAngle = (180 + Math.acos(cathet / radius) * (180 / Math.PI));
+        }
+        gc.strokeArc(pointSystemCoordinate.getX() + x01 - radius, pointSystemCoordinate.getZ() - z01 - radius, radius * 2, radius * 2, 360 - startAngle - sweetAngle, sweetAngle, ArcType.OPEN);
     }
 
     protected void drawLine(GraphicsContext gc, int isRapidFeed, Point pointSystemCoordinate, Point pointStart, Point pointEnd, double zoom) {
@@ -399,61 +381,55 @@ public abstract class BaseDraw {
         double radius = frameList.get(numberLIne).getCr();
         double offn = frameList.get(numberLIne).getOffn();
         double chord = Math.sqrt(Math.pow(pStart.getX() - pEnd.getX(), 2) + Math.pow(pStart.getZ() - pEnd.getZ(), 2));
-        float h = (float) Math.sqrt(radius * radius - (chord / 2) * (chord / 2));
+        double h =  Math.sqrt(radius * radius - (chord / 2) * (chord / 2));
+        if(Double.isNaN(h)) h=0;
+        if(Double.isNaN(chord)) h=0;
         if (clockwise==2 && frameList.get(numberLIne).getOffn() > 0) {
             double x01 = (pStart.getX() + (pEnd.getX() - pStart.getX()) / 2 + h * (pEnd.getZ() - pStart.getZ()) / chord);
             double z01 = (pStart.getZ() + (pEnd.getZ() - pStart.getZ()) / 2 - h * (pEnd.getX() - pStart.getX()) / chord);
             if (isToolRadiusCompensation == 1) {
-                double tempStartX = (x01 - pStart.getX()) * ((radius - offn) / radius);
-                double tempStartZ = (z01 - pStart.getZ()) * ((radius - offn) / radius);
-                double tempEndX = (x01 - pEnd.getX()) * ((radius - offn) / radius);
-                double tempEndZ = (z01 - pEnd.getZ()) * ((radius - offn) / radius);
-                frameList.get(numberLIne - 1).setX(pStart.getX() + (x01 - pStart.getX() - tempStartX));
-                frameList.get(numberLIne - 1).setZ(pStart.getZ() + (z01 - pStart.getZ() - tempStartZ));
-                frameList.get(numberLIne).setX(pEnd.getX() + (x01 - pEnd.getX() - tempEndX));
-                frameList.get(numberLIne).setZ(pEnd.getZ() + (z01 - pEnd.getZ() - tempEndZ));
-                frameList.get(numberLIne).setCr(radius - offn);
+                calculateToolRadiusCompensationСounterclockwise(frameList, numberLIne, radius, offn, x01, z01);
             }  //G41
             if (isToolRadiusCompensation == 2) {
-                double tempStartX = (x01 - pStart.getX()) * ((radius + offn) / radius);
-                double tempStartZ = (z01 - pStart.getZ()) * ((radius + offn) / radius);
-                double tempEndX = (x01 - pEnd.getX()) * ((radius + offn) / radius);
-                double tempEndZ = (z01 - pEnd.getZ()) * ((radius + offn) / radius);
-                frameList.get(numberLIne - 1).setX(pStart.getX() + (x01 - pStart.getX() - tempStartX));
-                frameList.get(numberLIne - 1).setZ(pStart.getZ() + (z01 - pStart.getZ() - tempStartZ));
-                frameList.get(numberLIne).setX(pEnd.getX() + (x01 - pEnd.getX() - tempEndX));
-                frameList.get(numberLIne).setZ(pEnd.getZ() + (z01 - pEnd.getZ() - tempEndZ));
-                frameList.get(numberLIne).setCr(radius + offn);
+                calculateToolRadiusCompensationClockwise(frameList, numberLIne, radius, offn, x01, z01);
             }  //G42
         }
         if (clockwise==3 && frameList.get(numberLIne).getOffn() > 0) {
             double x02 = pStart.getX() + (pEnd.getX() - pStart.getX()) / 2 - h * (pEnd.getZ() - pStart.getZ()) / chord;
             double z02 = pStart.getZ() + (pEnd.getZ() - pStart.getZ()) / 2 + h * (pEnd.getX() - pStart.getX()) / chord;
             if (isToolRadiusCompensation == 1) {
-                double tempStartX = (x02 - pStart.getX()) * ((radius + offn) / radius);
-                double tempStartZ = (z02 - pStart.getZ()) * ((radius + offn) / radius);
-                double tempEndX = (x02 - pEnd.getX()) * ((radius + offn) / radius);
-                double tempEndZ = (z02 - pEnd.getZ()) * ((radius + offn) / radius);
-                frameList.get(numberLIne - 1).setX(pStart.getX() + (x02 - pStart.getX() - tempStartX));
-                frameList.get(numberLIne - 1).setZ(pStart.getZ() + (z02 - pStart.getZ() - tempStartZ));
-                frameList.get(numberLIne).setX(pEnd.getX() + (x02 - pEnd.getX() - tempEndX));
-                frameList.get(numberLIne).setZ(pEnd.getZ() + (z02 - pEnd.getZ() - tempEndZ));
-                frameList.get(numberLIne).setCr(radius + offn);
+                calculateToolRadiusCompensationClockwise(frameList, numberLIne, radius, offn, x02, z02);
             }  //G41
             if (isToolRadiusCompensation == 2) {
-                double tempStartX = (x02 - pStart.getX()) * ((radius - offn) / radius);
-                double tempStartZ = (z02 - pStart.getZ()) * ((radius - offn) / radius);
-                double tempEndX = (x02 - pEnd.getX()) * ((radius - offn) / radius);
-                double tempEndZ = (z02 - pEnd.getZ()) * ((radius - offn) / radius);
-                frameList.get(numberLIne - 1).setX(pStart.getX() + (x02 - pStart.getX() - tempStartX));
-                frameList.get(numberLIne - 1).setZ(pStart.getZ() + (z02 - pStart.getZ() - tempStartZ));
-                frameList.get(numberLIne).setX(pEnd.getX() + (x02 - pEnd.getX() - tempEndX));
-                frameList.get(numberLIne).setZ(pEnd.getZ() + (z02 - pEnd.getZ() - tempEndZ));
-                frameList.get(numberLIne).setCr(radius - offn);
+                calculateToolRadiusCompensationСounterclockwise(frameList, numberLIne, radius, offn, x02, z02);
             }  //G42
         }
         pStart.setX(pEnd.getX());
         pStart.setZ(pEnd.getZ());
+    }
+
+    private void calculateToolRadiusCompensationClockwise(List<Frame> frameList, int numberLIne, double radius, double offn, double x01, double z01) {
+        double tempStartX = (x01 - pStart.getX()) * ((radius + offn) / radius);
+        double tempStartZ = (z01 - pStart.getZ()) * ((radius + offn) / radius);
+        double tempEndX = (x01 - pEnd.getX()) * ((radius + offn) / radius);
+        double tempEndZ = (z01 - pEnd.getZ()) * ((radius + offn) / radius);
+        frameList.get(numberLIne - 1).setX(pStart.getX() + (x01 - pStart.getX() - tempStartX));
+        frameList.get(numberLIne - 1).setZ(pStart.getZ() + (z01 - pStart.getZ() - tempStartZ));
+        frameList.get(numberLIne).setX(pEnd.getX() + (x01 - pEnd.getX() - tempEndX));
+        frameList.get(numberLIne).setZ(pEnd.getZ() + (z01 - pEnd.getZ() - tempEndZ));
+        frameList.get(numberLIne).setCr(radius + offn);
+    }
+
+    private void calculateToolRadiusCompensationСounterclockwise(List<Frame> frameList, int numberLIne, double radius, double offn, double x01, double z01) {
+        double tempStartX = (x01 - pStart.getX()) * ((radius - offn) / radius);
+        double tempStartZ = (z01 - pStart.getZ()) * ((radius - offn) / radius);
+        double tempEndX = (x01 - pEnd.getX()) * ((radius - offn) / radius);
+        double tempEndZ = (z01 - pEnd.getZ()) * ((radius - offn) / radius);
+        frameList.get(numberLIne - 1).setX(pStart.getX() + (x01 - pStart.getX() - tempStartX));
+        frameList.get(numberLIne - 1).setZ(pStart.getZ() + (z01 - pStart.getZ() - tempStartZ));
+        frameList.get(numberLIne).setX(pEnd.getX() + (x01 - pEnd.getX() - tempEndX));
+        frameList.get(numberLIne).setZ(pEnd.getZ() + (z01 - pEnd.getZ() - tempEndZ));
+        frameList.get(numberLIne).setCr(radius - offn);
     }
 
     protected void toolRadiusCompensationLineOffn(List<Frame> frameList, int numberLIne, int isToolRadiusCompensation) {
@@ -661,76 +637,10 @@ public abstract class BaseDraw {
 
         if (frameList.get(index).getIsCR() && frameList.get(index).isAxisContains() && containsG41G42(frameList.get(index - 1).getGCode())) {
             double radius = frameList.get(index).getCr();
-            double chord = Math.sqrt(Math.pow(pStart.getX() - pEnd.getX(), 2) + Math.pow(pStart.getZ() - pEnd.getZ(), 2));
-            float h = (float) Math.sqrt(radius * radius - (chord / 2) * (chord / 2));
-            if (clockwise==2) {
-                double x01 = (pStart.getX() + (pEnd.getX() - pStart.getX()) / 2 + h * (pEnd.getZ() - pStart.getZ()) / chord);
-                double z01 = (pStart.getZ() + (pEnd.getZ() - pStart.getZ()) / 2 - h * (pEnd.getX() - pStart.getX()) / chord);
-                if (isToolRadiusCompensation == 1) {
-                    double tempStartX = (x01 - pStart.getX()) * ((radius - radiusPoint) / radius);
-                    double tempStartZ = (z01 - pStart.getZ()) * ((radius - radiusPoint) / radius);
-                    pEnd.setX(pStart.getX() + (x01 - pStart.getX() - tempStartX));
-                    pEnd.setZ(pStart.getZ() + (z01 - pStart.getZ() - tempStartZ));
-                }  //G41
-                if (isToolRadiusCompensation == 2) {
-                    double tempStartX = (x01 - pStart.getX()) * ((radius + radiusPoint) / radius);
-                    double tempStartZ = (z01 - pStart.getZ()) * ((radius + radiusPoint) / radius);
-                    pEnd.setX(pStart.getX() + (x01 - pStart.getX() - tempStartX));
-                    pEnd.setZ(pStart.getZ() + (z01 - pStart.getZ() - tempStartZ));
-                }  //G42
-            }
-            if (clockwise==3) {
-                double x02 = pStart.getX() + (pEnd.getX() - pStart.getX()) / 2 - h * (pEnd.getZ() - pStart.getZ()) / chord;
-                double z02 = pStart.getZ() + (pEnd.getZ() - pStart.getZ()) / 2 + h * (pEnd.getX() - pStart.getX()) / chord;
-                if (isToolRadiusCompensation == 1) {
-                    double tempStartX = (x02 - pStart.getX()) * ((radius + radiusPoint) / radius);
-                    double tempStartZ = (z02 - pStart.getZ()) * ((radius + radiusPoint) / radius);
-                    pEnd.setX(pStart.getX() + (x02 - pStart.getX() - tempStartX));
-                    pEnd.setZ(pStart.getZ() + (z02 - pStart.getZ() - tempStartZ));
-                }  //G41
-                if (isToolRadiusCompensation == 2) {
-                    double tempStartX = (x02 - pStart.getX()) * ((radius - radiusPoint) / radius);
-                    double tempStartZ = (z02 - pStart.getZ()) * ((radius - radiusPoint) / radius);
-                    pEnd.setX(pStart.getX() + (x02 - pStart.getX() - tempStartX));
-                    pEnd.setZ(pStart.getZ() + (z02 - pStart.getZ() - tempStartZ));
-                }  //G42
-            }
+            calculateChord(radiusPoint, pStart, pEnd, radius, pStart.getX(), pStart.getZ());
         } else if (frameList.get(index - 1).getIsCR() && frameList.get(index - 1).isAxisContains() && !containsG41G42(frameList.get(index - 1).getGCode())) {
             double radius = frameList.get(index - 1).getCr();
-            double chord = Math.sqrt(Math.pow(pStart.getX() - pEnd.getX(), 2) + Math.pow(pStart.getZ() - pEnd.getZ(), 2));
-            float h = (float) Math.sqrt(radius * radius - (chord / 2) * (chord / 2));
-            if (clockwise==2) {
-                double x01 = (pStart.getX() + (pEnd.getX() - pStart.getX()) / 2 + h * (pEnd.getZ() - pStart.getZ()) / chord);
-                double z01 = (pStart.getZ() + (pEnd.getZ() - pStart.getZ()) / 2 - h * (pEnd.getX() - pStart.getX()) / chord);
-                if (isToolRadiusCompensation == 1) {
-                    double tempEndX = (x01 - pEnd.getX()) * ((radius - radiusPoint) / radius);
-                    double tempEndZ = (z01 - pEnd.getZ()) * ((radius - radiusPoint) / radius);
-                    pEnd.setX(pEnd.getX() + (x01 - pEnd.getX() - tempEndX));
-                    pEnd.setZ(pEnd.getZ() + (z01 - pEnd.getZ() - tempEndZ));
-                }  //G41
-                if (isToolRadiusCompensation == 2) {
-                    double tempEndX = (x01 - pEnd.getX()) * ((radius + radiusPoint) / radius);
-                    double tempEndZ = (z01 - pEnd.getZ()) * ((radius + radiusPoint) / radius);
-                    pEnd.setX(pEnd.getX() + (x01 - pEnd.getX() - tempEndX));
-                    pEnd.setZ(pEnd.getZ() + (z01 - pEnd.getZ() - tempEndZ));
-                }  //G42
-            }
-            if (clockwise==3) {
-                double x02 = pStart.getX() + (pEnd.getX() - pStart.getX()) / 2 - h * (pEnd.getZ() - pStart.getZ()) / chord;
-                double z02 = pStart.getZ() + (pEnd.getZ() - pStart.getZ()) / 2 + h * (pEnd.getX() - pStart.getX()) / chord;
-                if (isToolRadiusCompensation == 1) {
-                    double tempEndX = (x02 - pEnd.getX()) * ((radius + radiusPoint) / radius);
-                    double tempEndZ = (z02 - pEnd.getZ()) * ((radius + radiusPoint) / radius);
-                    pEnd.setX(pEnd.getX() + (x02 - pEnd.getX() - tempEndX));
-                    pEnd.setZ(pEnd.getZ() + (z02 - pEnd.getZ() - tempEndZ));
-                }  //G41
-                if (isToolRadiusCompensation == 2) {
-                    double tempEndX = (x02 - pEnd.getX()) * ((radius - radiusPoint) / radius);
-                    double tempEndZ = (z02 - pEnd.getZ()) * ((radius - radiusPoint) / radius);
-                    pEnd.setX(pEnd.getX() + (x02 - pEnd.getX() - tempEndX));
-                    pEnd.setZ(pEnd.getZ() + (z02 - pEnd.getZ() - tempEndZ));
-                }  //G42
-            }
+            calculateChord(radiusPoint, pStart, pEnd, radius, pEnd.getX(), pEnd.getZ());
         }
 
         if (!frameList.get(index).getIsCR() &&  frameList.get(index).isAxisContains() && containsG41G42(frameList.get(index - 1).getGCode())) {
@@ -991,5 +901,42 @@ public abstract class BaseDraw {
         }
 
         return pEnd;
+    }
+
+    private void calculateChord(double radiusPoint, Point pStart, Point pEnd, double radius, double x, double z) {
+        double chord = Math.sqrt(Math.pow(pStart.getX() - pEnd.getX(), 2) + Math.pow(pStart.getZ() - pEnd.getZ(), 2));
+        float h = (float) Math.sqrt(radius * radius - (chord / 2) * (chord / 2));
+        if (clockwise==2) {
+            double x01 = (pStart.getX() + (pEnd.getX() - pStart.getX()) / 2 + h * (pEnd.getZ() - pStart.getZ()) / chord);
+            double z01 = (pStart.getZ() + (pEnd.getZ() - pStart.getZ()) / 2 - h * (pEnd.getX() - pStart.getX()) / chord);
+            if (isToolRadiusCompensation == 1) {
+                double tempEndX = (x01 - x) * ((radius - radiusPoint) / radius);
+                double tempEndZ = (z01 - z) * ((radius - radiusPoint) / radius);
+                pEnd.setX(x + (x01 - x - tempEndX));
+                pEnd.setZ(z + (z01 - z - tempEndZ));
+            }  //G41
+            if (isToolRadiusCompensation == 2) {
+                double tempEndX = (x01 - x) * ((radius + radiusPoint) / radius);
+                double tempEndZ = (z01 - z) * ((radius + radiusPoint) / radius);
+                pEnd.setX(x + (x01 - x - tempEndX));
+                pEnd.setZ(z + (z01 - z - tempEndZ));
+            }  //G42
+        }
+        if (clockwise==3) {
+            double x02 = pStart.getX() + (pEnd.getX() - pStart.getX()) / 2 - h * (pEnd.getZ() - pStart.getZ()) / chord;
+            double z02 = pStart.getZ() + (pEnd.getZ() - pStart.getZ()) / 2 + h * (pEnd.getX() - pStart.getX()) / chord;
+            if (isToolRadiusCompensation == 1) {
+                double tempEndX = (x02 - x) * ((radius + radiusPoint) / radius);
+                double tempEndZ = (z02 - z) * ((radius + radiusPoint) / radius);
+                pEnd.setX(x + (x02 - x - tempEndX));
+                pEnd.setZ(z + (z02 - z - tempEndZ));
+            }  //G41
+            if (isToolRadiusCompensation == 2) {
+                double tempEndX = (x02 - x) * ((radius - radiusPoint) / radius);
+                double tempEndZ = (z02 - z) * ((radius - radiusPoint) / radius);
+                pEnd.setX(x + (x02 - x - tempEndX));
+                pEnd.setZ(z + (z02 - z - tempEndZ));
+            }  //G42
+        }
     }
 }

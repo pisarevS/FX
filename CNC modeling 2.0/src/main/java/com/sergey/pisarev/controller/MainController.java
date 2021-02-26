@@ -167,7 +167,7 @@ public class MainController implements IController {
     @FXML
     public void handleDragProgram(DragEvent event) {
         presenter.openDragProgram(event);
-        STAGE.setTitle(File.filePath.toString());
+        STAGE.setTitle(MyFile.filePath.toString());
         reset();
     }
 
@@ -205,7 +205,7 @@ public class MainController implements IController {
         countClick++;
         if (countClick % 2 == 0) {
             isDownSingleBlock = false;
-            buttonSingleBlock.setStyle("-fx-background-color: ");
+            buttonSingleBlock.setStyle("-fx-background-color:white ");
             buttonCycleStart.setDisable(true);
             presenter.onSingleBlock(false);
         } else {
@@ -230,7 +230,7 @@ public class MainController implements IController {
         buttonStart.setDisable(false);
         buttonCycleStart.setDisable(false);
         buttonSingleBlock.setDisable(false);
-        buttonSingleBlock.setStyle("-fx-background-color: ");
+        buttonSingleBlock.setStyle("-fx-background-color: white");
         countClick = 2;
         presenter.onReset();
         if (isCycleStart) StyleText.setStyleRefresh(codeAreaProgram);
@@ -239,7 +239,7 @@ public class MainController implements IController {
     @Override
     public void onStop() {
         buttonCycleStart.setDisable(true);
-        buttonSingleBlock.setStyle("-fx-background-color: ");
+        buttonSingleBlock.setStyle("-fx-background-color: white");
         buttonSingleBlock.setDisable(true);
     }
 

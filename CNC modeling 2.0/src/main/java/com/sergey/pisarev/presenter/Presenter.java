@@ -70,12 +70,12 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
 
     @Override
     public void checkChangesProgram(String program) {
-        if (File.filePath != null) if (!program.equals(File.getFileContent())) controller.showSaveAlert();
+        if (MyFile.filePath != null) if (!program.equals(MyFile.getFileContent())) controller.showSaveAlert();
     }
 
     @Override
     public void saveProgram(String program) {
-        if (File.filePath != null) File.setFileContent(File.filePath, program);
+        if (MyFile.filePath != null) MyFile.setFileContent(MyFile.filePath, program);
     }
 
     @Override
@@ -198,7 +198,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
             startThread(program);
             assert data != null;
             timeline = new Timeline(new KeyFrame(Duration.millis(200), event -> {
-                index++;
+                if(index<data.getFrameList().size()) index++;
                 startDraw(index);
                 controller.showCaretBoxOnCycleStart(data.getFrameList().get(index - 1).getId(), data.getProgramList().get(data.getFrameList().get(index - 1).getId()));
                 controller.getCoordinateFrame(data.getFrameList().get(index - 1).getX(), data.getFrameList().get(index - 1).getZ());
@@ -209,7 +209,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
             if (isSingleBlock) timeline.stop();
         }
         if (isSingleBlock) {
-            index++;
+            if(index<data.getFrameList().size()) index++;
             if (index <= data.getFrameList().size()) startDraw(index);
             if (index == data.getFrameList().size()) controller.onStop();
             controller.showCaretBoxOnCycleStart(data.getFrameList().get(index - 1).getId(), data.getProgramList().get(data.getFrameList().get(index - 1).getId()));
@@ -268,7 +268,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
 
     @Override
     public void openDragProgram(DragEvent event) {
-        controller.showProgram(File.getFileContent(event));
+        controller.showProgram(MyFile.getFileContent(event));
         reset();
     }
 
@@ -308,7 +308,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
     }
 
     private void startThread(String program) {
-        readParameterVariables(Objects.requireNonNull(File.getParameter(File.filePath)));
+        readParameterVariables(Objects.requireNonNull(MyFile.getParameter(MyFile.filePath)));
         Thread thread = new Thread(new Program(program, variablesList, this));
         thread.start();
         try {
@@ -318,7 +318,7 @@ public class Presenter implements PresenterImpl, IDraw, Callback {
         }
     }
 
-    private void readParameterVariables(List<StringBuffer> parameterList) {
+    private void readParameterVariables(List<StringBuilder> parameterList) {
         variablesList.clear();
         parameterList.forEach(p -> {
             if (p.toString().contains(";")) p.delete(p.indexOf(";"), p.length());
