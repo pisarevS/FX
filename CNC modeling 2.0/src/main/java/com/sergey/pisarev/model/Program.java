@@ -106,6 +106,7 @@ public class Program extends BaseDraw implements Runnable {
         final String TOOL = "T";
         final String DIAMON = "DIAMON";
         final String DIAMOF = "DIAMOF";
+        final String HOME = "HOME";
         boolean isHorizontalAxis = false;
         boolean isVerticalAxis = false;
         double tempHorizontal = new Point().getX();
@@ -210,12 +211,22 @@ public class Program extends BaseDraw implements Runnable {
             } catch (Exception e) {
                 errorListMap.put(i, strFrame.toString());
             }
+            try {
+                if (contains(strFrame, HOME)) {
+                    isVerticalAxis = true;
+                    isHorizontalAxis = true;
+                    tempHorizontal=Constant.N_GANTRYPOS_X*2;
+                    tempVertical=Constant.N_GANTRYPOS_Z;
+                }
+            } catch (Exception e) {
+                errorListMap.put(i, strFrame.toString());
+            }
 
             if (containsTool(strFrame)) {
+                frame.setId(i);
                 frame.setDiamon(isDiamon);
                 tempTOOL=readTool(strFrame);
                 isTOOL=true;
-                frame.setId(i);
                 frame.setTool(tempTOOL);
                 frame.setTool(isTOOL);
                 frame.setX(new Point().getX());
@@ -224,6 +235,7 @@ public class Program extends BaseDraw implements Runnable {
                 frameList.add(frame);
             }
             if (isCR) {
+                frame.setId(i);
                 frame.setDiamon(isDiamon);
                 frame.setX(tempHorizontal);
                 frame.setZ(tempVertical);
@@ -232,13 +244,13 @@ public class Program extends BaseDraw implements Runnable {
                 frame.setCr(tempCR);
                 frame.setIsCR(true);
                 frame.setAxisContains(true);
-                frame.setId(i);
                 frameList.add(frame);
                 isHorizontalAxis = false;
                 isVerticalAxis = false;
                 isCR = false;
             }
             if (isRND) {
+                frame.setId(i);
                 frame.setDiamon(isDiamon);
                 frame.setX(tempHorizontal);
                 frame.setZ(tempVertical);
@@ -247,20 +259,19 @@ public class Program extends BaseDraw implements Runnable {
                 frame.setRnd(tempRND);
                 frame.setRND(true);
                 frame.setAxisContains(true);
-                frame.setId(i);
                 frameList.add(frame);
                 isHorizontalAxis = false;
                 isVerticalAxis = false;
                 isRND = false;
             }
             if (isHorizontalAxis || isVerticalAxis) {
+                frame.setId(i);
                 frame.setDiamon(isDiamon);
                 frame.setX(tempHorizontal);
                 frame.setZ(tempVertical);
                 frame.setOffn(tempOFFN);
                 frame.setOffn(isOFFN);
                 frame.setAxisContains(true);
-                frame.setId(i);
                 frameList.add(frame);
                 isHorizontalAxis = false;
                 isVerticalAxis = false;
