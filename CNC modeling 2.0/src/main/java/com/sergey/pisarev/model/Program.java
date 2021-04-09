@@ -104,6 +104,8 @@ public class Program extends BaseDraw implements Runnable {
         final String IC = "=IC";
         final String OFFN = "OFFN";
         final String TOOL = "T";
+        final String DIAMON = "DIAMON";
+        final String DIAMOF = "DIAMOF";
         boolean isHorizontalAxis = false;
         boolean isVerticalAxis = false;
         double tempHorizontal = new Point().getX();
@@ -117,6 +119,7 @@ public class Program extends BaseDraw implements Runnable {
         boolean isOFFN = false;
         boolean isTOOL = false;
         boolean isRadius = false;
+        boolean isDiamon = false;
         StringBuffer strFrame;
         selectCoordinateSystem(programList);
         for (int i = 0; i < programList.size(); i++) {
@@ -195,8 +198,21 @@ public class Program extends BaseDraw implements Runnable {
             } catch (Exception e) {
                 errorListMap.put(i, strFrame.toString());
             }
+            try {
+                if(contains(strFrame,DIAMON)||contains(strFrame,DIAMOF)){
+                    if (contains(strFrame, DIAMON)) {
+                        isDiamon=true;
+                    }
+                    if (contains(strFrame, DIAMOF)) {
+                        isDiamon=false;
+                    }
+                }
+            } catch (Exception e) {
+                errorListMap.put(i, strFrame.toString());
+            }
 
             if (containsTool(strFrame)) {
+                frame.setDiamon(isDiamon);
                 tempTOOL=readTool(strFrame);
                 isTOOL=true;
                 frame.setId(i);
@@ -208,6 +224,7 @@ public class Program extends BaseDraw implements Runnable {
                 frameList.add(frame);
             }
             if (isCR) {
+                frame.setDiamon(isDiamon);
                 frame.setX(tempHorizontal);
                 frame.setZ(tempVertical);
                 frame.setOffn(tempOFFN);
@@ -222,6 +239,7 @@ public class Program extends BaseDraw implements Runnable {
                 isCR = false;
             }
             if (isRND) {
+                frame.setDiamon(isDiamon);
                 frame.setX(tempHorizontal);
                 frame.setZ(tempVertical);
                 frame.setOffn(tempOFFN);
@@ -236,6 +254,7 @@ public class Program extends BaseDraw implements Runnable {
                 isRND = false;
             }
             if (isHorizontalAxis || isVerticalAxis) {
+                frame.setDiamon(isDiamon);
                 frame.setX(tempHorizontal);
                 frame.setZ(tempVertical);
                 frame.setOffn(tempOFFN);
@@ -252,7 +271,16 @@ public class Program extends BaseDraw implements Runnable {
         frameList.clear();
         frameList.addAll(s);
         correctionForOffn(frameList);
+        correctionForDiamon(frameList);
         data.setFrameList(frameList);
+    }
+
+    private void correctionForDiamon(List<Frame> frameList) {
+        for(int i=0;i<frameList.size();i++){
+            if(frameList.get(i).getDiamon()&&frameList.get(i).isAxisContains()){
+               frameList.get(i).setX(frameList.get(i).getX()/2);
+            }
+        }
     }
 
     private String readTool(StringBuffer strFrame) {
@@ -506,6 +534,8 @@ public class Program extends BaseDraw implements Runnable {
         }
         return false;
     }
+
+
 
     private boolean containsTool(StringBuffer sb) {
         for (String tool : toolsMap.keySet()) {

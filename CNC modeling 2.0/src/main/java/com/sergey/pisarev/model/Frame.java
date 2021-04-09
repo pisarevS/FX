@@ -15,10 +15,11 @@ public class Frame {
     private boolean isOffn = false;
     private boolean isRND = false;
     private boolean isAxisContains = false;
+    private boolean isDiamon=false;
     private boolean isTool=false;
+
     private String tool;
     private List<String> gCode = new ArrayList<>();
-
     public boolean isAxisContains() {
         return isAxisContains;
     }
@@ -121,6 +122,14 @@ public class Frame {
 
     public void setTool(boolean tool) {
         isTool = tool;
+    }
+
+    public boolean getDiamon() {
+        return isDiamon;
+    }
+
+    public void setDiamon(boolean diamon) {
+        isDiamon = diamon;
     }
 
     @Override

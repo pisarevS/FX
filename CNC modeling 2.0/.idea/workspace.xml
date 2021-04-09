@@ -7,24 +7,83 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Constant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/CNC_madeling_2_0_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/CNC_madeling_2_0_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/description.html" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/description.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/juniversalchardet_2_3_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/juniversalchardet_2_3_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/org_fxmisc_richtext_richtextfx_0_10_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/org_fxmisc_richtext_richtextfx_0_10_3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml.orig" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml.orig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CNC madeling 2.0.iml" beforeDir="false" afterPath="$PROJECT_DIR$/CNC madeling 2.0.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java/awt/annotations.xml" beforeDir="false" afterPath="$PROJECT_DIR$/java/awt/annotations.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javafx/scene/control/annotations.xml" beforeDir="false" afterPath="$PROJECT_DIR$/javafx/scene/control/annotations.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/CNC_madeling_2_0_jar/CNC madeling 2.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/artifacts/CNC_madeling_2_0_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/artifacts/CNC_madeling_2_0_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/copyright/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/copyright/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/description.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/description.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/libraries/juniversalchardet_2_3_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/libraries/juniversalchardet_2_3_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/libraries/org_fxmisc_richtext_richtextfx_0_10_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/libraries/org_fxmisc_richtext_richtextfx_0_10_3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/uiDesigner.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/controller/MainController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/controller/MainController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/File.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/Point.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/Point.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/workspace.xml.orig" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/workspace.xml.orig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/CNC madeling 2.0.iml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/CNC madeling 2.0.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/about.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/about.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/Frame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/Frame.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/Program.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/Program.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/ResizableCanvas.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/ResizableCanvas.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/base/BaseDraw.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/base/BaseDraw.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/presenter/Presenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/presenter/Presenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/g_code_keywords.css" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/g_code_keywords.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/java/awt/annotations.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/java/awt/annotations.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/javafx/scene/control/annotations.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/javafx/scene/control/annotations.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/rename_frame_number.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/rename_frame_number.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/src/main/java/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/src/main/java/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/src/main/resources/about.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/src/main/resources/about.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/src/main/resources/g_code_keywords.css" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/src/main/resources/g_code_keywords.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/src/main/resources/rename_frame_number.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/src/main/resources/rename_frame_number.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/controller/AboutController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/controller/AboutController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/controller/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/controller/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/controller/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/File.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/MyFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/controller/RenameFrameNumbersController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/controller/RenameFrameNumbersController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/interfaces/Callback.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/interfaces/Callback.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/interfaces/Drawing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/interfaces/Drawing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/interfaces/IController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/interfaces/IController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/interfaces/IDraw.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/interfaces/IDraw.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/interfaces/PresenterImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/interfaces/PresenterImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/CharacterDetector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/CharacterDetector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Constant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Constant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/ContextMenuCodeArea.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/ContextMenuCodeArea.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Convert.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Convert.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/DrawVerticalTurning.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/DrawVerticalTurning.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Expression.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Expression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Frame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Frame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/MyData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/MyData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/MyFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/MyFile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Point.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Point.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Program.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Program.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Rect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Rect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/RenameFrameNumbers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/RenameFrameNumbers.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/ResizableCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/ResizableCanvas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/StyleText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/StyleText.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/TableUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/TableUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/base/BaseDraw.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/base/BaseDraw.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/presenter/Presenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/presenter/Presenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/about.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/about.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/g_code_keywords.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/g_code_keywords.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/rename_frame_number.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/rename_frame_number.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,6 +134,9 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
+  <component name="FavoritesManager">
+    <favorites_list name="CNC modeling 2.0" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -93,9 +155,22 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="GradleLocalSettings">
+    <option name="externalProjectsViewState">
+      <projects_view />
+    </option>
+  </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/src/main/resources/main.fxml" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Program.java" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Frame.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Program.java" />
+      </list>
+    </option>
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
@@ -105,12 +180,230 @@
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-4" />
+    <option name="y" value="-4" />
+    <option name="width" value="1928" />
+    <option name="height" value="1054" />
+  </component>
   <component name="ProjectId" id="1X7v4pWBpZCYsDn8fnZHFOLQnVK" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectReloadState">
     <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CNC modeling 2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CNC modeling 2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CNC modeling 2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CNC modeling 2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CNC modeling 2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CNC modeling 2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CNC modeling 2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CNC modeling 2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CNC modeling 2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pisarev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="presenter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CNC modeling 2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CNC modeling 2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pisarev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="model" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CNC modeling 2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CNC modeling 2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pisarev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="interfaces" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CNC modeling 2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CNC modeling 2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pisarev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controller" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CNC modeling 2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CNC modeling 2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="out" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CNC modeling 2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CNC modeling 2.0" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="out" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="artifacts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CNC_madeling_2_0_jar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -139,7 +432,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="dynamic.classpath" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Android/Modeling" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Problems" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.291954" />
@@ -262,7 +555,7 @@
       <Port>5050</Port>
     </configuration>
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="C:/Program Files/Java/jdk1.8.0_241" />
+      <option name="ALTERNATIVE_JRE_PATH" value="C:\Program Files\Java\jdk1.8.0_241\jre" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="com.sergey.pisarev.controller.Main" />
       <module name="CNC madeling 2.0" />
@@ -370,11 +663,42 @@
       <workItem from="1613802016151" duration="6879000" />
       <workItem from="1613818185715" duration="4418000" />
       <workItem from="1614239961596" duration="478000" />
+      <workItem from="1617959694434" duration="75000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
     <option name="totallyTimeSpent" value="1302000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-4" y="-4" width="1928" height="1054" extended-state="7" />
+    <editor active="false" />
+    <layout>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32963374" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29411766" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+    </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
@@ -387,9 +711,6 @@
       <collection />
     </option>
   </component>
-  <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-  </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
@@ -398,5 +719,68 @@
     <SUITE FILE_PATH="coverage/CNC_modeling_2_0$Main.ic" NAME="Main Coverage Results" MODIFIED="1581842148507" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>sample.view.*</FILTER>
     </SUITE>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sergey/pisarev/controller/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Frame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1003">
+          <caret line="98" column="14" selection-start-line="98" selection-start-column="14" selection-end-line="98" selection-end-column="14" />
+          <folding>
+            <element signature="e#2253#2254#0" expanded="true" />
+            <element signature="e#2284#2285#0" expanded="true" />
+            <element signature="e#2329#2330#0" expanded="true" />
+            <element signature="e#2362#2363#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sergey/pisarev/controller/MainController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="136" column="0" selection-start-line="136" selection-start-column="0" selection-end-line="136" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sergey/pisarev/presenter/Presenter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="111" column="0" selection-start-line="111" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/DrawVerticalTurning.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-187">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/base/BaseDraw.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="443">
+          <caret line="356" column="54" selection-start-line="356" selection-start-column="54" selection-end-line="356" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Program.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="443">
+          <caret line="280" column="64" selection-start-line="280" selection-start-column="64" selection-end-line="280" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
   </component>
 </project>
