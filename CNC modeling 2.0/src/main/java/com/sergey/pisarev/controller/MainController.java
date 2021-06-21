@@ -42,6 +42,7 @@ public class MainController implements IController {
     public static MainController mainController;
     public static Stage STAGE;
     private ResizableCanvas visualizerCanvas;
+    private int fontSize=16;
 
     @FXML
     Text textZooming = new Text();
@@ -110,6 +111,24 @@ public class MainController implements IController {
         AnchorPane.setLeftAnchor(stackPaneProgram, 0.0);
         AnchorPane.setRightAnchor(stackPaneProgram, 0.0);
         anchorPaneProgram.getChildren().add(stackPaneProgram);
+
+        anchorPaneProgram.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            KeyCombination ctrlPlus = new KeyCodeCombination(KeyCode.P, KeyCombination.CONTROL_ANY);
+            KeyCombination ctrlMimus = new KeyCodeCombination(KeyCode.M, KeyCombination.CONTROL_ANY);
+            if(ctrlPlus.match(event)){
+                fontSize++;
+                codeAreaProgram.setStyle("-fx-font-size: "+fontSize+"px");
+                System.out.println("+");
+            }
+            if(ctrlMimus.match(event)){
+                fontSize--;
+                codeAreaProgram.setStyle("-fx-font-size: "+fontSize+"px");
+                System.out.println("-");
+            }
+        });
+
+
+
         buttonStart.setTextFill(Color.BLACK);
         buttonCycleStart.setTextFill(Color.BLACK);
         buttonSingleBlock.setTextFill(Color.BLACK);
@@ -118,6 +137,11 @@ public class MainController implements IController {
         ContextMenuCodeArea.installContextMenu(contextMenu, codeAreaProgram);
         TableUtils.installKeyHandler(codeAreaProgram);
         setOnChangesText(codeAreaProgram);
+        codeAreaProgram.setOnScroll(e->{
+            System.out.println(e.getDeltaY());
+            if(e.isControlDown()){
+            }
+        });
 
         visualizerCanvas.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {

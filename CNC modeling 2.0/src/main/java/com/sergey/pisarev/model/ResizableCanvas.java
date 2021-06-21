@@ -4,7 +4,8 @@ package com.sergey.pisarev.model;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
-public class ResizableCanvas extends Canvas {
+public class
+ResizableCanvas extends Canvas {
     GraphicsContext gc = getGraphicsContext2D();
     int canvasWidth = 0;
     int canvasHeight = 0;

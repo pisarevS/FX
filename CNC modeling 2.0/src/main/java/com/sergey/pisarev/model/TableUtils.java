@@ -1,5 +1,6 @@
 package com.sergey.pisarev.model;
 
+import java.awt.event.MouseWheelListener;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Arrays;
@@ -16,13 +17,10 @@ import javafx.event.EventHandler;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.*;
+import javafx.scene.layout.Pane;
 import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.TwoDimensional;
 
 public class TableUtils {
@@ -286,6 +284,25 @@ public class TableUtils {
             }
 
         }
+
+    }
+
+    public void zoom( Pane pane) {
+        pane.setOnScroll(
+                new EventHandler<ScrollEvent>() {
+                    @Override
+                    public void handle(ScrollEvent event) {
+                        double zoomFactor = 1.05;
+                        double deltaY = event.getDeltaY();
+
+                        if (deltaY < 0){
+                            zoomFactor = 0.95;
+                        }
+                        pane.setScaleX(pane.getScaleX() * zoomFactor);
+                        pane.setScaleY(pane.getScaleY() * zoomFactor);
+                        event.consume();
+                    }
+                });
 
     }
 

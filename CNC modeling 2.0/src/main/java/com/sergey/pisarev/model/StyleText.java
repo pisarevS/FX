@@ -4,6 +4,7 @@ import com.sergey.pisarev.controller.MainController;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
 import org.reactfx.Subscription;
@@ -35,11 +36,13 @@ public class StyleText {
         codeArea.setStyleSpans(0, computeHighlighting(codeArea.getText()));
     }
 
-    public static final List<String> KEYWORDS = Arrays.asList("DIAM_KANAV", "BORE_DIAM", "WHEEL_UNMACHINED", "WHEEL_MACHINED", "SYM_FACTOR", "TREAD_HEIGHT_S1",
-            "TREAD_HEIGHT_S2", "GLOBAL_ALLOWANCE", "TREAD_ALLOWANCE", "TREAD_DIAM", "VYLET_ST",
-            "STUPICA_VNUT", "STUPICA_NAR", "DISK_VNUT", "DISK_NAR",
-            "YABLOKO_VNUT", "YABLOKO_NAR", "WHEEL_HEIGHT", "N_GANTRYPOS_X", "N_GANTRYPOS_Z",
-            "N_WHEEL_UNMACHINED", "N_WHEEL_MACHINED", "N_SYM_FACTOR", "UGOL", "Y_0", "Z_0", "START_SHNEK");
+    public static final List<String> KEYWORDS = Arrays.asList("DIAM_KANAV", "BORE_DIAM", "WHEEL_UNMACHINED",
+            "WHEEL_MACHINED", "SYM_FACTOR", "TREAD_HEIGHT_S1",
+            "TREAD_HEIGHT_S2", "GLOBAL_ALLOWANCE", "TREAD_ALLOWANCE",
+            "TREAD_DIAM", "VYLET_ST", "STUPICA_VNUT", "STUPICA_NAR",
+            "DISK_VNUT", "DISK_NAR", "YABLOKO_VNUT", "YABLOKO_NAR",
+            "WHEEL_HEIGHT", "N_GANTRYPOS_X", "N_GANTRYPOS_Z", "N_WHEEL_UNMACHINED",
+            "N_WHEEL_MACHINED", "N_SYM_FACTOR", "UGOL", "Y_0", "Z_0", "START_SHNEK", "SHIRINA_GREB");
 
     public static final List<String> WAITM = Arrays.asList("N_WAITM", "SETM");
 
@@ -55,6 +58,7 @@ public class StyleText {
     private static final String R_PARAMETER = "R(\\d+)";
     private static final String AXIS_PATTERN = "\\b(" + String.join("|", AXIS) + ")\\b";
     private static final String GCODE_PATTERN = "G(\\d+)";
+    private static final String MCODE_PATTERN = "M(\\d+)";
     private static final String FIGURES_PATTERN = "(?:[^\\w_]|^|\\b)(\\d+)";
     private static final String PAREN_PATTERN = "\\(|\\)";
     private static final String BRACE_PATTERN = "\\{|\\}";
@@ -76,6 +80,7 @@ public class StyleText {
                     + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
                     + "|(?<AXIS>" + AXIS_PATTERN + ")"
                     + "|(?<GCODE>" + GCODE_PATTERN + ")"
+                    + "|(?<MCODE>" + MCODE_PATTERN + ")"
                     + "|(?<FIGURES>" + FIGURES_PATTERN + ")"
     );
 
@@ -99,8 +104,9 @@ public class StyleText {
                                                                                             matcher.group("COMMENT") != null ? "comment" :
                                                                                                     matcher.group("AXIS") != null ? "axis" :
                                                                                                             matcher.group("GCODE") != null ? "g_code" :
-                                                                                                                    matcher.group("FIGURES") != null ? "figures" :
-                                                                                                                            null; /* never happens */
+                                                                                                                    matcher.group("MCODE") != null ? "m_code" :
+                                                                                                                            matcher.group("FIGURES") != null ? "figures" :
+                                                                                                                                    null; /* never happens */
             assert styleClass != null;
             spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
             spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
