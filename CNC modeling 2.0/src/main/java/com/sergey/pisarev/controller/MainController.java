@@ -42,7 +42,6 @@ public class MainController implements IController {
     public static MainController mainController;
     public static Stage STAGE;
     private ResizableCanvas visualizerCanvas;
-    private int fontSize=16;
 
     @FXML
     Text textZooming = new Text();
@@ -84,7 +83,7 @@ public class MainController implements IController {
     SplitPane splitPane = new SplitPane();
 
     @FXML
-    CheckBox checkBoxToolRadius=new CheckBox();
+    CheckBox checkBoxToolRadius = new CheckBox();
 
     public String getTextCodeArea() {
         return codeAreaProgram.getText();
@@ -104,6 +103,7 @@ public class MainController implements IController {
         codeAreaProgram.addEventHandler(KeyEvent.KEY_RELEASED, codeAreaChangeCaretListener());
         presenter = new Presenter(this, visualizerCanvas.getGraphicsContext2D());
         StyleText.setStyle(codeAreaProgram);
+        StyleText.setListener(codeAreaProgram,anchorPaneProgram);
         codeAreaProgram.setParagraphGraphicFactory(LineNumberFactory.get(codeAreaProgram));
         StackPane stackPaneProgram = new StackPane(new VirtualizedScrollPane<>(codeAreaProgram));
         AnchorPane.setTopAnchor(stackPaneProgram, 0.0);
@@ -111,24 +111,6 @@ public class MainController implements IController {
         AnchorPane.setLeftAnchor(stackPaneProgram, 0.0);
         AnchorPane.setRightAnchor(stackPaneProgram, 0.0);
         anchorPaneProgram.getChildren().add(stackPaneProgram);
-
-        anchorPaneProgram.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            KeyCombination ctrlPlus = new KeyCodeCombination(KeyCode.P, KeyCombination.CONTROL_ANY);
-            KeyCombination ctrlMimus = new KeyCodeCombination(KeyCode.M, KeyCombination.CONTROL_ANY);
-            if(ctrlPlus.match(event)){
-                fontSize++;
-                codeAreaProgram.setStyle("-fx-font-size: "+fontSize+"px");
-                System.out.println("+");
-            }
-            if(ctrlMimus.match(event)){
-                fontSize--;
-                codeAreaProgram.setStyle("-fx-font-size: "+fontSize+"px");
-                System.out.println("-");
-            }
-        });
-
-
-
         buttonStart.setTextFill(Color.BLACK);
         buttonCycleStart.setTextFill(Color.BLACK);
         buttonSingleBlock.setTextFill(Color.BLACK);
@@ -137,11 +119,6 @@ public class MainController implements IController {
         ContextMenuCodeArea.installContextMenu(contextMenu, codeAreaProgram);
         TableUtils.installKeyHandler(codeAreaProgram);
         setOnChangesText(codeAreaProgram);
-        codeAreaProgram.setOnScroll(e->{
-            System.out.println(e.getDeltaY());
-            if(e.isControlDown()){
-            }
-        });
 
         visualizerCanvas.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
@@ -221,7 +198,7 @@ public class MainController implements IController {
         buttonSingleBlock.setDisable(false);
         isCycleStart = true;
         if (isDownSingleBlock) buttonCycleStart.setDisable(false);
-        presenter.onCycleStart(codeAreaProgram.getText(),checkBoxToolRadius.isSelected());
+        presenter.onCycleStart(codeAreaProgram.getText(), checkBoxToolRadius.isSelected());
     }
 
     @FXML

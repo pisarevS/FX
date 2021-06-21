@@ -1,6 +1,11 @@
 package com.sergey.pisarev.model;
 
 import com.sergey.pisarev.controller.MainController;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import org.fxmisc.richtext.CodeArea;
@@ -16,7 +21,6 @@ import java.util.regex.Pattern;
 
 public class StyleText {
 
-
     public static void setStyle(CodeArea codeArea) {
         codeArea.getStylesheets().add(Objects.requireNonNull(MainController.class.getClassLoader().getResource("g_code_keywords.css")).toExternalForm());
         Subscription cleanupWhenNoLongerNeedIt = codeArea
@@ -29,6 +33,32 @@ public class StyleText {
                 .successionEnds(Duration.ofMillis(100))
                 // run the following code block when previous stream emits an event
                 .subscribe(ignore -> codeArea.setStyleSpans(0, computeHighlighting(codeArea.getText())));
+    }
+
+    public static void setListener(CodeArea codeArea, AnchorPane anchorPaneProgram){
+        final int[] fontSize = {16};
+        anchorPaneProgram.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            KeyCombination ctrlPlus = new KeyCodeCombination(KeyCode.ADD, KeyCombination.CONTROL_ANY);
+            KeyCombination ctrlMimus = new KeyCodeCombination(KeyCode.SUBTRACT, KeyCombination.CONTROL_ANY);
+            KeyCombination ctrlDefault = new KeyCodeCombination(KeyCode.MULTIPLY, KeyCombination.CONTROL_ANY);
+            if (ctrlPlus.match(event)) {
+                if (fontSize[0] < 30) {
+                    fontSize[0]++;
+                    codeArea.setStyle("-fx-font-size: " + fontSize[0] + "px");
+                }
+            }
+            if (ctrlMimus.match(event)) {
+                if (fontSize[0] > 11) {
+                    fontSize[0]--;
+                    codeArea.setStyle("-fx-font-size: " + fontSize[0] + "px");
+                }
+            }
+            if (ctrlDefault.match(event)) {
+                fontSize[0] = 16;
+                codeArea.setStyle("-fx-font-size: " + fontSize[0] + "px");
+
+            }
+        });
     }
 
     public static void setStyleRefresh(CodeArea codeArea) {
