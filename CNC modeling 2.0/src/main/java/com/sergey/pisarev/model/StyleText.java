@@ -38,9 +38,9 @@ public class StyleText {
     public static void setListener(CodeArea codeArea, AnchorPane anchorPaneProgram){
         final int[] fontSize = {16};
         anchorPaneProgram.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            KeyCombination ctrlPlus = new KeyCodeCombination(KeyCode.ADD, KeyCombination.CONTROL_ANY);
-            KeyCombination ctrlMimus = new KeyCodeCombination(KeyCode.SUBTRACT, KeyCombination.CONTROL_ANY);
-            KeyCombination ctrlDefault = new KeyCodeCombination(KeyCode.MULTIPLY, KeyCombination.CONTROL_ANY);
+            KeyCombination ctrlPlus = new KeyCodeCombination(KeyCode.EQUALS, KeyCombination.CONTROL_ANY);
+            KeyCombination ctrlMimus = new KeyCodeCombination(KeyCode.MINUS, KeyCombination.CONTROL_ANY);
+            KeyCombination ctrlDefault = new KeyCodeCombination(KeyCode.DIGIT0, KeyCombination.CONTROL_ANY);
             if (ctrlPlus.match(event)) {
                 if (fontSize[0] < 30) {
                     fontSize[0]++;
@@ -48,7 +48,7 @@ public class StyleText {
                 }
             }
             if (ctrlMimus.match(event)) {
-                if (fontSize[0] > 11) {
+                if (fontSize[0] > 10) {
                     fontSize[0]--;
                     codeArea.setStyle("-fx-font-size: " + fontSize[0] + "px");
                 }
@@ -56,7 +56,6 @@ public class StyleText {
             if (ctrlDefault.match(event)) {
                 fontSize[0] = 16;
                 codeArea.setStyle("-fx-font-size: " + fontSize[0] + "px");
-
             }
         });
     }
