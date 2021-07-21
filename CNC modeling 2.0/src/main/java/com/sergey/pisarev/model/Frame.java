@@ -17,7 +17,7 @@ public class Frame {
     private boolean isAxisContains = false;
     private boolean isDiamon=false;
     private boolean isTool=false;
-
+    private boolean isHome = false;
     private String tool;
     private List<String> gCode = new ArrayList<>();
     public boolean isAxisContains() {
@@ -130,6 +130,14 @@ public class Frame {
 
     public void setDiamon(boolean diamon) {
         isDiamon = diamon;
+    }
+
+    public boolean isHome() {
+        return isHome;
+    }
+
+    public void setHome(boolean home) {
+        isHome = home;
     }
 
     @Override

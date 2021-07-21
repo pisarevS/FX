@@ -215,7 +215,8 @@ public class Program extends BaseDraw implements Runnable {
                 if (contains(strFrame, HOME)) {
                     isVerticalAxis = true;
                     isHorizontalAxis = true;
-                    tempHorizontal=Constant.N_GANTRYPOS_X*2;
+                    frame.setHome(true);
+                    tempHorizontal=Constant.N_GANTRYPOS_X;
                     tempVertical=Constant.N_GANTRYPOS_Z;
                 }
             } catch (Exception e) {
@@ -287,9 +288,10 @@ public class Program extends BaseDraw implements Runnable {
     }
 
     private void correctionForDiamon(List<Frame> frameList) {
-        for(int i=0;i<frameList.size();i++){
-            if(frameList.get(i).getDiamon()&&frameList.get(i).isAxisContains()){
-               frameList.get(i).setX(frameList.get(i).getX()/2);
+        for (Frame frame : frameList) {
+            if (frame.getDiamon() && frame.isAxisContains()) {
+                if (frame.getTool() == null && !frame.isHome())
+                    frame.setX(frame.getX() / 2);
             }
         }
     }

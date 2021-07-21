@@ -38,9 +38,9 @@ public class StyleText {
     public static void setListener(CodeArea codeArea, AnchorPane anchorPaneProgram){
         final int[] fontSize = {16};
         anchorPaneProgram.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            KeyCombination ctrlPlus = new KeyCodeCombination(KeyCode.EQUALS, KeyCombination.CONTROL_ANY);
-            KeyCombination ctrlMimus = new KeyCodeCombination(KeyCode.MINUS, KeyCombination.CONTROL_ANY);
-            KeyCombination ctrlDefault = new KeyCodeCombination(KeyCode.DIGIT0, KeyCombination.CONTROL_ANY);
+            KeyCombination ctrlPlus = new KeyCodeCombination(KeyCode.EQUALS, KeyCombination.CONTROL_DOWN);
+            KeyCombination ctrlMimus = new KeyCodeCombination(KeyCode.MINUS, KeyCombination.CONTROL_DOWN);
+            KeyCombination ctrlDefault = new KeyCodeCombination(KeyCode.DIGIT0, KeyCombination.CONTROL_DOWN);
             if (ctrlPlus.match(event)) {
                 if (fontSize[0] < 30) {
                     fontSize[0]++;
