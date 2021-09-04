@@ -18,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sergey.pisarev.controller.MainController">
+<VBox prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sergey.pisarev.controller.MainController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -29,6 +29,8 @@
                         <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
                   <MenuItem mnemonicParsing="false" onAction="#menuConvertAviaProgram" text="Convert AVIA program" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuConvertTheProgramToG17" text="Convert the program to G17" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuConvertTheProgramToG18" text="Convert the program to G18" />
                   <MenuItem mnemonicParsing="false" onAction="#menuRenameFrameNumbers" text="Rename frame numbers">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
