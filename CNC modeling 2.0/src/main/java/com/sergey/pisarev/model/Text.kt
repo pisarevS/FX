@@ -43,6 +43,21 @@ open class Text {
     protected val DIAMOF = "DIAMOF"
     protected val HOME = "HOME"
     protected val GOTOF = "GOTOF"
+    protected val DEFAULT = "DEFAULT"
+    protected val T01_RQQ = "T=\"T01\""
+    protected val T02_RQQ = "T=\"T02\""
+    protected val T03_RQQ = "T=\"T03\""
+    protected val T04_RQQ = "T=\"T04\""
+    protected val T05_RQQ = "T=\"T05\""
+    protected val T09_RQQ = "T=\"T09\""
+    protected val T10_RQQ = "T=\"T10\""
+    protected val T11_RQQ = "T=\"T11\""
+    protected val T20_RQQ = "T=\"T20\""
+    protected val T77_RQQ = "T=\"T77\""
+    protected val T99_RQQ = "T=\"T99\""
+    protected val T125_KNUTH = "T125"
+    protected val T20_KNUTH = "T20"
+    protected val T51_KNUTH = "T51"
     protected val gCodes = arrayOf(G0, G00, G1, G01, G2, G02, G3, G03, G17, G18, G41, G42, G40)
     private fun initList() {
         //ЛПО
@@ -73,22 +88,24 @@ open class Text {
         listIgnore.add("N_ZERO_O(54,Z2,CHUCK_HEIGHT_Z2_S2[0],\"TR\")")
         listIgnore.add("N_ZERO_O(54,X2,WP_ZP_X2_S2,\"FI\")")
         listIgnore.add("N_ZERO_O(54,Z2,WP_ZP_Z2_S2,\"FI\")")
+        //DEFAULT
+        toolsMap[DEFAULT] = 6.0 //12мм инструмент по умолчанию
         //RQQ
-        toolsMap["T=\"T01\""] = 16.0 //32мм черновой кривой
-        toolsMap["T=\"T02\""] = 10.0 //20мм кривой чистовой
-        toolsMap["T=\"T03\""] = 16.0 //32мм прямой черновой
-        toolsMap["T=\"T04\""] = 16.0 //32мм прямой чистовой
-        toolsMap["T=\"T05\""] = 3.0 //квадрат расточка
-        toolsMap["T=\"T09\""] = 1.2 //ромб канавка
-        toolsMap["T=\"T10\""] = 1.6 //ромб поясок
-        toolsMap["T=\"T11\""] = 3.0 //квадрат торцовка ступицы
-        toolsMap["T=\"T20\""] = 10.0 //20мм прямой чистовой
-        toolsMap["T=\"T99\""] = 1.0 //канавка фасон
-        toolsMap["T=\"T77\""] = 1.6 //канавка сопля
+        toolsMap[T01_RQQ] = 16.0 //32мм черновой кривой
+        toolsMap[T02_RQQ] = 10.0 //20мм кривой чистовой
+        toolsMap[T03_RQQ] = 16.0 //32мм прямой черновой
+        toolsMap[T04_RQQ] = 16.0 //32мм прямой чистовой
+        toolsMap[T05_RQQ] = 3.0 //квадрат расточка
+        toolsMap[T10_RQQ] = 1.6 //ромб поясок
+        toolsMap[T11_RQQ] = 3.0 //квадрат торцовка ступицы
+        toolsMap[T20_RQQ] = 10.0 //20мм прямой чистовой
+        toolsMap[T77_RQQ] = 1.6 //канавка сопля
+        toolsMap[T09_RQQ] = 1.2 //ромб канавка
+        toolsMap[T99_RQQ] = 1.0 //канавка фасон
         //KNUTH
-        toolsMap["T125"] = 12.5 //25мм прямой черновой
-        toolsMap["T20"] = 10.0 //20мм кривой чистовой
-        toolsMap["T51"] = 1.6 //ромб поясок
+        toolsMap[T125_KNUTH] = 12.5 //25мм прямой черновой
+        toolsMap[T20_KNUTH] = 10.0 //20мм кривой чистовой
+        toolsMap[T51_KNUTH] = 1.6 //ромб поясок
     }
 
     protected fun contains(sb: StringBuffer, findString: String?): Boolean {

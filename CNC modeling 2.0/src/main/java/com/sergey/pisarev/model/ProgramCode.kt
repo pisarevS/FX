@@ -36,7 +36,7 @@ class ProgramCode(private val program: String, private val callback: Callback) :
     private fun addFrameList(programList: List<StringBuffer>): MyData? {
         val frameList = ArrayList<Frame>()
         val errorListMap: MutableMap<Int, String> = HashMap()
-        var tempTOOL: String? = ""
+        var tempTOOL: String?
         var tempHorizontal = N_GANTRYPOS_X
         var tempVertical = N_GANTRYPOS_Z
         var tempCR = 0.0
@@ -49,7 +49,7 @@ class ProgramCode(private val program: String, private val callback: Callback) :
         var isOFFN = false
         var isTOOL = false
         var isRadius = false
-        var isDiamon = true
+        var isDiamon = false
         var strFrame: StringBuffer
         selectCoordinateSystem(programList)
         for (i in programList.indices) {

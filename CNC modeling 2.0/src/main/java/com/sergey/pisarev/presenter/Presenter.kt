@@ -46,14 +46,17 @@ class Presenter(private val controller: IController, private val gc: GraphicsCon
         this.canvasWidth = canvasWidth
         this.canvasHeight = canvasHeight
         pointSystemCoordinate = if (coordinateSystemProportionsX != 0.0 && coordinateSystemProportionsZ != 0.0) Point(canvasWidth * coordinateSystemProportionsX, canvasHeight * coordinateSystemProportionsZ) else Point(canvasWidth * 0.5, canvasHeight * 0.5)
+        drawSysCoordinate()
+        startDraw(index)
+    }
+
+    private fun drawSysCoordinate() {
         gc.clearRect(0.0, 0.0, canvasWidth, canvasHeight)
-        gc.stroke = Color.BLACK
-        gc.setLineDashes(5.0, 5.0)
+        gc.stroke = Color.valueOf("#FF8000")
         gc.globalAlpha = 1.0
-        gc.lineWidth = 0.5
+        gc.lineWidth = 0.6
         gc.strokeLine(pointSystemCoordinate.x, 0.0, pointSystemCoordinate.x, canvasHeight)
         gc.strokeLine(0.0, pointSystemCoordinate.z, canvasWidth, pointSystemCoordinate.z)
-        startDraw(index)
     }
 
     override fun convertAviaProgram(aviaProgram: String?) {
@@ -162,16 +165,6 @@ class Presenter(private val controller: IController, private val gc: GraphicsCon
         return data!!.frameList.stream()
                 .filter { p: Frame -> rect.isInsideRect(p.x, p.z) }
                 .min(Comparator.comparingDouble { p: Frame -> abs(point.x - p.x) + abs(point.z - p.z) })
-    }
-
-    private fun drawSysCoordinate() {
-        gc.clearRect(0.0, 0.0, canvasWidth, canvasHeight)
-        gc.stroke = Color.BLACK
-        gc.setLineDashes(5.0, 5.0)
-        gc.globalAlpha = 1.0
-        gc.lineWidth = 0.5
-        gc.strokeLine(pointSystemCoordinate.x, 0.0, pointSystemCoordinate.x, canvasHeight)
-        gc.strokeLine(0.0, pointSystemCoordinate.z, canvasWidth, pointSystemCoordinate.z)
     }
 
     override fun onStart(program: String?) {

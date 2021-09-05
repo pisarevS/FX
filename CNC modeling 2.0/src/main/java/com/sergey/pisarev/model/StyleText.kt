@@ -64,17 +64,19 @@ object StyleText {
             "TREAD_DIAM", "VYLET_ST", "STUPICA_VNUT", "STUPICA_NAR",
             "DISK_VNUT", "DISK_NAR", "YABLOKO_VNUT", "YABLOKO_NAR",
             "WHEEL_HEIGHT", "N_GANTRYPOS_X", "N_GANTRYPOS_Z", "N_WHEEL_UNMACHINED",
-            "N_WHEEL_MACHINED", "N_SYM_FACTOR", "UGOL", "Y_0", "Z_0", "START_SHNEK", "SHIRINA_GREB")
-    val WAITM = Arrays.asList("N_WAITM", "SETM")
-    val LIMS = Arrays.asList("LIMS", "E_TCARR")
-    private val AXIS = arrayOf(
+            "N_WHEEL_MACHINED", "N_SYM_FACTOR", "UGOL", "Y_0", "Z_0", "START_SHNEK", "SHIRINA_GREB","CALL","NOT","GOTOF")
+    val WAITM = listOf("N_WAITM", "SETM")
+    val LIMS = listOf("LIMS", "E_TCARR")
+    val OPERATORS = listOf("IF", "ELSE", "ENDIF", "H79")
+    val AXIS = listOf(
             "X", "Z", "U", "W", "CR", "F", "RND"
     )
     private val KEYWORD_PATTERN = "\\b(" + java.lang.String.join("|", KEYWORDS) + ")\\b"
     private val WAITM_PATTERN = "\\b(" + java.lang.String.join("|", WAITM) + ")\\b"
     private val LIMS_PATTERN = "\\b(" + java.lang.String.join("|", LIMS) + ")\\b"
+    private val AXIS_PATTERN = "\\b(" + java.lang.String.join("|", AXIS) + ")\\b"
+    private val OPERATORS_PATTERN = "\\b(" + java.lang.String.join("|", OPERATORS) + ")\\b"
     private const val R_PARAMETER = "R(\\d+)"
-    private val AXIS_PATTERN = "\\b(" + java.lang.String.join("|", *AXIS) + ")\\b"
     private const val GCODE_PATTERN = "G(\\d+)"
     private const val MCODE_PATTERN = "M(\\d+)"
     private const val FIGURES_PATTERN = "(?:[^\\w_]|^|\\b)(\\d+)"
@@ -96,6 +98,7 @@ object StyleText {
                     + "|(?<STRING>" + STRING_PATTERN + ")"
                     + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
                     + "|(?<AXIS>" + AXIS_PATTERN + ")"
+                    + "|(?<OPERATORS>" + OPERATORS_PATTERN + ")"
                     + "|(?<GCODE>" + GCODE_PATTERN + ")"
                     + "|(?<MCODE>" + MCODE_PATTERN + ")"
                     + "|(?<FIGURES>" + FIGURES_PATTERN + ")"
@@ -106,7 +109,7 @@ object StyleText {
         var lastKwEnd = 0
         val spansBuilder = StyleSpansBuilder<Collection<String?>>()
         while (matcher.find()) {
-            val styleClass = (if (matcher.group("KEYWORD") != null) "keyword" else if (matcher.group("WAITM") != null) "waitm" else if (matcher.group("LIMS") != null) "lims" else if (matcher.group("RPARAMETER") != null) "rparameter" else if (matcher.group("PAREN") != null) "paren" else if (matcher.group("BRACE") != null) "brace" else if (matcher.group("NUMBERFRAME") != null) "number_frame" else if (matcher.group("SEMICOLON") != null) "semicolon" else if (matcher.group("STRING") != null) "string" else if (matcher.group("COMMENT") != null) "comment" else if (matcher.group("AXIS") != null) "axis" else if (matcher.group("GCODE") != null) "g_code" else if (matcher.group("MCODE") != null) "m_code" else if (matcher.group("FIGURES") != null) "figures" else null)!! /* never happens */
+            val styleClass = (if (matcher.group("KEYWORD") != null) "keyword" else if (matcher.group("WAITM") != null) "waitm" else if (matcher.group("LIMS") != null) "lims" else if (matcher.group("RPARAMETER") != null) "rparameter" else if (matcher.group("PAREN") != null) "paren" else if (matcher.group("BRACE") != null) "brace" else if (matcher.group("NUMBERFRAME") != null) "number_frame" else if (matcher.group("SEMICOLON") != null) "semicolon" else if (matcher.group("STRING") != null) "string" else if (matcher.group("COMMENT") != null) "comment" else if (matcher.group("AXIS") != null) "axis" else if (matcher.group("GCODE") != null) "g_code" else if (matcher.group("MCODE") != null) "m_code" else if (matcher.group("OPERATORS") != null) "operators" else if (matcher.group("FIGURES") != null) "figures" else null)!! /* never happens */
             spansBuilder.add(emptyList<String>(), matcher.start() - lastKwEnd)
             spansBuilder.add(setOf<String?>(styleClass), matcher.end() - matcher.start())
             lastKwEnd = matcher.end()

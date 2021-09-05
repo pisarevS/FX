@@ -61,7 +61,7 @@ class DrawVerticalTurning(draw: IDraw?) : BaseDraw(draw), Drawing {
             }
         }
         if (isSelectToolRadius) {
-            if (isToolRadiusCompensation != 0) drawPoint(gc, pointCoordinateZero, frameList, zoom, Color.web("#D2BF44"), index, tool!!) else drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.RED)
+            if (isToolRadiusCompensation != 0) dawTool(gc, pointCoordinateZero, frameList, zoom, Color.web("#D2BF44"), index, tool!!) else drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.RED)
         } else drawPoint(gc, pointCoordinateZero, pEnd, zoom, Color.RED)
         if (isDrawPoint) drawPoint(gc, pointCoordinateZero, point, zoom, Color.web("#3507EE"))
     }

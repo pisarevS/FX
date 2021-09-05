@@ -1,6 +1,6 @@
 .styled-text-area {
     -fx-font-size: 16px;
-    -fx-background-color: #404040;
+    -fx-background-color: #293134;
 }
 
 .styled-text-area .caret {
@@ -16,7 +16,7 @@
     -fx-fill: #00FFFF !important;
 }
 .waitm {
-    -fx-fill: #B266FF !important;
+    -fx-fill: #A54AFF !important;
 }
 .lims {
     -fx-fill: #5375FA !important;
@@ -38,11 +38,11 @@
     -fx-fill: teal !important;
 }
 .string {
-    -fx-fill: #00994C !important;
+    -fx-fill: #FF8409 !important;
 }
 
 .comment {
-	-fx-fill: grey !important;
+	-fx-fill: #66747B !important;
 }
 
 .axis {
@@ -51,7 +51,15 @@
 }
 
 .g_code {
-    -fx-fill: #99DA8C !important;
+    -fx-fill: #80FF80 !important;
+}
+
+.m_code {
+    -fx-fill: #80FF80 !important;
+}
+
+.operators {
+    -fx-fill: #8888C4 !important;
 }
 
 .figures {
@@ -63,7 +71,7 @@
 }
 
 .paragraph-box:has-caret {
-      -fx-background-color: #323232 !important;
+      -fx-background-color: #404E51 !important;
       -fx-fill: black !important;
       -fx-font-weight: bold;
        -fx-text-fill: green;

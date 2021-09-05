@@ -99,7 +99,7 @@ open class ProgramText : Text() {
         val gCodeList = ArrayList<String>()
         var g = StringBuilder(G)
         if (frame.contains(G)) {
-            for (i in 0 until frame.length) {
+            for (i in frame.indices) {
                 val c = frame[i]
                 if (c == G[0]) {
                     for (j in i + 1 until frame.length) {
