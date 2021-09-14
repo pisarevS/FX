@@ -210,6 +210,7 @@ class MainController : IController {
         } else {
             isDownSingleBlock = true
             buttonSingleBlock.style = "-fx-background-color: yellow"
+            buttonReset.isDisable = false
             buttonCycleStart.isDisable = false
             buttonStart.isDisable = true
             presenter!!.onSingleBlock(true)

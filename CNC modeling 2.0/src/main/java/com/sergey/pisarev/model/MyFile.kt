@@ -13,7 +13,7 @@ import java.util.function.Consumer
 
 object MyFile {
     var filePath: File? = null
-    private var encoding = StandardCharsets.UTF_8.toString()
+    var encoding = StandardCharsets.UTF_8.toString()
     fun getFileTextContent(event: DragEvent): String {
         val file = event.dragboard.files
         filePath = file[0]
@@ -30,7 +30,7 @@ object MyFile {
     }
 
     private fun getFileListContent(file: File): List<StringBuilder?> {
-        var listFrame: List<java.lang.StringBuilder?> = ArrayList()
+        var listFrame: List<StringBuilder?> = ArrayList()
         checkEncoding(file)
         try {
             listFrame = Files.lines(file.toPath(), Charset.forName(encoding))
@@ -43,7 +43,7 @@ object MyFile {
     }
 
     fun getFileTextContent(file: File): String {
-        var listFrame: List<java.lang.StringBuilder?> = ArrayList()
+        var listFrame: List<StringBuilder?> = ArrayList()
         checkEncoding(file)
         try {
             listFrame = Files.lines(file.toPath(), Charset.forName(encoding))
@@ -52,7 +52,7 @@ object MyFile {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        val text : StringBuilder = java.lang.StringBuilder()
+        val text : StringBuilder = StringBuilder()
         listFrame.forEach(Consumer { p: StringBuilder? -> text.append(p).append('\n') })
         return text.toString()
     }
@@ -81,7 +81,7 @@ object MyFile {
         val listOfFiles = folder.listFiles()!!
         for (listOfFile in listOfFiles) {
             if (listOfFile.isFile) {
-                if (listOfFile.name.contains("PAR")) {
+                if ("PAR" in listOfFile.name) {
                     return getFileListContent(listOfFile)
                 }
             }

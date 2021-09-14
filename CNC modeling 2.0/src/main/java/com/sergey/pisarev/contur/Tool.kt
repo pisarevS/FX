@@ -1,185 +1,34 @@
-package com.sergey.pisarev.model.base
+package com.sergey.pisarev.contur
 
-import com.sergey.pisarev.model.ProgramText
-import com.sergey.pisarev.interfaces.IDraw
-import com.sergey.pisarev.model.Frame
-import com.sergey.pisarev.model.Point
-import com.sergey.pisarev.model.Point2D
+import com.sergey.pisarev.contur.base.BaseDraw
+import com.sergey.pisarev.model.core.Frame
+import com.sergey.pisarev.model.core.MyList
 import javafx.scene.canvas.GraphicsContext
 import javafx.scene.paint.Color
-import javafx.scene.shape.ArcType
-import kotlin.math.*
+import kotlin.math.abs
+import kotlin.math.pow
+import kotlin.math.sin
+import kotlin.math.sqrt
 
-abstract class BaseDraw : ProgramText {
-
-    protected var draw: IDraw? = null
-    private val lineWidth = 1.8
-    private val lineWidthDashes = 1.0
-    protected var isNumberLine = false
-    private val colorLine = Color.valueOf("#0080FF")
-    private val colorLineDashes = Color.GRAY
-    protected var numberLIne = 0
-    private var pStart = Point()
-    private var pEnd = Point()
-
-    protected constructor(draw: IDraw?) {
-        this.draw = draw
-    }
-
-    constructor() {}
-
-    protected fun drawArc(
-        gc: GraphicsContext,
-        isRapidFeed: Int,
-        pointSystemCoordinate: Point,
-        pointStart: Point,
-        pointEnd: Point,
-        radius: Double,
-        zoom: Double,
-        clockwise: Int
-    ) {
-        var r = radius
-        if (isRapidFeed == 0) {
-            gc.stroke = colorLineDashes
-            gc.setLineDashes(3.0, 5.0)
-            gc.lineWidth = lineWidthDashes
-        } else if (isRapidFeed == 1) {
-            gc.stroke = colorLine
-            gc.setLineDashes()
-            gc.lineWidth = lineWidth
-        }
-        val pStart = Point(pointStart.x, pointStart.z)
-        val pEnd = Point(pointEnd.x, pointEnd.z)
-        pStart.x = pStart.x * zoom
-        pStart.z = pStart.z * zoom
-        pEnd.x = pEnd.x * zoom
-        pEnd.z = pEnd.z * zoom
-        r *= zoom
-        val chord = sqrt((pStart.x - pEnd.x).pow(2.0) + (pStart.z - pEnd.z).pow(2.0))
-        val sweetAngle = 2 * asin(chord / (2 * r)) * (180 / Math.PI)
-        val h = sqrt(r * r - chord / 2 * (chord / 2))
-        if (clockwise == 2) {
-            val x01 = pStart.x + (pEnd.x - pStart.x) / 2 + h * (pEnd.z - pStart.z) / chord
-            val z01 = pStart.z + (pEnd.z - pStart.z) / 2 - h * (pEnd.x - pStart.x) / chord
-            calculateStartAngle(gc, pointSystemCoordinate, r, pStart, sweetAngle, x01, z01)
-        }
-        if (clockwise == 3) {
-            val x02 = pStart.x + (pEnd.x - pStart.x) / 2 - h * (pEnd.z - pStart.z) / chord
-            val z02 = pStart.z + (pEnd.z - pStart.z) / 2 + h * (pEnd.x - pStart.x) / chord
-            calculateStartAngle(gc, pointSystemCoordinate, r, pEnd, sweetAngle, x02, z02)
-        }
-    }
-
-    private fun calculateStartAngle(
-        gc: GraphicsContext,
-        pointSystemCoordinate: Point,
-        radius: Double,
-        pStart: Point,
-        sweetAngle: Double,
-        x01: Double,
-        z01: Double
-    ) {
-        var cathet: Double
-        var startAngle = 0.0
-        if (pStart.x > x01 && pStart.z >= z01) {
-            cathet = pStart.x - x01
-            startAngle = if (pStart.z == z01) 0.0 else 360 - acos(cathet / radius) * (180 / Math.PI)
-        }
-        if (pStart.x >= x01 && pStart.z < z01) {
-            cathet = pStart.x - x01
-            startAngle = if (pStart.x == x01) 90.0 else acos(cathet / radius) * (180 / Math.PI)
-        }
-        if (pStart.x < x01 && pStart.z <= z01) {
-            cathet = x01 - pStart.x
-            startAngle = if (pStart.z == z01) 180.0 else 180 - acos(cathet / radius) * (180 / Math.PI)
-        }
-        if (pStart.x <= x01 && pStart.z > z01) {
-            cathet = x01 - pStart.x
-            startAngle = if (pStart.x == x01) 270.0 else 180 + acos(cathet / radius) * (180 / Math.PI)
-        }
-        gc.strokeArc(
-            pointSystemCoordinate.x + x01 - radius,
-            pointSystemCoordinate.z - z01 - radius,
-            radius * 2,
-            radius * 2,
-            360 - startAngle - sweetAngle,
-            sweetAngle,
-            ArcType.OPEN
-        )
-    }
-
-    protected fun drawLine(
-        gc: GraphicsContext,
-        isRapidFeed: Int,
-        pointSystemCoordinate: Point,
-        pointStart: Point,
-        pointEnd: Point,
-        zoom: Double
-    ) {
-        if (isRapidFeed == 0) {
-            gc.stroke = colorLineDashes
-            gc.setLineDashes(3.0, 5.0)
-            gc.lineWidth = lineWidthDashes
-        } else if (isRapidFeed == 1) {
-            gc.stroke = colorLine
-            gc.setLineDashes()
-            gc.lineWidth = lineWidth
-        }
-        val pStart = Point(pointStart.x, pointStart.z)
-        val pEnd = Point(pointEnd.x, pointEnd.z)
-        pStart.x = pStart.x * zoom
-        pStart.z = pStart.z * zoom
-        pEnd.x = pEnd.x * zoom
-        pEnd.z = pEnd.z * zoom
-        if (pStart.z > 0) pStart.z = pointSystemCoordinate.z - pStart.z else pStart.z =
-            pointSystemCoordinate.z + abs(pStart.z)
-        if (pEnd.z > 0) pEnd.z = pointSystemCoordinate.z - pEnd.z else pEnd.z = pointSystemCoordinate.z + abs(pEnd.z)
-        gc.strokeLine(pointSystemCoordinate.x + pStart.x, pStart.z, pointSystemCoordinate.x + pEnd.x, pEnd.z)
-    }
-
-    protected fun drawPoint(
-        gc: GraphicsContext,
-        pointSystemCoordinate: Point,
-        pointEnd: Point,
-        zoom: Double,
-        color: Color?
-    ) {
-        var radiusPoint = 4.0
-        val pEnd = Point(pointEnd.x, pointEnd.z)
-        pEnd.x = pEnd.x * zoom
-        pEnd.z = pEnd.z * zoom
-        if (pEnd.z > 0) pEnd.z = pointSystemCoordinate.z - pEnd.z else pEnd.z = pointSystemCoordinate.z + abs(pEnd.z)
-        gc.fill = color
-        gc.fillOval(
-            pointSystemCoordinate.x + pEnd.x - radiusPoint,
-            pEnd.z - radiusPoint,
-            radiusPoint * 2,
-            radiusPoint * 2
-        )
-        gc.stroke = color
-        gc.setLineDashes()
-        gc.lineWidth = lineWidth
-        radiusPoint += 2.5
-        gc.strokeOval(
-            pointSystemCoordinate.x + pEnd.x - radiusPoint,
-            pEnd.z - radiusPoint,
-            radiusPoint * 2,
-            radiusPoint * 2
-        )
-    }
-
-    protected fun dawTool(
+open class Tool(
+    override var isToolRadiusCompensation: Int,
+    override var clockwise: Int,
+    override var isG17: Boolean,
+    override var isRapidFeed: Int
+) : BaseDraw() {
+    protected open var pEnd: Point = Point()
+    fun dawTool(
         gc: GraphicsContext,
         pointSystemCoordinate: Point,
         frameList: List<Frame>,
         zoom: Double,
         color: Color?,
         index: Int,
-        tool: String
+        tool: String,
     ) {
         var toolRadius = if (tool != "")
-            toolsMap[tool]!!
-        else toolsMap[DEFAULT]!!
+            MyList().listTools[tool]!!
+        else MyList().listTools[DEFAULT]!!
         pEnd = toolRadiusCompensationPoint(frameList, toolRadius, index)
         if (frameList[index - 1].isAxisContains && isToolRadiusCompensation != 0) {
             if (toolRadius in 6.0..16.0) {
@@ -367,352 +216,28 @@ abstract class BaseDraw : ProgramText {
         }
     }
 
-    protected fun drawRND(
-        gc: GraphicsContext,
-        isRapidFeed: Int,
-        pointSystemCoordinate: Point,
-        pointStart: Point,
-        pointEnd: Point,
-        pointF: Point,
-        radiusRND: Double,
-        zoom: Double
-    ) {
-        val pointStartCR = Point()
-        val pointEndCR = Point()
-        val cathet: Double
-        var clockwiseRND = 3
-        val angle = Point2D(pointEnd.x - pointStart.x, pointEnd.z - pointStart.z).angle(
-            pointEnd.x - pointF.x,
-            pointEnd.z - pointF.z
-        )
-        val firstDistance = Point2D(pointStart.x, pointStart.z).distance(pointEnd.x, pointEnd.z)
-        val secondDistance = Point2D(pointEnd.x, pointEnd.z).distance(pointF.x, pointF.z)
-        cathet = if (angle == 90.0) {
-            radiusRND
-        } else {
-            (180 - angle) / 2 * (Math.PI / 180) * radiusRND
-        }
-        var differenceX: Double = pointStart.x - pointEnd.x
-        var differenceZ: Double = pointStart.z - pointEnd.z
-        pointStartCR.x = differenceX * cathet / firstDistance
-        pointStartCR.z = differenceZ * cathet / firstDistance
-        pointStartCR.x = pointEnd.x + pointStartCR.x
-        pointStartCR.z = pointEnd.z + pointStartCR.z
-        differenceX = pointF.x - pointEnd.x
-        differenceZ = pointF.z - pointEnd.z
-        pointEndCR.x = differenceX * cathet / secondDistance
-        pointEndCR.z = differenceZ * cathet / secondDistance
-        pointEndCR.x = pointEnd.x + pointEndCR.x
-        pointEndCR.z = pointEnd.z + pointEndCR.z
-        if (pointStart.x > pointF.x && (pointStart.z + pointF.z) / 2 > pointEnd.z) {
-            clockwiseRND = 2
-        }
-        if (pointStart.x > pointF.x && (pointStart.z + pointF.z) / 2 < pointEnd.z) {
-            clockwiseRND = 3
-        }
-        if (pointStart.x < pointF.x && (pointStart.z + pointF.z) / 2 < pointEnd.z) {
-            clockwiseRND = 2
-        }
-        drawLine(gc, isRapidFeed, pointSystemCoordinate, pointStart, pointStartCR, zoom)
-        drawArc(gc, isRapidFeed, pointSystemCoordinate, pointStartCR, pointEndCR, radiusRND, zoom, clockwiseRND)
-        pointEnd.x = pointEndCR.x
-        pointEnd.z = pointEndCR.z
-    }
-
-    protected fun correctionForOffn(frameList: List<Frame>) {
-        for (i in frameList.indices) {
-            if (frameList[i].gCode.contains(G17) || frameList[i].gCode.contains(G18)) isG17 = isG17(frameList[i].gCode)
-            checkGCode(frameList[i].gCode)
-            if (frameList[i].isCR && frameList[i].isAxisContains && frameList[i].offn > 0) {                             //draw Arc
-                toolRadiusCompensationArcOffn(frameList, i, isToolRadiusCompensation, clockwise)
-            }
-            if (!frameList[i].isCR && !frameList[i].isRND && frameList[i].isAxisContains && frameList[i].offn > 0) {     //draw line
-                toolRadiusCompensationLineOffn(frameList, i, isToolRadiusCompensation)
-            }
-            if (frameList[i].isRND && frameList[i].isAxisContains) {                                                     //draw RND
-                pEnd.x = frameList[i].x
-                pEnd.z = frameList[i].z
-                pStart.x = pEnd.x
-                pStart.z = pEnd.z
-            }
-        }
-    }
-
-    private fun toolRadiusCompensationArcOffn(
-        frameList: List<Frame>,
-        numberLIne: Int,
-        isToolRadiusCompensation: Int,
-        clockwise: Int
-    ) {
-        pEnd.x = frameList[numberLIne].x
-        pEnd.z = frameList[numberLIne].z
-        val radius = frameList[numberLIne].cr
-        val offn = frameList[numberLIne].offn
-        val chord = sqrt((pStart.x - pEnd.x).pow(2.0) + (pStart.z - pEnd.z).pow(2.0))
-        var h = sqrt(radius * radius - chord / 2 * (chord / 2))
-        if (java.lang.Double.isNaN(h)) h = 0.0
-        if (java.lang.Double.isNaN(chord)) h = 0.0
-        if (clockwise == 2 && frameList[numberLIne].offn > 0) {
-            val x01 = pStart.x + (pEnd.x - pStart.x) / 2 + h * (pEnd.z - pStart.z) / chord
-            val z01 = pStart.z + (pEnd.z - pStart.z) / 2 - h * (pEnd.x - pStart.x) / chord
-            if (isToolRadiusCompensation == 1) {
-                calculateToolRadiusCompensationClockwise(frameList, numberLIne, radius, offn, x01, z01, G41)
-            } //G41
-            if (isToolRadiusCompensation == 2) {
-                calculateToolRadiusCompensationClockwise(frameList, numberLIne, radius, offn, x01, z01, G42)
-            } //G42
-        }
-        if (clockwise == 3 && frameList[numberLIne].offn > 0) {
-            val x02 = pStart.x + (pEnd.x - pStart.x) / 2 - h * (pEnd.z - pStart.z) / chord
-            val z02 = pStart.z + (pEnd.z - pStart.z) / 2 + h * (pEnd.x - pStart.x) / chord
-            if (isToolRadiusCompensation == 1) {
-                calculateToolRadiusCompensationClockwise(frameList, numberLIne, radius, offn, x02, z02, G42)
-            } //G41
-            if (isToolRadiusCompensation == 2) {
-                calculateToolRadiusCompensationClockwise(frameList, numberLIne, radius, offn, x02, z02, G41)
-            } //G42
-        }
-        pStart.x = pEnd.x
-        pStart.z = pEnd.z
-    }
-
-    private fun calculateToolRadiusCompensationClockwise(
-        frameList: List<Frame>,
-        numberLIne: Int,
-        radius: Double,
-        offn: Double,
-        x01: Double,
-        z01: Double,
-        gCode: String
-    ) {
-        when (gCode) {
-            G41 -> {
-                val tempStartX = (x01 - pStart.x) * ((radius - offn) / radius)
-                val tempStartZ = (z01 - pStart.z) * ((radius - offn) / radius)
-                val tempEndX = (x01 - pEnd.x) * ((radius - offn) / radius)
-                val tempEndZ = (z01 - pEnd.z) * ((radius - offn) / radius)
-                frameList[numberLIne - 1].x = pStart.x + (x01 - pStart.x - tempStartX)
-                frameList[numberLIne - 1].z = pStart.z + (z01 - pStart.z - tempStartZ)
-                frameList[numberLIne].x = pEnd.x + (x01 - pEnd.x - tempEndX)
-                frameList[numberLIne].z = pEnd.z + (z01 - pEnd.z - tempEndZ)
-                frameList[numberLIne].cr = radius - offn
-            }
-            G42 -> {
-                val tempStartX = (x01 - pStart.x) * ((radius + offn) / radius)
-                val tempStartZ = (z01 - pStart.z) * ((radius + offn) / radius)
-                val tempEndX = (x01 - pEnd.x) * ((radius + offn) / radius)
-                val tempEndZ = (z01 - pEnd.z) * ((radius + offn) / radius)
-                frameList[numberLIne - 1].x = pStart.x + (x01 - pStart.x - tempStartX)
-                frameList[numberLIne - 1].z = pStart.z + (z01 - pStart.z - tempStartZ)
-                frameList[numberLIne].x = pEnd.x + (x01 - pEnd.x - tempEndX)
-                frameList[numberLIne].z = pEnd.z + (z01 - pEnd.z - tempEndZ)
-                frameList[numberLIne].cr = radius + offn
-            }
-        }
-    }
-
-    private fun toolRadiusCompensationLineOffn(frameList: List<Frame>, numberLIne: Int, isToolRadiusCompensation: Int) {
-        val offn = frameList[numberLIne].offn
-        pEnd.x = frameList[numberLIne].x
-        pEnd.z = frameList[numberLIne].z
-        if (isToolRadiusCompensation == 1) {
-            if (pStart.z == pEnd.z && pStart.x > pEnd.x) {
-                if (!containsG41G42(frameList[numberLIne].gCode)) {
-                    if (frameList[numberLIne - 1].z == frameList[numberLIne].z && frameList[numberLIne - 1].x > frameList[numberLIne].x) {
-                        frameList[numberLIne - 1].x = pStart.x - offn
-                    } else frameList[numberLIne - 1].x = pStart.x
-                    frameList[numberLIne - 1].z = pStart.z + offn
-                }
-                frameList[numberLIne].x = pEnd.x
-                frameList[numberLIne].z = pEnd.z + offn
-            } //Z==Z -X
-            if (pStart.z == pEnd.z && pStart.x < pEnd.x) {
-                if (!containsG41G42(frameList[numberLIne].gCode)) {
-                    if (frameList[numberLIne - 1].z == frameList[numberLIne].z && frameList[numberLIne - 1].x < frameList[numberLIne].x) {
-                        frameList[numberLIne - 1].x = pStart.x + offn
-                    } else frameList[numberLIne - 1].x = pStart.x
-                    frameList[numberLIne - 1].z = pStart.z - offn
-                }
-                frameList[numberLIne].x = pEnd.x
-                frameList[numberLIne].z = pEnd.z - offn
-            } //Z==Z +X
-            if (pStart.x == pEnd.x && pStart.z > pEnd.z) {
-                if (!containsG41G42(frameList[numberLIne].gCode)) {
-                    frameList[numberLIne - 1].x = pStart.x - offn
-                    frameList[numberLIne - 1].z = pStart.z
-                }
-                frameList[numberLIne].x = pEnd.x - offn
-                frameList[numberLIne].z = pEnd.z
-            } //X==X -Z
-            if (pStart.x == pEnd.x && pStart.z < pEnd.z) {
-                if (!containsG41G42(frameList[numberLIne].gCode)) {
-                    frameList[numberLIne - 1].x = pStart.x + offn
-                    frameList[numberLIne - 1].z = pStart.z
-                }
-                frameList[numberLIne].x = pEnd.x + offn
-                frameList[numberLIne].z = pEnd.z
-            } //X==X +Z
-            if (pStart.x < pEnd.x && pStart.z > pEnd.z) {
-                var angle = Point2D(pEnd.x - pStart.x, pStart.z - pEnd.z).angle(pStart.x, 0.0)
-                angle = 180 - 90 - angle
-                val cathet1 = offn * sin(Math.toRadians(angle))
-                val cathet2 = sqrt(offn * offn - cathet1 * cathet1)
-                if (!containsG41G42(frameList[numberLIne].gCode)) {
-                    frameList[numberLIne - 1].x = pStart.x - cathet2
-                    frameList[numberLIne - 1].z = pStart.z - cathet1
-                }
-                frameList[numberLIne].x = pEnd.x - cathet2
-                frameList[numberLIne].z = pEnd.z - cathet1
-            }
-            if (pStart.x > pEnd.x && pStart.z > pEnd.z) {
-                var angle = Point2D(pStart.x - pEnd.x, pStart.z - pEnd.z).angle(pEnd.x, 0.0)
-                angle = 180 - 90 - angle
-                val cathet1 = offn * sin(Math.toRadians(angle))
-                val cathet2 = sqrt(offn * offn - cathet1 * cathet1)
-                if (!containsG41G42(frameList[numberLIne].gCode)) {
-                    frameList[numberLIne - 1].x = pStart.x - cathet2
-                    frameList[numberLIne - 1].z = pStart.z + cathet1
-                }
-                frameList[numberLIne].x = pEnd.x - cathet2
-                frameList[numberLIne].z = pEnd.z + cathet1
-            }
-            if (pStart.x > pEnd.x && pStart.z < pEnd.z) {
-                var angle = Point2D(pStart.x - pEnd.x, pStart.z - pEnd.z).angle(pEnd.x, 0.0)
-                angle = 180 - 90 - angle
-                println(angle)
-                val cathet1 = offn * sin(Math.toRadians(angle))
-                val cathet2 = sqrt(offn * offn - cathet1 * cathet1)
-                if (!containsG41G42(frameList[numberLIne].gCode)) {
-                    frameList[numberLIne - 1].x = pStart.x + cathet2
-                    frameList[numberLIne - 1].z = pStart.z + cathet1
-                }
-                frameList[numberLIne].x = pEnd.x + cathet2
-                frameList[numberLIne].z = pEnd.z + cathet1
-            }
-            if (pStart.x < pEnd.x && pStart.z < pEnd.z) {
-                var angle = Point2D(pStart.x - pEnd.x, pStart.z - pEnd.z).angle(pEnd.x, 0.0)
-                angle = 180 - angle
-                println(angle)
-                val cathet1 = offn * sin(Math.toRadians(angle))
-                val cathet2 = sqrt(offn * offn - cathet1 * cathet1)
-                if (!containsG41G42(frameList[numberLIne].gCode)) {
-                    frameList[numberLIne - 1].x = pStart.x + cathet2
-                    frameList[numberLIne - 1].z = pStart.z - cathet1
-                }
-                frameList[numberLIne].x = pEnd.x + cathet2
-                frameList[numberLIne].z = pEnd.z - cathet1
-            }
-        } //G41
-        if (isToolRadiusCompensation == 2) {
-            if (pStart.z == pEnd.z && pStart.x > pEnd.x) {
-                if (!containsG41G42(frameList[numberLIne].gCode)) {
-                    frameList[numberLIne - 1].x = pStart.x
-                    frameList[numberLIne - 1].z = pStart.z - offn
-                }
-                frameList[numberLIne].x = pEnd.x
-                frameList[numberLIne].z = pEnd.z - offn
-            } //Z==Z -X
-            if (pStart.z == pEnd.z && pStart.x < pEnd.x) {
-                if (!containsG41G42(frameList[numberLIne].gCode)) {
-                    frameList[numberLIne - 1].x = pStart.x
-                    frameList[numberLIne - 1].z = pStart.z + offn
-                }
-                frameList[numberLIne].x = pEnd.x
-                frameList[numberLIne].z = pEnd.z + offn
-            } //Z==Z +X
-            if (pStart.x == pEnd.x && pStart.z > pEnd.z) {
-                if (!containsG41G42(frameList[numberLIne].gCode)) {
-                    frameList[numberLIne - 1].x = pStart.x + offn
-                    frameList[numberLIne - 1].z = pStart.z
-                }
-                frameList[numberLIne].x = pEnd.x + offn
-                frameList[numberLIne].z = pEnd.z
-            } //X==X -Z
-            if (pStart.x == pEnd.x && pStart.z < pEnd.z) {
-                if (!containsG41G42(frameList[numberLIne].gCode)) {
-                    frameList[numberLIne - 1].x = pStart.x - offn
-                    frameList[numberLIne - 1].z = pStart.z
-                }
-                frameList[numberLIne].x = pEnd.x - offn
-                frameList[numberLIne].z = pEnd.z
-            } //X==X +Z
-            if (pStart.x < pEnd.x && pStart.z > pEnd.z) {
-                var angle = Point2D(pEnd.x - pStart.x, pStart.z - pEnd.z).angle(pStart.x, 0.0)
-                angle = 180 - 90 - angle
-                val cathet1 = offn * sin(Math.toRadians(angle))
-                val cathet2 = sqrt(offn * offn - cathet1 * cathet1)
-                if (!containsG41G42(frameList[numberLIne].gCode)) {
-                    frameList[numberLIne - 1].x = pStart.x + cathet2
-                    frameList[numberLIne - 1].z = pStart.z + cathet1
-                }
-                frameList[numberLIne].x = pEnd.x + cathet2
-                frameList[numberLIne].z = pEnd.z + cathet1
-            }
-            if (pStart.x > pEnd.x && pStart.z > pEnd.z) {
-                var angle = Point2D(pStart.x - pEnd.x, pStart.z - pEnd.z).angle(pEnd.x, 0.0)
-                angle = 180 - 90 - angle
-                val cathet1 = offn * sin(Math.toRadians(angle))
-                val cathet2 = sqrt(offn * offn - cathet1 * cathet1)
-                if (!containsG41G42(frameList[numberLIne].gCode)) {
-                    frameList[numberLIne - 1].x = pStart.x + cathet2
-                    frameList[numberLIne - 1].z = pStart.z - cathet1
-                }
-                frameList[numberLIne].x = pEnd.x + cathet2
-                frameList[numberLIne].z = pEnd.z - cathet1
-            }
-            if (pStart.x > pEnd.x && pStart.z < pEnd.z) {
-                var angle = Point2D(pStart.x - pEnd.x, pStart.z - pEnd.z).angle(pEnd.x, 0.0)
-                angle = 180 - 90 - angle
-                println(angle)
-                val cathet1 = offn * sin(Math.toRadians(angle))
-                val cathet2 = sqrt(offn * offn - cathet1 * cathet1)
-                if (!containsG41G42(frameList[numberLIne].gCode)) {
-                    frameList[numberLIne - 1].x = pStart.x - cathet2
-                    frameList[numberLIne - 1].z = pStart.z - cathet1
-                }
-                frameList[numberLIne].x = pEnd.x - cathet2
-                frameList[numberLIne].z = pEnd.z - cathet1
-            }
-            if (pStart.x < pEnd.x && pStart.z < pEnd.z) {
-                var angle = Point2D(pStart.x - pEnd.x, pStart.z - pEnd.z).angle(pEnd.x, 0.0)
-                angle = 180 - angle
-                println(angle)
-                val cathet1 = offn * sin(Math.toRadians(angle))
-                val cathet2 = sqrt(offn * offn - cathet1 * cathet1)
-                if (!containsG41G42(frameList[numberLIne].gCode)) {
-                    frameList[numberLIne - 1].x = pStart.x - cathet2
-                    frameList[numberLIne - 1].z = pStart.z + cathet1
-                }
-                frameList[numberLIne].x = pEnd.x - cathet2
-                frameList[numberLIne].z = pEnd.z + cathet1
-            }
-        } //G42
-        pStart.x = pEnd.x
-        pStart.z = pEnd.z
-    }
-
     private fun toolRadiusCompensationPoint(frameList: List<Frame>, radiusPoint: Double, index: Int): Point {
         var i = index
         if (i == 1) i++
         val pStart: Point
         val pEnd: Point
-        if (containsG41G42(frameList[i - 1].gCode)) {
+        if (containsG41G42(frameList[i - 1].gCodes)) {
             pStart = Point(frameList[i - 1].x, frameList[i - 1].z)
             pEnd = Point(frameList[i].x, frameList[i].z)
-            checkGCode(frameList[i].gCode)
+            checkGCode(frameList[i].gCodes)
         } else {
             pStart = Point(frameList[i - 2].x, frameList[i - 2].z)
             pEnd = Point(frameList[i - 1].x, frameList[i - 1].z)
-            checkGCode(frameList[i - 1].gCode)
+            checkGCode(frameList[i - 1].gCodes)
         }
-        if (frameList[i].isCR && frameList[i].isAxisContains && containsG41G42(frameList[i - 1].gCode)) {
+        if (frameList[i].isCR && frameList[i].isAxisContains && containsG41G42(frameList[i - 1].gCodes)) {
             val radius = frameList[i].cr
             calculateChord(radiusPoint, pStart, pEnd, radius, pStart.x, pStart.z)
-        } else if (frameList[i - 1].isCR && frameList[i - 1].isAxisContains && !containsG41G42(frameList[i - 1].gCode)) {
+        } else if (frameList[i - 1].isCR && frameList[i - 1].isAxisContains && !containsG41G42(frameList[i - 1].gCodes)) {
             val radius = frameList[i - 1].cr
             calculateChord(radiusPoint, pStart, pEnd, radius, pEnd.x, pEnd.z)
         }
-        if (!frameList[i].isCR && frameList[i].isAxisContains && containsG41G42(frameList[i - 1].gCode)) {
+        if (!frameList[i].isCR && frameList[i].isAxisContains && containsG41G42(frameList[i - 1].gCodes)) {
             if (isToolRadiusCompensation == 1) {
                 if (pStart.z == pEnd.z && pStart.x > pEnd.x) {
                     pEnd.x = pStart.x
@@ -845,7 +370,7 @@ abstract class BaseDraw : ProgramText {
                     pStart.z = pStart.z + cathet1
                 }
             } //G42
-        } else if (!frameList[i - 1].isCR && frameList[i - 1].isAxisContains && !containsG41G42(frameList[i - 1].gCode)) {    //draw line
+        } else if (!frameList[i - 1].isCR && frameList[i - 1].isAxisContains && !containsG41G42(frameList[i - 1].gCodes)) {    //draw line
             if (isToolRadiusCompensation == 1) {
                 if (pStart.z == pEnd.z && pStart.x > pEnd.x) {
                     pEnd.z = pEnd.z + radiusPoint
@@ -910,13 +435,8 @@ abstract class BaseDraw : ProgramText {
                     pStart.z = pStart.z - radiusPoint
                 } //Z==Z -X
                 if (pStart.z == pEnd.z && pStart.x < pEnd.x) {
-                    if (frameList[i - 1].x == frameList[i].x && !frameList[i].gCode.contains("G0")) {
-                        pEnd.x = pEnd.x - radiusPoint
-                        pStart.z = pEnd.z + radiusPoint
-                    } else {
-                        pEnd.z = pEnd.z + radiusPoint
-                        pStart.z = pStart.z + radiusPoint
-                    }
+                    pEnd.z = pEnd.z + radiusPoint
+                    pStart.z = pStart.z + radiusPoint
                 } //Z==Z +X
                 if (pStart.x == pEnd.x && pStart.z > pEnd.z) {
                     pEnd.x = pEnd.x + radiusPoint

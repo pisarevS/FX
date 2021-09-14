@@ -1,4 +1,4 @@
-package com.sergey.pisarev.model
+package com.sergey.pisarev.contur
 
 import java.lang.StrictMath.toDegrees
 import kotlin.math.acos

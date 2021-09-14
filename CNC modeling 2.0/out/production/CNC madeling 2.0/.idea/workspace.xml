@@ -5,16 +5,59 @@
       <artifact name="CNC madeling 2.0:jar" />
     </artifacts-to-build>
   </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Point2D.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/contur/base/BaseDraw.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/core/GCode.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/core/MyList.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/core/Offn.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/core/ProgramCode.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/CNC_madeling_2_0_jar/CNC madeling 2.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/CNC_madeling_2_0_jar/CNC madeling 2.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/Point.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/Point.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/base/BaseDraw.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/base/BaseDraw.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Point.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Point.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/base/BaseDraw.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/base/BaseDraw.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/controller/MainController$Companion.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/controller/MainController$Companion.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/controller/MainController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/controller/MainController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/interfaces/Callback.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/interfaces/Callback.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/interfaces/Drawing.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/interfaces/Drawing.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/interfaces/PresenterImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/interfaces/PresenterImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/AVIA.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/AVIA.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/DrawVerticalTurning.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/Expression.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/Frame.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/MyData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/Point.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/Point2D.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/ProgramCode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/ProgramText.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/Rect.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/Rect.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/StyleText.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/StyleText.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/Text.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/UCHOK.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/UCHOK.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/model/base/BaseDraw.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/presenter/Presenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CNC madeling 2.0/com/sergey/pisarev/presenter/Presenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/controller/MainController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/controller/MainController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/interfaces/Callback.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/interfaces/Callback.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/interfaces/Drawing.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/interfaces/Drawing.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/interfaces/PresenterImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/interfaces/PresenterImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/AVIA.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/AVIA.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/DrawVerticalTurning.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/contur/DrawVerticalTurning.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Expression.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/core/Expression.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Frame.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/core/Frame.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/MyData.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/core/MyData.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Point.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/contur/Point.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Point2D.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/contur/Point2D.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/ProgramCode.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/ProgramText.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Rect.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Rect.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/StyleText.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/StyleText.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/Text.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/UCHOK.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/UCHOK.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/base/BaseDraw.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/contur/Tool.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/presenter/Presenter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/presenter/Presenter.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,6 +119,7 @@
         <option value="XML Properties File" />
         <option value="Class" />
         <option value="Kotlin Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -102,7 +146,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/src/main/resources/main.fxml" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/ProgramCode.kt" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/core/ProgramCode.kt" root0="SKIP_INSPECTION" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -364,14 +408,25 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="com.sergey.pisarev.model.core.Frame" />
     <property name="dynamic.classpath" value="false" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/com/sergey/pisarev/model/core" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/kotlin-test.jar" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.291954" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="project.propCompiler" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.sergey.pisarev.interfaces" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitHub\FX\CNC modeling 2.0\lib" />
+      <recent name="C:\GitHub\FX\CNC modeling 2.0\src\main\java\com\sergey\pisarev" />
+      <recent name="D:\GitHub\FX\CNC modeling 2.0\src\main\resources" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\GitHub\FX\CNC modeling 2.0\lib" />
       <recent name="D:\GitHub\FX\CNC modeling 2.0\src\main\resources" />
@@ -379,13 +434,18 @@
       <recent name="D:\GitHub\FX\CNC modeling 2.0\src\main" />
       <recent name="D:\GitHub\FX\CNC modeling 2.0\src\main\java" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\GitHub\FX\CNC modeling 2.0\lib" />
-      <recent name="C:\GitHub\FX\CNC modeling 2.0\src\main\java\com\sergey\pisarev" />
-      <recent name="D:\GitHub\FX\CNC modeling 2.0\src\main\resources" />
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="com.sergey.pisarev.model.core.Frame" />
+      <recent name="" />
     </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.sergey.pisarev.interfaces" />
+    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="com.sergey.pisarev.model.ddd" />
+      <recent name="com.sergey.pisarev.draw" />
+      <recent name="com.sergey.pisarev.model" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.sergey.pisarev.model.core" />
+      <recent name="com.sergey.pisarev.model" />
     </key>
   </component>
   <component name="RunManager">

@@ -1,9 +1,10 @@
-package com.sergey.pisarev.model
+package com.sergey.pisarev.model.core
 
-import java.lang.StringBuilder
+
 import java.util.*
+import kotlin.text.StringBuilder
 
-object Expression {
+object Expression : GCode() {
     //Метод возвращает true, если проверяемый символ - разделитель ("пробел" или "равно")
     private fun isDelimeter(c: Char): Boolean {
         return " =".indexOf(c) != -1
@@ -28,20 +29,26 @@ object Expression {
     }
 
     //"Входной" метод класса
-    fun calculate(input: String): Float {
-        var input = input
-        input = insertZero(input)
-        val output = getExpression(input) //Преобразовываем выражение в постфиксную запись
+    fun calculate(input: StringBuilder): Double {
+        if (GCode().isContainsOperator(input) && input.indexOf("=") == 0) {
+            if ("=" in input) {
+                val index = input.indexOf("=")
+                input.replace(index, index + 1, "")
+            }
+        }else if (!GCode().isContainsOperator(input) || input.indexOf("-") == 0){
+            return input.toString().toDouble()
+        }
+        val output = getExpression(insertZero(input)) //Преобразовываем выражение в постфиксную запись
         return counting(output) //Возвращаем результат
     }
 
-    private fun insertZero(input: String): String {
+    private fun insertZero(input: StringBuilder): String {
         var sb = StringBuilder(input)
-        if (input.contains("-") && sb[0] == '-') {
+        if ("-" in input && sb[0] == '-') {
             sb = sb.replace(0, 0, "0")
         }
-        if (input.contains("-") && sb.indexOf("-") != 0) {
-            for (i in 0 until sb.length) {
+        if ("-" in input && sb.indexOf("-") != 0) {
+            for (i in sb.indices) {
                 if (sb[i] == '-') {
                     if (sb[i - 1] == '(' || sb[i - 1] == '+' || sb[i - 1] == '-') {
                         sb = sb.replace(i, i, "0")
@@ -49,8 +56,8 @@ object Expression {
                 }
             }
         }
-        if (input.contains("+") && sb.indexOf("+") != 0) {
-            for (i in 0 until sb.length) {
+        if ("+" in input && sb.indexOf("+") != 0) {
+            for (i in sb.indices) {
                 if (sb[i] == '+') {
                     if (sb[i - 1] == '(' || sb[i - 1] == '+' || sb[i - 1] == '-') {
                         sb = sb.replace(i, i, "0")
@@ -63,7 +70,7 @@ object Expression {
 
     private fun getExpression(input: String): String {
         val output = StringBuilder() //Строка для хранения выражения
-        val operStack = Stack<Char>() //Стек для хранения операторо
+        val operStack = Stack<Char>() //Стек для хранения операторов
         val inputArr = input.toCharArray()
         var i = 0
         while (i < inputArr.size) {
@@ -116,10 +123,10 @@ object Expression {
         return output.toString() //Возвращаем выражение в постфиксной записи
     }
 
-    private fun counting(input: String): Float {
+    private fun counting(input: String): Double {
         val inputArr = input.toCharArray()
-        var result = 0f //Результат
-        val temp = Stack<Float>() // стек для решения
+        var result = 0.0 //Результат
+        val temp = Stack<Double>() // стек для решения
         var i = 0
         while (i < input.length) {
 
@@ -132,7 +139,7 @@ object Expression {
                     i++
                     if (i == input.length) break
                 }
-                temp.push(a.toString().toFloat()) //Записываем в стек
+                temp.push(a.toString().toDouble()) //Записываем в стек
                 i--
             } else if (isOperator(inputArr[i])) //Если символ - оператор
             {
@@ -144,7 +151,7 @@ object Expression {
                     '-' -> result = b - a
                     '*' -> result = b * a
                     '/' -> result = b / a
-                    '^' -> result = Math.pow(b.toDouble(), a.toDouble()).toFloat()
+                    '^' -> result = Math.pow(b.toDouble(), a.toDouble())
                 }
                 temp.push(result) //Результат вычисления записываем обратно в стек
             }

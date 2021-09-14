@@ -1,16 +1,11 @@
-package com.sergey.pisarev.model
+package com.sergey.pisarev.model.core
 
 import java.lang.StringBuffer
 import java.util.ArrayList
 import java.util.LinkedHashMap
 
-class MyData {
+ class MyData {
     var programList: List<StringBuffer> = ArrayList()
     var errorListMap: Map<Int, String> = LinkedHashMap()
     var frameList: List<Frame> = ArrayList()
-        private set
-
-    fun setFrameList(frameList: ArrayList<Frame>) {
-        this.frameList = frameList
-    }
 }

@@ -1,9 +1,7 @@
 package com.sergey.pisarev.model
 
-import com.sergey.pisarev.model.TableUtils
 import java.text.NumberFormat
 import org.fxmisc.richtext.CodeArea
-import com.sergey.pisarev.model.TableUtils.TableKeyEventHandler
 import javafx.beans.property.DoubleProperty
 import javafx.beans.property.IntegerProperty
 import javafx.beans.property.StringProperty
@@ -145,19 +143,21 @@ class TableUtils {
 
                 // create string from cell
                 var text = ""
-                val observableValue = table.getVisibleLeafColumn(viewCol).getCellObservableValue(viewRow) as Any // table position gives the view index => we need to operate on the view columns
 
                 // null-check: provide empty string for nulls
-                if (observableValue == null) {
-                    text = ""
-                } else if (observableValue is DoubleProperty) { // TODO: handle boolean etc
-                    text = numberFormatter.format(observableValue.get())
-                } else if (observableValue is IntegerProperty) {
-                    text = numberFormatter.format(observableValue.get().toLong())
-                } else if (observableValue is StringProperty) {
-                    text = observableValue.get()
-                } else {
-                    println("Unsupported observable value: $observableValue")
+                when (val observableValue = table.getVisibleLeafColumn(viewCol).getCellObservableValue(viewRow) as Any) { // table position gives the view index => we need to operate on the view columns
+                    is DoubleProperty -> { // TODO: handle boolean etc
+                        text = numberFormatter.format(observableValue.get())
+                    }
+                    is IntegerProperty -> {
+                        text = numberFormatter.format(observableValue.get().toLong())
+                    }
+                    is StringProperty -> {
+                        text = observableValue.get()
+                    }
+                    else -> {
+                        println("Unsupported observable value: $observableValue")
+                    }
                 }
 
                 // add new item to clipboard

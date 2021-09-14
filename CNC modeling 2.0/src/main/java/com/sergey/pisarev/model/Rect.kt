@@ -1,5 +1,7 @@
 package com.sergey.pisarev.model
 
+import com.sergey.pisarev.contur.Point
+
 class Rect : Point {
     var height = 0.0
     var width = 0.0

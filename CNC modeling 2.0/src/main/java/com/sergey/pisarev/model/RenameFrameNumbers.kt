@@ -25,7 +25,7 @@ object RenameFrameNumbers {
                         if (matcherNumberFrame.find()) {
                             tempNumberFrame = p.substring(matcherNumberFrame.start(), matcherNumberFrame.end())
                             iterator.getAndIncrement()
-                        } else if (!substring.isEmpty()) {
+                        } else if (substring.isNotEmpty()) {
                             iterator.getAndIncrement()
                             val result = firstNumber - iterNumber + iterator.get() * iterNumber
                             val strFrame = "N$result "

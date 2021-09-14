@@ -3,9 +3,7 @@ package com.sergey.pisarev.model
 import org.fxmisc.richtext.CodeArea
 import java.util.Objects
 import com.sergey.pisarev.controller.MainController
-import org.reactfx.Subscription
 import org.fxmisc.richtext.model.PlainTextChange
-import com.sergey.pisarev.model.StyleText
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyCodeCombination
 import javafx.scene.input.KeyCombination

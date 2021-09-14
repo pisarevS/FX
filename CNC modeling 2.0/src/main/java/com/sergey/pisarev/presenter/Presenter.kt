@@ -1,11 +1,16 @@
 package com.sergey.pisarev.presenter
 
+import com.sergey.pisarev.contur.DrawVerticalTurning
+import com.sergey.pisarev.contur.Point
 import com.sergey.pisarev.interfaces.*
 import com.sergey.pisarev.model.*
 import com.sergey.pisarev.model.MyFile.filePath
+import com.sergey.pisarev.model.core.Frame
+import com.sergey.pisarev.model.core.GCode
+import com.sergey.pisarev.model.core.MyData
+import com.sergey.pisarev.model.core.ProgramCode
 import javafx.animation.KeyFrame
 import javafx.animation.Timeline
-import javafx.event.ActionEvent
 import java.lang.Thread
 import javafx.scene.canvas.GraphicsContext
 import javafx.scene.input.DragEvent
@@ -18,7 +23,7 @@ import java.util.*
 import java.util.function.Consumer
 import kotlin.math.abs
 
-class Presenter(private val controller: IController, private val gc: GraphicsContext) : Text(), PresenterImpl, IDraw, Callback {
+class Presenter(private val controller: IController, private val gc: GraphicsContext) : GCode(), PresenterImpl, IDraw, Callback {
     private var canvasWidth = 0.0
     private var canvasHeight = 0.0
     private var moveX = 0.0
@@ -40,12 +45,15 @@ class Presenter(private val controller: IController, private val gc: GraphicsCon
     private var isDrawPoint = false
     private var coordinateSystemProportionsX = 0.0
     private var coordinateSystemProportionsZ = 0.0
-    private var isSelectToolRadius = false
+    private var isSelectTool = false
 
     override fun initSystemCoordinate(canvasWidth: Double, canvasHeight: Double) {
         this.canvasWidth = canvasWidth
         this.canvasHeight = canvasHeight
-        pointSystemCoordinate = if (coordinateSystemProportionsX != 0.0 && coordinateSystemProportionsZ != 0.0) Point(canvasWidth * coordinateSystemProportionsX, canvasHeight * coordinateSystemProportionsZ) else Point(canvasWidth * 0.5, canvasHeight * 0.5)
+        pointSystemCoordinate = if (coordinateSystemProportionsX != 0.0 && coordinateSystemProportionsZ != 0.0) Point(
+            canvasWidth * coordinateSystemProportionsX,
+            canvasHeight * coordinateSystemProportionsZ
+        ) else Point(canvasWidth * 0.5, canvasHeight * 0.5)
         drawSysCoordinate()
         startDraw(index)
     }
@@ -55,6 +63,7 @@ class Presenter(private val controller: IController, private val gc: GraphicsCon
         gc.stroke = Color.valueOf("#FF8000")
         gc.globalAlpha = 1.0
         gc.lineWidth = 0.6
+        gc.setLineDashes()
         gc.strokeLine(pointSystemCoordinate.x, 0.0, pointSystemCoordinate.x, canvasHeight)
         gc.strokeLine(0.0, pointSystemCoordinate.z, canvasWidth, pointSystemCoordinate.z)
     }
@@ -73,7 +82,7 @@ class Presenter(private val controller: IController, private val gc: GraphicsCon
 
     override fun checkChangesProgram(program: String?) {
         if (filePath != null) {
-            if (program!! != MyFile.getFileTextContent(filePath!!)) {
+            if (program != MyFile.getFileTextContent(filePath!!)) {
                 controller.showSaveAlert()
             }
         }
@@ -126,7 +135,8 @@ class Presenter(private val controller: IController, private val gc: GraphicsCon
         val point = Point()
         point.x = (pointSystemCoordinate.x - event!!.x) * -1
         point.z = event.y
-        if (point.z > 0) point.z = pointSystemCoordinate.z - point.z else point.z = pointSystemCoordinate.z + abs(point.z)
+        if (point.z > 0) point.z = pointSystemCoordinate.z - point.z else point.z =
+            pointSystemCoordinate.z + abs(point.z)
         pointStopCanvas = Point(point.x, point.z)
         point.x = point.x / zooming
         point.z = point.z / zooming
@@ -139,7 +149,8 @@ class Presenter(private val controller: IController, private val gc: GraphicsCon
                 val point = Point()
                 point.x = (pointSystemCoordinate.x - event.x) * -1
                 point.z = event.y
-                if (point.z > 0) point.z = pointSystemCoordinate.z - point.z else point.z = pointSystemCoordinate.z + abs(point.z)
+                if (point.z > 0) point.z = pointSystemCoordinate.z - point.z else point.z =
+                    pointSystemCoordinate.z + abs(point.z)
                 point.x = point.x / zooming
                 point.z = point.z / zooming
                 val frame = getFrame(point)
@@ -163,8 +174,8 @@ class Presenter(private val controller: IController, private val gc: GraphicsCon
         val rect = Rect()
         rect.setRect(point.x - (side shr 1), point.z - (side shr 1), side.toDouble(), side.toDouble())
         return data!!.frameList.stream()
-                .filter { p: Frame -> rect.isInsideRect(p.x, p.z) }
-                .min(Comparator.comparingDouble { p: Frame -> abs(point.x - p.x) + abs(point.z - p.z) })
+            .filter { p: Frame -> rect.isInsideRect(p.x, p.z) }
+            .min(Comparator.comparingDouble { p: Frame -> abs(point.x - p.x) + abs(point.z - p.z) })
     }
 
     override fun onStart(program: String?) {
@@ -176,16 +187,19 @@ class Presenter(private val controller: IController, private val gc: GraphicsCon
         }
     }
 
-    override fun onCycleStart(program: String?, isSelectToolRadius: Boolean?) {
-        this.isSelectToolRadius = isSelectToolRadius!!
+    override fun onCycleStart(program: String?, isSelectTool: Boolean?) {
+        this.isSelectTool = isSelectTool!!
         isCycleStart = true
         if (!isReset && program != "") {
             startThread(program!!)
             assert(data != null)
-            timeline = Timeline(KeyFrame(Duration.millis(200.0), { event: ActionEvent? ->
+            timeline = Timeline(KeyFrame(Duration.millis(200.0), {
                 if (index < data!!.frameList.size) index++
                 startDraw(index)
-                controller.showCaretBoxOnCycleStart(data!!.frameList[index - 1].id, data!!.programList[data!!.frameList[index - 1].id])
+                controller.showCaretBoxOnCycleStart(
+                    data!!.frameList[index - 1].id,
+                    data!!.programList[data!!.frameList[index - 1].id]
+                )
                 controller.getCoordinateFrame(data!!.frameList[index - 1].x, data!!.frameList[index - 1].z)
                 if (index == data!!.frameList.size) controller.onStop()
             }))
@@ -197,7 +211,10 @@ class Presenter(private val controller: IController, private val gc: GraphicsCon
             if (index < data!!.frameList.size) index++
             if (index <= data!!.frameList.size) startDraw(index)
             if (index == data!!.frameList.size) controller.onStop()
-            controller.showCaretBoxOnCycleStart(data!!.frameList[index - 1].id, data!!.programList[data!!.frameList[index - 1].id])
+            controller.showCaretBoxOnCycleStart(
+                data!!.frameList[index - 1].id,
+                data!!.programList[data!!.frameList[index - 1].id]
+            )
             controller.getCoordinateFrame(data!!.frameList[index - 1].x, data!!.frameList[index - 1].z)
         }
         isReset = true
@@ -264,7 +281,7 @@ class Presenter(private val controller: IController, private val gc: GraphicsCon
 
     override fun showError(error: String?) {
         if (!isChangesText) {
-            if (!errorList.contains(error)) {
+            if (error !in errorList) {
                 errorList.add(error!!)
                 controller.showError(error)
             }
@@ -281,7 +298,14 @@ class Presenter(private val controller: IController, private val gc: GraphicsCon
     private fun startDraw(index: Int) {
         if (drawing != null) {
             drawSysCoordinate()
-            drawing!!.drawContour(data!!, gc, pointSystemCoordinate, zooming, index, isSelectToolRadius)
+            drawing!!.drawContour(
+                data!!,
+                gc,
+                pointSystemCoordinate,
+                zooming,
+                if (index in 0..data!!.frameList.size) index else 0,
+                isSelectTool
+            )
         }
     }
 

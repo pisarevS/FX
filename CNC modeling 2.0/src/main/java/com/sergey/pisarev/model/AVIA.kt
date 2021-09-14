@@ -1,5 +1,6 @@
 package com.sergey.pisarev.model
 
+import com.sergey.pisarev.model.core.GCode
 import java.lang.StringBuffer
 import java.lang.StringBuilder
 import java.util.ArrayList
@@ -8,7 +9,7 @@ import java.util.Arrays
 import java.util.function.Consumer
 import java.util.stream.Collectors
 
-class AVIA : Text() {
+class AVIA : GCode() {
     private var y = ""
     private var z = ""
     private var angle = ""
@@ -18,10 +19,10 @@ class AVIA : Text() {
         val atomicZ = AtomicReference("")
         val atomicAngle = AtomicReference("")
         val list: List<StringBuffer> = Arrays.stream(aviaProgram.split("\n".toRegex()).toTypedArray())
-                .filter { frame: String -> !frame.contains("IF(R0") }
-                .filter { frame: String -> !frame.contains("M50") }
-                .filter { frame: String -> !frame.contains("ENDIF") }
-                .filter { frame: String -> !frame.contains("R0=R0") }
+                .filter { frame: String -> "IF(R0" !in frame }
+                .filter { frame: String -> "M50" !in frame }
+                .filter { frame: String -> "ENDIF" !in frame }
+                .filter { frame: String -> "R0=R0" !in frame }
                 .filter { frame: String -> frame != "" }
                 .map { str: String? -> StringBuffer(str) }
                 .collect(Collectors.toList())

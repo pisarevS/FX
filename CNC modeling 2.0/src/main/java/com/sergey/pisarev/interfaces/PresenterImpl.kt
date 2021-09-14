@@ -6,7 +6,7 @@ import javafx.scene.input.ScrollEvent
 
 interface PresenterImpl {
     fun onStart(program: String?)
-    fun onCycleStart(program: String?, isSelectToolRadius: Boolean?)
+    fun onCycleStart(program: String?, isSelectTool: Boolean?)
     fun onSingleBlock(isClick: Boolean)
     fun onReset()
     fun getCaretPosition(numberLine: Int)
