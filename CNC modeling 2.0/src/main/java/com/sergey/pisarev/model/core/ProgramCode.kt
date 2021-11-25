@@ -1,6 +1,5 @@
 package com.sergey.pisarev.model.core
 
-import com.sergey.pisarev.contur.Point
 import com.sergey.pisarev.interfaces.Callback
 import com.sergey.pisarev.model.*
 import java.lang.Runnable
@@ -12,21 +11,20 @@ import java.util.regex.Pattern
 import kotlin.text.StringBuilder
 
 class ProgramCode(private val program: String, private val callback: Callback) : GCode(), Runnable {
-
+    private val defs = arrayOf(DEF_REAL, DEF_INT)
     private var data: MyData = MyData()
     private var horizontalAxis: String = "X"
     private var verticalAxis: String = "Z"
-    private val defs = arrayOf(DEF_REAL, DEF_INT)
     private var variablesList: MutableMap<String, String> = LinkedHashMap()
     override fun run() {
         val listParameterVariables: List<StringBuilder> = MyFile.getParameter(MyFile.filePath!!) as List<StringBuilder>
         val listParametr: Map<String, String> = readParameterVariables(listParameterVariables)
         replaceParameterVariables(listParametr as MutableMap<String, String>)
         data.programList =
-            Arrays.stream(program.split("\n".toRegex()).toTypedArray()).map { str: String? -> StringBuffer(str) }
+            Arrays.stream(program.split("\n".toRegex()).toTypedArray()).map { str: String? ->  StringBuilder(str!!) }
                 .collect(Collectors.toList())
         val programList = Arrays.stream(program.split("\n".toRegex()).toTypedArray())
-            .map { str: String? -> StringBuilder(str) }
+            .map { str: String? -> StringBuilder(str!!) }
             .peek { frame: StringBuilder? -> removeLockedFrame(frame!!) }
             .peek { frame: StringBuilder? -> removeIgnore(frame!!) }
             .peek { frame: StringBuilder? -> readDefVariables(frame!!) }
@@ -38,25 +36,21 @@ class ProgramCode(private val program: String, private val callback: Callback) :
         callback.callingBack(addFrameList(programList))
     }
 
-    private fun addFrameList(programList: List<StringBuilder>): MyData? {
-        var error: StringBuilder = java.lang.StringBuilder()
+    private fun addFrameList(programList: List<java.lang.StringBuilder>): MyData? {
+        var error: java.lang.StringBuilder = java.lang.StringBuilder()
         val frameList = ArrayList<Frame>()
         val errorListMap: MutableMap<Int, String> = HashMap()
-        var tempTOOL: String?
         var tempHorizontal = N_GANTRYPOS_X
         var tempVertical = N_GANTRYPOS_Z
         var tempCR = 0.0
         var tempRND = 0.0
         var tempOFFN = 0.0
-        var isVerticalAxis = false
-        var isHorizontalAxis = false
+        var isAxisContains = false
         var isCR = false
         var isRND = false
         var isOFFN = false
-        var isTOOL = false
         var isRadius = false
-        var isDiamon = false
-        var isHome = false
+        var isDiamon = true
         var strFrame: StringBuilder
         selectCoordinateSystem(programList)
         for (i in programList.indices) {
@@ -76,107 +70,6 @@ class ProgramCode(private val program: String, private val callback: Callback) :
                 errorListMap[i] = strFrame.toString()
             }
             try {
-                if (horizontalAxis + IC in strFrame) {
-                    tempHorizontal = tempHorizontal + incrementSearch(strFrame, horizontalAxis + IC)
-                    isHorizontalAxis = true
-                } else if (containsAxis(strFrame, horizontalAxis)) {
-                    val coordinate = coordinateSearch(
-                        frame = strFrame,
-                        axis = horizontalAxis
-                    )
-                    if (coordinate != null) {
-                        coordinate.also {
-                            error = it
-                            Expression.calculate(input = coordinate).also {
-                                tempHorizontal = it
-                                isHorizontalAxis = true
-                            }
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                errorListMap[i] = "$strFrame \n \"$horizontalAxis=$error\""
-            }
-            try {
-                if (verticalAxis + IC in strFrame) {
-                    tempVertical = tempVertical + incrementSearch(strFrame, verticalAxis + IC)
-                    isVerticalAxis = true
-                } else if (containsAxis(strFrame, verticalAxis)) {
-                    val coordinate = coordinateSearch(
-                        frame = strFrame,
-                        axis = verticalAxis
-                    )
-                    if (coordinate != null) {
-                        coordinate.also {
-                            error = it
-                            Expression.calculate(input = it).also {
-                                tempVertical = it
-                                isVerticalAxis = true
-                            }
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                errorListMap[i] = "$strFrame \n \"$verticalAxis=$error\""
-            }
-            try {
-                if ( CR in strFrame && isRadius) {
-                    val coordinate = coordinateSearch(
-                        frame = strFrame,
-                        axis = CR
-                    )
-                    if (coordinate != null) {
-                        coordinate.also {
-                            error = it
-                            Expression.calculate(input = it).also {
-                                tempCR = it
-                                isCR = true
-                            }
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                errorListMap[i] = "$strFrame \n \"$CR=$error\""
-            }
-            try {
-                if (RND in strFrame && isHorizontalAxis &&  CR !in strFrame || RND in strFrame && isVerticalAxis && RND !in strFrame) {
-                    val coordinate = coordinateSearch(
-                        frame = strFrame,
-                        axis = RND
-                    )
-                    if (coordinate != null) {
-                        coordinate.also {
-                            error = it
-                            Expression.calculate(input = it).also {
-                                tempRND = it
-                                isRND = true
-                            }
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                errorListMap[i] = "$strFrame \n \"$RND=$error\""
-            }
-            try {
-                if ( OFFN in strFrame) {
-                    val coordinate = coordinateSearch(
-                        frame = strFrame,
-                        axis = OFFN
-                    )
-                    if (coordinate != null) {
-                        coordinate.also {
-                            error = it
-                            Expression.calculate(input = it).also {
-                                tempOFFN = it
-                                isOFFN = true
-                            }
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                errorListMap[i] = "$strFrame \n \"$OFFN=$error\""
-            }
-            try {
                 if ( DIAMON in strFrame || DIAMOF in strFrame) {
                     if ( DIAMON in strFrame) {
                         isDiamon = true
@@ -189,9 +82,24 @@ class ProgramCode(private val program: String, private val callback: Callback) :
                 errorListMap[i] = strFrame.toString()
             }
             try {
+                if ( OFFN in strFrame) {
+                    coordinateSearch(
+                        frame = strFrame,
+                        axis = OFFN
+                    )?.also { it ->
+                        error = it
+                        Expression.calculate(input = it).also {
+                            tempOFFN = it
+                            isOFFN = true
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                errorListMap[i] = "$strFrame \n \"$OFFN=$error\""
+            }
+            try {
                 if ( HOME in strFrame) {
-                    isVerticalAxis = true
-                    isHorizontalAxis = true
+                    isAxisContains = true
                     frame.isHome = true
                     tempHorizontal = N_GANTRYPOS_X
                     tempVertical = N_GANTRYPOS_Z
@@ -199,14 +107,81 @@ class ProgramCode(private val program: String, private val callback: Callback) :
             } catch (e: Exception) {
                 errorListMap[i] = strFrame.toString()
             }
+            try {
+                if (horizontalAxis + IC in strFrame) {
+                    tempHorizontal += incrementSearch(strFrame, horizontalAxis + IC)
+                    isAxisContains = true
+                } else if (containsAxis(strFrame, horizontalAxis)) {
+                    coordinateSearch(
+                        frame = strFrame,
+                        axis = horizontalAxis
+                    )?.also {
+                        error = it
+                        Expression.calculate(input = it).also {
+                            tempHorizontal = it
+                            isAxisContains = true
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                errorListMap[i] = "$strFrame \n \"$horizontalAxis=$error\""
+            }
+            try {
+                if (verticalAxis + IC in strFrame) {
+                    tempVertical += incrementSearch(strFrame, verticalAxis + IC)
+                    isAxisContains = true
+                } else if (containsAxis(strFrame, verticalAxis)) {
+                    coordinateSearch(
+                        frame = strFrame,
+                        axis = verticalAxis
+                    )?.also {
+                        error = it
+                        Expression.calculate(input = it).also {
+                            tempVertical = it
+                            isAxisContains = true
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                errorListMap[i] = "$strFrame \n \"$verticalAxis=$error\""
+            }
+            try {
+                if ( CR in strFrame && isRadius) {
+                    coordinateSearch(
+                        frame = strFrame,
+                        axis = CR
+                    )?.also {
+                        error = it
+                        Expression.calculate(input = it).also {
+                            tempCR = it
+                            isCR = true
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                errorListMap[i] = "$strFrame \n \"$CR=$error\""
+            }
+            try {
+                if (RND in strFrame && isAxisContains &&  CR !in strFrame ) {
+                    coordinateSearch(
+                        frame = strFrame,
+                        axis = RND
+                    )?.also {
+                        error = it
+                        Expression.calculate(input = it).also {
+                            tempRND = it
+                            isRND = true
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                errorListMap[i] = "$strFrame \n \"$RND=$error\""
+            }
             if (containsTool(strFrame)) {
                 frame.diamon = isDiamon
-                tempTOOL = readTool(strFrame)
-                isTOOL = true
-                frame.tool = tempTOOL
-                frame.isTool = isTOOL
-                isVerticalAxis = true
-                isHorizontalAxis = true
+                frame.tool = readTool(strFrame)
+                frame.isTool = true
+                isAxisContains = true
                 tempHorizontal = N_GANTRYPOS_X
                 tempVertical = N_GANTRYPOS_Z
             }
@@ -218,11 +193,10 @@ class ProgramCode(private val program: String, private val callback: Callback) :
                 frame.offn = tempOFFN
                 frame.isOffn = isOFFN
                 frame.cr = tempCR
-                frame.isCR = true
-                frame.isAxisContains = true
+                frame.isCR = isCR
+                frame.isAxisContains = isAxisContains
                 frameList.add(frame)
-                isHorizontalAxis = false
-                isVerticalAxis = false
+                isAxisContains = false
                 isCR = false
             }
             if (isRND) {
@@ -233,24 +207,22 @@ class ProgramCode(private val program: String, private val callback: Callback) :
                 frame.offn = tempOFFN
                 frame.isOffn = isOFFN
                 frame.rnd = tempRND
-                frame.isRND = true
-                frame.isAxisContains = true
+                frame.isRND = isRND
+                frame.isAxisContains = isAxisContains
                 frameList.add(frame)
-                isHorizontalAxis = false
-                isVerticalAxis = false
+                isAxisContains = false
                 isRND = false
             }
-            if (isHorizontalAxis || isVerticalAxis) {
+            if (isAxisContains) {
                 frame.id = i
                 frame.diamon = isDiamon
                 frame.x = tempHorizontal
                 frame.z = tempVertical
                 frame.offn = tempOFFN
                 frame.isOffn = isOFFN
-                frame.isAxisContains = true
+                frame.isAxisContains = isAxisContains
                 frameList.add(frame)
-                isHorizontalAxis = false
-                isVerticalAxis = false
+                isAxisContains = false
             }
         }
         data.errorListMap = errorListMap
@@ -263,14 +235,12 @@ class ProgramCode(private val program: String, private val callback: Callback) :
         return data
     }
 
-    protected fun containsTool(sb: StringBuilder): Boolean {
-        for (tool in MyList().listTools.keys) {
-            if (sb.indexOf(tool) > -1) return true
-        }
+    protected fun containsTool(frame: StringBuilder): Boolean {
+        MyList().listTools.keys.forEach{ tool -> if( tool in frame ) return true }
         return false
     }
 
-    protected fun containsAxis(frame: StringBuilder, axis: String): Boolean {
+    private fun containsAxis(frame: StringBuilder, axis: String): Boolean {
         if (axis in frame) {
             val n = frame.indexOf(axis) + 1
             when (frame[n]) {
@@ -280,13 +250,13 @@ class ProgramCode(private val program: String, private val callback: Callback) :
         return false
     }
 
-    protected fun containsGCode(sb: StringBuilder): Boolean {
-        for (g in gCodes) if (sb.indexOf(g) > -1) return true
+    private fun containsGCode(frame: StringBuilder): Boolean {
+        gCodes.forEach { gCode -> if (gCode in frame) return true }
         return false
     }
 
     private fun isGCode(g: StringBuilder): Boolean {
-        for (gCode in gCodes) if (g.toString().equals(gCode)) return true
+        gCodes.forEach { gCode -> if (g.toString().equals(gCode)) return true }
         return false
     }
 
@@ -319,7 +289,7 @@ class ProgramCode(private val program: String, private val callback: Callback) :
         return gCodeList
     }
 
-    protected fun activatedRadius(gCode: List<String?>): Boolean {
+    private fun activatedRadius(gCode: List<String?>): Boolean {
         for (code in gCode) {
             when (code) {
                 G2, G02, G3, G03 -> return true
@@ -329,13 +299,13 @@ class ProgramCode(private val program: String, private val callback: Callback) :
         return false
     }
 
-    protected fun gotoF(programList: List<StringBuilder>) {
+    private fun gotoF(programList: List<StringBuilder>) {
         var label: String
         for (i in programList.indices) {
             if (GOTOF in programList[i].toString()) {
                 label = programList[i].substring(programList[i].indexOf(GOTOF) + GOTOF.length, programList[i].length)
                     .replace(" ", "")
-                for (j in i + 1..programList.size - 1) {
+                for (j in i + 1 until  programList.size - 1) {
                     if ("$label:" !in programList[j].toString()) {
                         programList[j].delete(0, programList[j].length)
                     } else {
@@ -346,7 +316,7 @@ class ProgramCode(private val program: String, private val callback: Callback) :
         }
     }
 
-    protected fun correctionForDiamon(frameList: List<Frame>) {
+    private fun correctionForDiamon(frameList: List<Frame>) {
         for (frame in frameList) {
             if (frame.diamon && frame.isAxisContains) {
                 if (frame.tool == null && !frame.isHome) frame.x = frame.x / 2
@@ -354,18 +324,16 @@ class ProgramCode(private val program: String, private val callback: Callback) :
         }
     }
 
-    protected fun readTool(strFrame: StringBuilder): String {
-        for (tool in MyList().listTools.keys) {
-            if (strFrame.indexOf(tool) > -1) return tool
-        }
+    private fun readTool(frame: StringBuilder): String {
+        MyList().listTools.keys.forEach { tool -> if ( tool in frame ) return tool }
         return ""
     }
 
-    protected fun removeLockedFrame(frame: StringBuilder) {
+    private fun removeLockedFrame(frame: StringBuilder) {
         if ( ";" in frame) frame.delete(frame.indexOf(";"), frame.length)
     }
 
-    protected fun selectCoordinateSystem(programList: List<StringBuilder>) {
+    private fun selectCoordinateSystem(programList: List<StringBuilder>) {
         var x = 0
         var u = 0
         programList.forEach(Consumer { valve: StringBuilder ->
@@ -382,16 +350,14 @@ class ProgramCode(private val program: String, private val callback: Callback) :
     }
 
     @Throws(Exception::class)
-    protected fun incrementSearch(frame: StringBuilder, axis: String): Double {
+    private fun incrementSearch(frame: StringBuilder, axis: String): Double {
         val temp = StringBuilder()
         val n = frame.indexOf(axis)
         if (frame[n + axis.length] == '(') {
-            for (i in n + axis.length..frame.length - 1) {
+            for (i in n + axis.length until frame.length) {
                 if (!Character.isLetter(frame[i])) {
                     temp.append(frame[i])
-                } else {
-                    break
-                }
+                } else break
             }
             return Expression.calculate(temp)
         }
@@ -399,17 +365,17 @@ class ProgramCode(private val program: String, private val callback: Callback) :
     }
 
     @Throws(Exception::class)
-    protected fun coordinateSearch(frame: StringBuilder, axis: String): StringBuilder? {
-        val tempFrame = StringBuilder()
-        for (i in frame.indexOf(axis) + axis.length..frame.length - 1) {
+    private fun coordinateSearch(frame: StringBuilder, axis: String): StringBuilder? {
+        val tempFrame = java.lang.StringBuilder()
+        (frame.indexOf(axis) + axis.length until frame.length).forEach { i ->
             if (!Character.isLetter(frame[i])) {
                 tempFrame.append(frame[i])
-            } else break
+            } else return tempFrame
         }
         return tempFrame
     }
 
-    protected fun readParameterVariables(parameterList: List<StringBuilder>): Map<String, String> {
+    private fun readParameterVariables(parameterList: List<StringBuilder>): Map<String, String> {
         variablesList.clear()
         parameterList.forEach(Consumer { p: java.lang.StringBuilder ->
             if (";" in p.toString()) p.delete(p.indexOf(";"), p.length)
@@ -434,7 +400,7 @@ class ProgramCode(private val program: String, private val callback: Callback) :
         return variablesList
     }
 
-    protected fun replaceParameterVariables(variablesList: MutableMap<String, String>) {
+    private fun replaceParameterVariables(variablesList: MutableMap<String, String>) {
         variablesList.forEach { (key: String, value1: String) ->
             var value = value1
             for (keys in variablesList.keys) {
@@ -446,7 +412,7 @@ class ProgramCode(private val program: String, private val callback: Callback) :
         }
     }
 
-    protected fun replaceProgramVariables(frame: StringBuilder) {
+    private fun replaceProgramVariables(frame: StringBuilder) {
         variablesList.forEach { (key: String?, value: String?) ->
             if (key in frame.toString()) {
                 var value1 = value
@@ -465,8 +431,8 @@ class ProgramCode(private val program: String, private val callback: Callback) :
         }
     }
 
-    protected fun readDefVariables(frame: StringBuilder) {
-        for (def in defs) {
+    private fun readDefVariables(frame: StringBuilder) {
+        defs.forEach { def ->
             if (def in frame.toString()) {
                 frame.delete(0, frame.indexOf(def) + def.length)
                 val arrStr = frame.toString().split(",".toRegex()).toTypedArray()
@@ -482,7 +448,7 @@ class ProgramCode(private val program: String, private val callback: Callback) :
         }
     }
 
-    protected fun readRVariables(frame: StringBuilder) {
+    private fun readRVariables(frame: StringBuilder) {
         val pattern = Pattern.compile("R(\\d+)" + "=")
         val matcher = pattern.matcher(frame)
         while (matcher.find()) {
@@ -490,8 +456,8 @@ class ProgramCode(private val program: String, private val callback: Callback) :
         }
     }
 
-    protected fun initVariables(frame: StringBuilder) {
-        for (def in defs) {
+    private fun initVariables(frame: StringBuilder) {
+        defs.forEach { def ->
             if (frame.indexOf(def) == -1) {
                 variablesList.forEach { (key: String, value: String?) ->
                     if ("$key=" in frame.toString()) {

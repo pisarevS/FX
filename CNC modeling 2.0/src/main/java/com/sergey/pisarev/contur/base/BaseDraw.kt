@@ -34,14 +34,17 @@ abstract class BaseDraw : GCode {
         clockwise: Int
     ) {
         var r = radius
-        if (isRapidFeed == 0) {
-            gc.stroke = colorLineDashes
-            gc.setLineDashes(3.0, 5.0)
-            gc.lineWidth = lineWidthDashes
-        } else if (isRapidFeed == 1) {
-            gc.stroke = colorLine
-            gc.setLineDashes()
-            gc.lineWidth = lineWidth
+        when (isRapidFeed){
+            0 -> {
+                gc.stroke = colorLineDashes
+                gc.setLineDashes(3.0, 5.0)
+                gc.lineWidth = lineWidthDashes
+            }
+            1 ->{
+                gc.stroke = colorLine
+                gc.setLineDashes()
+                gc.lineWidth = lineWidth
+            }
         }
         val pStart = Point(pointStart.x, pointStart.z)
         val pEnd = Point(pointEnd.x, pointEnd.z)
@@ -111,14 +114,17 @@ abstract class BaseDraw : GCode {
         pointEnd: Point,
         zoom: Double
     ) {
-        if (isRapidFeed == 0) {
-            gc.stroke = colorLineDashes
-            gc.setLineDashes(3.0, 5.0)
-            gc.lineWidth = lineWidthDashes
-        } else if (isRapidFeed == 1) {
-            gc.stroke = colorLine
-            gc.setLineDashes()
-            gc.lineWidth = lineWidth
+        when (isRapidFeed){
+            0 -> {
+                gc.stroke = colorLineDashes
+                gc.setLineDashes(3.0, 5.0)
+                gc.lineWidth = lineWidthDashes
+            }
+            1 ->{
+                gc.stroke = colorLine
+                gc.setLineDashes()
+                gc.lineWidth = lineWidth
+            }
         }
         val pStart = Point(pointStart.x, pointStart.z)
         val pEnd = Point(pointEnd.x, pointEnd.z)

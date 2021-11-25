@@ -14,7 +14,6 @@ import org.fxmisc.richtext.LineNumberFactory
 import org.fxmisc.flowless.VirtualizedScrollPane
 import org.fxmisc.richtext.model.TwoDimensional
 import com.sergey.pisarev.model.MyFile
-import java.lang.StringBuffer
 import java.util.Objects
 import javafx.application.Platform
 import javafx.beans.Observable
@@ -34,7 +33,6 @@ import javafx.scene.text.Text
 import javafx.stage.Modality
 import javafx.stage.Stage
 import javafx.stage.StageStyle
-import javafx.stage.WindowEvent
 import java.io.IOException
 import java.lang.Exception
 import java.time.Duration
@@ -287,12 +285,12 @@ class MainController : IController {
         textFrameCoordinateZ.text = "Z=$z"
     }
 
-    override fun showCaretBoxOnCycleStart(number: Int, frame: StringBuffer?) {
+    override fun showCaretBoxOnCycleStart(number: Int, frame: StringBuilder?) {
         textFrame.text = frame.toString()
         showCaretBox(number, frame!!)
     }
 
-    override fun showCaretBoxOnCanvasClick(number: Int, frame: StringBuffer?) {
+    override fun showCaretBoxOnCanvasClick(number: Int, frame: StringBuilder?) {
         textFrame.text = frame.toString()
         showCaretBox(number, frame!!)
     }
@@ -361,7 +359,7 @@ class MainController : IController {
                 .subscribe { presenter!!.setOnChangesTextProgram(codeAreaProgram.text) }
     }
 
-    private fun showCaretBox(number: Int, frame: StringBuffer) {
+    private fun showCaretBox(number: Int, frame: StringBuilder) {
         val end: Int = try {
             codeAreaProgram.position(number + 1, 0).toOffset() - 1
         } catch (e: Exception) {
